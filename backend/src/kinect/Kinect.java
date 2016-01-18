@@ -2,16 +2,19 @@ package kinect;
 
 import java.util.Date;
 import edu.ufl.digitalworlds.j4k.J4KSDK;
+import edu.ufl.digitalworlds.j4k.Skeleton;
 
 public class Kinect extends J4KSDK 
 {
-
+	
+	Skeleton currentSkeleton = null;
 	int counter=0;
 	long time=0;
 	
 	@Override
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status) {
-		System.out.println("A new skeleton frame was received.");
+		System.out.println("New skeleton !");
+		currentSkeleton = Skeleton.getSkeleton(1, skeleton_tracked, positions, orientations, joint_status, getDeviceType());
 	}
 
 	@Override
