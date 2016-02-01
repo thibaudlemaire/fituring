@@ -10,6 +10,7 @@ public class Kinect extends J4KSDK
 	Skeleton currentSkeleton = null;
 	int counter=0;
 	long time=0;
+	KinectRecorder kinectRecorder = new KinectRecorder(new XEDConvertApp());
 	
 	@Override
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status) {
@@ -54,5 +55,9 @@ public class Kinect extends J4KSDK
 		System.out.println("FPS: "+kinect.counter*1000.0/(new Date().getTime()-kinect.time));
 	}
 
+	public void startRecording(String fileName)
+	{
+		kinectRecorder.startRecording(fileName);
+	}
 	
 }
