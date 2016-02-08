@@ -1,0 +1,107 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:2:1-42:12
+	xmlns:android
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:2:11-69
+	package
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:3:5-42
+		INJECTED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.GET_ACCOUNTS
+ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:6:5-71
+	android:name
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:6:22-68
+uses-permission#android.permission.READ_PROFILE
+ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:7:5-71
+	android:name
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:7:22-68
+uses-permission#android.permission.READ_CONTACTS
+ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:8:5-72
+	android:name
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:8:22-69
+application
+ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:10:5-40:19
+MERGED from [com.android.support:appcompat-v7:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\design\23.1.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:appcompat-v7:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-appindexing:8.1.0] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.1.0\AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-basement:8.1.0] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.1.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:22:5-20
+	android:supportsRtl
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:14:9-35
+	android:label
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:13:9-41
+	android:allowBackup
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:11:9-35
+	android:icon
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:12:9-43
+	android:theme
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:15:9-40
+activity#camillepact.applicationtest.MainActivity
+ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:16:9-25:20
+	android:label
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:18:13-45
+	android:theme
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:19:13-56
+	android:name
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:17:13-41
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:20:13-24:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:21:17-69
+	android:name
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:21:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:23:17-77
+	android:name
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:23:27-74
+meta-data#com.google.android.gms.version
+ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:30:9-32:69
+MERGED from [com.google.android.gms:play-services-basement:8.1.0] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.1.0\AndroidManifest.xml:21:9-23:69
+	android:name
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:31:13-58
+	android:value
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:32:13-66
+activity#camillepact.applicationtest.LoginActivity
+ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:34:9-36:60
+	android:label
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:36:13-57
+	android:name
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:35:13-42
+activity#camillepact.applicationtest.NewSongActivity
+ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:37:9-39:72
+	android:label
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:39:13-60
+	android:name
+		ADDED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml:38:13-44
+uses-sdk
+INJECTED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:appcompat-v7:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:design:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\design\23.1.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:appcompat-v7:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.1.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:recyclerview-v7:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.1.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-appindexing:8.1.0] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.1.0\AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-basement:8.1.0] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.1.0\AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.1.1] C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.1.1\AndroidManifest.xml:20:5-43
+	android:targetSdkVersion
+		INJECTED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\Camille\Documents\tlemaire-pact\Android\ApplicationTest\app\src\main\AndroidManifest.xml
