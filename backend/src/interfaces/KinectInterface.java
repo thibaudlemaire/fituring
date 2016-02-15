@@ -32,4 +32,9 @@ public interface KinectInterface {
 	 */
 	public int getNumberOfDancers();
 	
+	/**
+	 * This function returns the last video taken
+	 * @return video
+	 */
+	public Video getVideo(); //le type Video est provisoire
 }
