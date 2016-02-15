@@ -8,8 +8,14 @@ package interfaces;
 public interface ServeurInterface {
 	
 	/**+
-	 * The server 
+	 * The server gets the volume from the android app for the audio lecture modules
 	 * @return volume
 	 */
 	public int getVolume();
+	
+	/**
+	 * The server gets the musical style from the android app for the synthese audio module
+	 * @return the musical Style
+	 */
+	public Style getMusicalStyle(); //il faut définir le type de variable à utiliser pour le style de musique
 }
