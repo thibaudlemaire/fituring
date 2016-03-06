@@ -4,7 +4,7 @@ public class DTW {
 	double[][] s;
 	double[][] t;
 	
-	/* voir l'attribut comme une suite de coordonnées, par exemple [[x1,y1], [x2,y2],...] */
+	/* voir l'attribut comme une suite de coordonnées, par exemple [[x1,y1,z1], [x2,y2,z2],...] */
 	
 	public DTW(double[][] s, double[][] t)
 	{
@@ -21,10 +21,10 @@ public class DTW {
 	}
 	
 	
-	/* en supposant que les sous-listes sont de longueur 2 : [x,y] ; à modifier sinon */
+	/* en supposant que les sous-listes sont de longueur 3 : [x,y,z] ; à modifier sinon */
 	
 	public double distance_tchebychev(double[] chaine1, double[] chaine2) {
-		return Math.max(Math.abs(chaine2[0]-chaine1[0]) , Math.abs(chaine2[1]-chaine1[1]));
+		return max(Math.abs(chaine2[0]-chaine1[0]) , Math.abs(chaine2[1]-chaine1[1]), Math.abs(chaine2[2]-chaine1[2]));
 	}
 	
 	public double distance(double[] chaine1, double[] chaine2) {
@@ -77,9 +77,29 @@ public class DTW {
 		}
 	}
 	
+	private double max(double a, double b, double c)
+	{
+		if (a > b)
+		{
+			if (a > c)
+			{
+				return a;
+			}
+			return c;
+		}
+		else
+		{
+			if (b > c)
+			{
+				return b;
+			}
+			return c;
+		}
+	}
+	
 	/* Fonction nécessaire afin de pouvoir comparer 2 chaînes dont les coordonnées sont prises aux mêmes instants
 	 * Réaliséeà l'aide d'une interpolation linéaire */
-	private double[][] interpolation(double[][] chaine1, double[][] chaine2) {
+	public double[][] interpolation(double[][] chaine1, double[][] chaine2) {
 		double[][] result = new double[chaine1.length][3];
 		int a = 0;
 		double t1 = chaine2[0][2];

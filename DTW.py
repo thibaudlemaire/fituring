@@ -6,10 +6,10 @@ from matplotlib import pyplot as plt
 maxINT=maxsize
 
 def distance_euclid(a,b):
-    return sqrt((b[0]-a[0])**2+(b[1]-a[1])**2)
+    return sqrt((b[0]-a[0])**2+(b[1]-a[1])**2+(b[2]-a[2])**2)
     
 def distance_tchebychev(a,b):
-    return max(abs(b[0]-a[0]), abs(b[1]-a[1]))   
+    return max(abs(b[0]-a[0]), abs(b[1]-a[1]), abs(b[2]-a[2]))   
     
 def distance(a,b):
     return distance_euclid(a,b)
@@ -31,6 +31,8 @@ def DTW(chaine1, chaine2):
     return dtw[len(chaine1)-1][len(chaine2)-1]   
    # return dtw    
 
+
+#Pour l'instant, que des chaînes en [x,y], possibilités rajouter hauteur
 Test1 = [[0,3],[1,3],[2,3],[3,3],[2,2],[1,1],[0,0],[1,0],[2,0],[3,0]]    #"Z" droit
 Test2 = [[0,3],[1,3.5],[2,3.5],[3,3],[2,2],[1,1],[0,0],[1,0.5],[2,0.5],[3,0]] #"Z" courbé
 Test3 = [[0,0],[0,1],[0,2],[0,3],[1,2],[2,1],[3,0],[3,1],[3,2],[3,3]]  #"N" droit 
