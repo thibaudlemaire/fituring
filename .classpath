@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="android/ApplicationTest/app/src/androidTest/java"/>
-	<classpathentry kind="src" path="android/ApplicationTest/app/src/main/java"/>
-	<classpathentry kind="src" path="android/ApplicationTest/app/src/test/java"/>
-	<classpathentry kind="src" path="kinect"/>
-	<classpathentry kind="lib" path="android/ApplicationTest/gradle/wrapper/gradle-wrapper.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
