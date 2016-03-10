@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/thibaud/Documents/Telecom/1A/PACT/GIT3-1/backend/lib/ufdw.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>
