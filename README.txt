@@ -4,3 +4,4 @@ Alexandre POINSO
 Robin SHIN
 Stanislas HANNEBELLE
 Khadija EL ATTAR
+Karim KHANDID
