@@ -16,7 +16,6 @@ public class Kinect extends J4KSDK
 	static int captureTime = 10000;
 	int counter=0;
 	long time=0;
-	//KinectRecorder kinectRecorder = new KinectRecorder(new XEDConvertApp());
 	
 	@Override
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status) {
@@ -54,7 +53,7 @@ public class Kinect extends J4KSDK
 	public static void main(String[] args)
 	{
 		
-		System.out.println("Début");
+		System.out.println("Dï¿½but");
 		Kinect kinect=new Kinect();
 		
 		try {
