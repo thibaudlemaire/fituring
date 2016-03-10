@@ -5,7 +5,7 @@ import javax.sound.sampled.*;
 
 public class WaveReaderAndPlayer
 {
-	    
+	    // Method to print sounds attributes 
 	public void ReadWave (String fileName) throws Exception
 	{
 		try
