@@ -10,7 +10,7 @@ public class KinectEvent implements KinectEventInterface {
 	private Skeleton skeleton;
 	private long time;
 	
-	KinectEvent(Skeleton skeleton)
+	public KinectEvent(Skeleton skeleton)
 	{
 		this.skeleton = skeleton;
 		this.time = new Date().getTime();
