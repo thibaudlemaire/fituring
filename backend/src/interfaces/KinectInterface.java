@@ -1,6 +1,7 @@
 package interfaces;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
+import interfaces.KinectListener;
 
 /**
  * Kinect module interface
@@ -36,5 +37,5 @@ public interface KinectInterface {
 	 * This function returns the last video taken
 	 * @return video
 	 */
-	public Video getVideo(); //le type Video est provisoire
+	public Object getVideo(); //le type Video est provisoire
 }
