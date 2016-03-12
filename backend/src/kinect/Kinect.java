@@ -64,6 +64,7 @@ public class Kinect extends J4KSDK implements KinectInterface
 	@Override
 	public void initKinectModule() {
 		// Init Kinect, datas, current skeleton, etc...
+		start(J4KSDK.DEPTH|J4KSDK.SKELETON);
 	}
 
 	/**
@@ -101,20 +102,9 @@ public class Kinect extends J4KSDK implements KinectInterface
 		return null;
 	}
 	
-	///////////////////////////// Main test function ///////////////////
-	public static void main(String[] args)
+	public long getFPS()
 	{
-		
-		System.out.println("Debut");
-		Kinect kinect=new Kinect();
-		
-		kinect.start(J4KSDK.DEPTH|J4KSDK.SKELETON);
-		
-		try {Thread.sleep(10000);} catch (InterruptedException e) {}
-		
-		kinect.stop();		
-		System.out.println("FPS: "+kinect.counter*1000.0/(new Date().getTime()-kinect.time));
+		return new Date().getTime()-time;
 	}
-	
 	
 }
