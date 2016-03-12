@@ -6,23 +6,23 @@ public class DatasFIFO {
 	int len;
 	
 	
-	// the size is 236 cause it matchs the duration of our recorded movements
+	// the size is 30 cause it matchs the duration of our recorded movements
 	public DatasFIFO() {
-		this.tab = new double[236][3];
+		this.tab = new double[30][3];
 		this.len=0;
 	}
 	
 	public void addData(double[] coordinates) {
-		if (len < 235) {
+		if (len < 29) {
 			tab[len+1]=coordinates;
 			len++;
 		}
 		
 		else {
-			for (int i=0; i<235 ; i++) {
+			for (int i=0; i<29 ; i++) {
 				tab[i] = tab[i+1];
 			}
-			tab[235]=coordinates;
+			tab[29]=coordinates;
 		}
 
 	}
