@@ -4,7 +4,6 @@ import edu.ufl.digitalworlds.j4k.Skeleton;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
-import kinect.Kinect;
 
 public class MovementRecorder implements KinectListenerInterface {
 	

@@ -22,7 +22,7 @@ public class Kinect extends J4KSDK implements KinectInterface
 	 */
 	@Override
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status) {
-		System.out.println("New skeleton !");
+		//System.out.println("New skeleton !");
 		
 		// Getting new skeleton
 		currentSkeleton = Skeleton.getSkeleton(0, skeleton_tracked, positions, orientations, joint_status, this);
