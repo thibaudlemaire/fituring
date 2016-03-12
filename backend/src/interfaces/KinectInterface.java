@@ -22,6 +22,12 @@ public interface KinectInterface {
 	 */
 	public void setListener(KinectListenerInterface l);
 	
+	/**
+	 * This function unset a listener for Kinect
+	 * @param l a KinectListener
+	 */
+	public void unsetListener(KinectListenerInterface l);
+	
 	/** 
 	 * This function returns current Skeleton 
 	 * @return currentSkeleton
