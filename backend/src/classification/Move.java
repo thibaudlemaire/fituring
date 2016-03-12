@@ -14,6 +14,7 @@ public class Move implements Serializable {
 
 	public Move()
 	{
+		steps = new ArrayList<Step>();
 	}
 
 }

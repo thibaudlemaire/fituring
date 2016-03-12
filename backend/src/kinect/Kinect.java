@@ -22,7 +22,7 @@ public class Kinect extends J4KSDK implements KinectInterface
 	 */
 	@Override
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status) {
-		System.out.println("New skeleton !");
+		//System.out.println("New skeleton !");
 		
 		// Getting new skeleton
 		currentSkeleton = Skeleton.getSkeleton(0, skeleton_tracked, positions, orientations, joint_status, this);
@@ -61,7 +61,6 @@ public class Kinect extends J4KSDK implements KinectInterface
 	/**
 	 * This function init the Kinect Module
 	 */
-	@Override
 	public void initKinectModule() {
 		// Init Kinect, datas, current skeleton, etc...
 		start(J4KSDK.DEPTH|J4KSDK.SKELETON);
@@ -70,7 +69,6 @@ public class Kinect extends J4KSDK implements KinectInterface
 	/**
 	 * This function set a new listener in order to get new skeleton datas
 	 */
-	@Override
 	public void setListener(KinectListenerInterface l) {
 		listeners.add(KinectListenerInterface.class, l );
 	}
@@ -78,7 +76,6 @@ public class Kinect extends J4KSDK implements KinectInterface
 	/** 
 	 * This function returns the current skeleton
 	 */
-	@Override
 	public Skeleton getSkeleton() {
 		return currentSkeleton;
 	}
@@ -87,7 +84,6 @@ public class Kinect extends J4KSDK implements KinectInterface
 	 * This function returns the amount of dancers
 	 * NOT YET IMPLEMENTED
 	 */
-	@Override
 	public int getNumberOfDancers() {
 		return 1;
 	}
@@ -96,7 +92,6 @@ public class Kinect extends J4KSDK implements KinectInterface
 	 * This function return the video 
 	 * NOT YET IMPLEMENTED
 	 */
-	@Override
 	public Object getVideo() {
 		// TODO Auto-generated method stub
 		return null;
