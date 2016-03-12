@@ -33,7 +33,10 @@ public class Classification implements ClassificationInterface, KinectListener {
 		Skeleton newSkeleton = e.getNewSkeleton();
 		double[] handLeftCoordinates = newSkeleton.get3DJoint(Skeleton.HAND_LEFT);
 		double[] handRightCoordinates = newSkeleton.get3DJoint(Skeleton.HAND_RIGHT);
-			
+		DatasFIFO datasFIFOLeft = new DatasFIFO();
+		DatasFIFO datasFIFORight = new DatasFIFO();
+		datasFIFOLeft.addData(handLeftCoordinates);
+		datasFIFORight.addData(handRightCoordinates);
 	}
 
 	private static double[][][] getDatasTable(String path) throws FileNotFoundException {
