@@ -1,1 +1,6 @@
-/frontend/
+frontend/
+*.class
+bin/
+.metadata/
+.recommenders/
+Android/
