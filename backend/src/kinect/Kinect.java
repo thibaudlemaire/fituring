@@ -12,7 +12,7 @@ public class Kinect extends J4KSDK
 	
 	Skeleton currentSkeleton = null;
 	static PrintWriter pw = null;
-	static String filename = "datas/heel80BPM.csv";
+	static String filename = "datas/clap.csv";
 	static int captureTime = 10000;
 	int counter=0;
 	long time=0;
