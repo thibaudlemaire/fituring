@@ -102,5 +102,11 @@ public class Kinect extends J4KSDK implements KinectInterface
 	{
 		return (new Date().getTime()-time)/counter;
 	}
+
+	@Override
+	public void unsetListener(KinectListenerInterface l) 
+	{
+        listeners.remove(KinectListenerInterface.class, l);
+	}
 	
 }
