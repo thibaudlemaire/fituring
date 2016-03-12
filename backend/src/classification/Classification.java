@@ -12,29 +12,35 @@ public class Classification implements ClassificationInterface, KinectListener {
 	
 	Object BDD ;
 
+	private double[][] firstMoveLeft = new double[30][3];
+	private double[][] secondMoveLeft = new double[30][3];
+	private double[][] firstMoveRight = new double[30][3];
+	private double[][] secondMoveRight = new double[30][3];
+	
 	@Override
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule) {
 		// TODO Auto-generated method stub
 		kinectModule.setListener(this);
 		this.BDD = BDD ;	
+		
+		MovementSerializer moveSerial = new MovementSerializer();
+		Move mvt1=moveSerial.deSerialize("/datas/clap.csv");
+		Move mvt2=moveSerial.deSerialize("/datas/armsUp.csv");
+		ArrayList<Step> steps1 = mvt1.steps;
+		ArrayList<Step> steps2 = mvt2.steps;
+		
+		
+		
+		for (int i =0; i<30; i++) 
+		{
+			firstMoveLeft[i]=steps1.get(i).getCoordinates()[Skeleton.HAND_LEFT];
+			firstMoveRight[i]=steps1.get(i).getCoordinates()[Skeleton.HAND_RIGHT];
+			secondMoveLeft[i]=steps2.get(i).getCoordinates()[Skeleton.HAND_LEFT];
+			secondMoveRight[i]=steps2.get(i).getCoordinates()[Skeleton.HAND_RIGHT];
+		}
 	}
 	
-	MovementSerializer moveSerial = new MovementSerializer();
-	Move mvt1=moveSerial.deSerialize("/datas/clap.csv");
-	Move mvt2=moveSerial.deSerialize("/datas/armsUp.csv");
-	ArrayList<Step> steps1 = mvt1.steps;
-	ArrayList<Step> steps2 = mvt2.steps;
-	double[][] firstMoveLeft = new double[30][3];
-	double[][] secondMoveLeft = new double[30][3];
-	double[][] firstMoveRight = new double[30][3];
-	double[][] secondMoveRight = new double[30][3];
 	
-	for (int i =0; i<30; i++) {
-		firstMoveLeft[i]=steps1.get(i).getCoordinates()[Skeleton.HAND_LEFT];
-		firstMoveRight[i]=steps1.get(i).getCoordinates()[Skeleton.HAND_RIGHT];
-		secondMoveLeft[i]=steps2.get(i).getCoordinates()[Skeleton.HAND_LEFT];
-		secondMoveRight[i]=steps2.get(i).getCoordinates()[Skeleton.HAND_RIGHT];
-	}
 		
 
 	@Override
