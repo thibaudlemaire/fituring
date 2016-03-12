@@ -24,8 +24,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		this.BDD = BDD ;	
 		
 		MovementSerializer moveSerial = new MovementSerializer();
-		Move mvt1=moveSerial.deSerialize("/datas/clap.csv");
-		Move mvt2=moveSerial.deSerialize("/datas/armsUp.csv");
+		Move mvt1=moveSerial.deSerialize("datas/m2.mvt");
+		Move mvt2=moveSerial.deSerialize("datas/m2.mvt");
 		ArrayList<Step> steps1 = mvt1.steps;
 		ArrayList<Step> steps2 = mvt2.steps;
 		
