@@ -11,13 +11,13 @@ public class Step implements Serializable
 	private static final long serialVersionUID = -7057741325158870422L;
 
 	private long time;
-	private long[][] coordinates;
+	private float[][] coordinates;
 	
 	public Step()
 	{
 	}
 	
-	public void setJoint(int joint, long x, long y, long z)
+	public void setJoint(int joint, float x, float y, float z)
 	{
 		coordinates[joint][0] = x;
 		coordinates[joint][1] = y;
@@ -29,7 +29,7 @@ public class Step implements Serializable
 		this.time = time;
 	}
 
-	public long[][] getCoordinates() {
+	public float[][] getCoordinates() {
 		return coordinates;
 	}
 
