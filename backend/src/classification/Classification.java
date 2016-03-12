@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
 import interfaces.ClassificationInterface;
+import interfaces.KinectEvent;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
