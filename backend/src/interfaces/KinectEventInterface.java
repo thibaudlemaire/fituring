@@ -7,7 +7,7 @@ import edu.ufl.digitalworlds.j4k.Skeleton;
  * @author thibaud
  *
  */
-public interface KinectEvent {
+public interface KinectEventInterface {
 
 	/**
 	 * This function returns the skeleton generating the event 
