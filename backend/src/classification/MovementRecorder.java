@@ -45,7 +45,7 @@ public class MovementRecorder implements KinectListenerInterface {
 		try {Thread.sleep(10000);} catch (InterruptedException e) {}
 		
 		kinect.stop();	
-		ms.serialize(mr.getMovement(), "datas/m1.mvt");
+		ms.serialize(mr.getMovement(), "data/m1.mvt");
 		
 		System.out.println("FPS: "+kinect.getFPS());
 	}
