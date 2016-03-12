@@ -1,1 +1,5 @@
-/bin/
+frontend/
+**/*.class
+bin/
+.metadata/
+.recommenders/
