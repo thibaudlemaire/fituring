@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Date;
 
+import javax.swing.event.EventListenerList;
+
 import edu.ufl.digitalworlds.j4k.J4KSDK;
 import edu.ufl.digitalworlds.j4k.Skeleton;
 import interfaces.KinectInterface;
@@ -18,6 +20,8 @@ public class Kinect extends J4KSDK implements KinectInterface
 	static int captureTime = 10000;
 	int counter=0;
 	long time=0;
+	
+	private final EventListenerList listeners = new EventListenerList();
 	
 	@Override
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status) {
@@ -140,5 +144,10 @@ public class Kinect extends J4KSDK implements KinectInterface
 		kinect.stop();		
 		System.out.println("FPS: "+kinect.counter*1000.0/(new Date().getTime()-kinect.time));
 	}
+	
+	public void addSkeletonListener(KinectListener listener) {
+        listeners.add(KinectListener.class, listener);
+    }
+	
 	
 }
