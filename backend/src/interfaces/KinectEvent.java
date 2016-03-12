@@ -9,6 +9,16 @@ import edu.ufl.digitalworlds.j4k.Skeleton;
  */
 public interface KinectEvent {
 
+	/**
+	 * This function returns the skeleton generating the event 
+	 * @return the new skeleton
+	 */
 	public Skeleton getNewSkeleton();
+	
+	/**
+	 * This function returns the date of the event occuring
+	 * @return
+	 */
+	public long getSkeletonTime();
 	
 }
