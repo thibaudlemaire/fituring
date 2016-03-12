@@ -1,21 +1,21 @@
 package classification;
 
 public class DTW {
-	float[][] s;
-	float[][] t;
+	double[][] s;
+	double[][] t;
 	
 	/* voir l'attribut comme une suite de coordonnées, par exemple [[x1,y1,z1], [x2,y2,z2],...] */
 	
-	public DTW(float[][] s, float[][] t)
+	public DTW(double[][] s, double[][] t)
 	{
 		this.s = s;
 		this.t = t;
 	}
 	
-	public float distance_euclid(float[] chaine1, float[] chaine2) {
-		float result=0;
+	public double distance_euclid(double[] chaine1, double[] chaine2) {
+		double result=0;
 		for (int i = 0; i < chaine1.length; i++) {
-			result=(float) (result + Math.sqrt((chaine2[i]-chaine1[i])*(chaine2[i]-chaine1[i])));
+			result=result + Math.sqrt(chaine2[i]*chaine2[i]-chaine1[i]*chaine1[i]);
 		}
 		return result;
 	}
@@ -27,7 +27,7 @@ public class DTW {
 		return max(Math.abs(chaine2[0]-chaine1[0]) , Math.abs(chaine2[1]-chaine1[1]), Math.abs(chaine2[2]-chaine1[2]));
 	}
 	
-	public float distance(float[] chaine1, float[] chaine2) {
+	public double distance(double[] chaine1, double[] chaine2) {
 		return distance_euclid(chaine1, chaine2);
 		/* return distance_tchebychev(chaine1, chaine2) */
 	}
@@ -45,19 +45,16 @@ public class DTW {
 		}
 		dtw[0][0] = 0;
 		
-		double cost = distance_euclid(s[0], t[0]);
-		dtw[0][0] = cost;
-		dtw[1][0] = distance_euclid(s[1], t[0]) + dtw[0][0];
-		dtw[0][1] = distance_euclid(s[0], t[1]) + dtw[0][0];
-		for (int i = 1; i < s.length; i++)
+		double cost;
+		for (int i = 0; i < s.length; i++)
 		{
-			for (int j = 1; j < t.length; j++)
+			for (int j = 0; j < t.length; j++)
 			{
 				cost = distance_euclid(s[i], t[j]);
 				dtw[i][j] = cost + min(dtw[i-1][j], dtw[i][j-1], dtw[i-1][j-1]);
 			}
 		}
-		return dtw[s.length-1][t.length-1];
+		return dtw[s.length][t.length];
 	}
 	
 	private double min(double a, double b, double c)
