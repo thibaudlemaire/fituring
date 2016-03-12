@@ -1,11 +1,11 @@
 package classification;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
-import interfaces.KinectEvent;
+import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
-import interfaces.KinectListener;
+import interfaces.KinectListenerInterface;
 
-public class MovementRecorder implements KinectListener {
+public class MovementRecorder implements KinectListenerInterface {
 	
 	private Move mvt;
 	
@@ -16,8 +16,7 @@ public class MovementRecorder implements KinectListener {
 	}
 
 	@Override
-	public void skeletonReceived(KinectEvent e) 
-	{
+	public void skeletonReceived(KinectEventInterface e) {
 		Step step = new Step();
 		step.setTime(e.getSkeletonTime());
 		for(int i = 0; i<Skeleton.JOINT_COUNT; i++)
@@ -26,9 +25,9 @@ public class MovementRecorder implements KinectListener {
 							e.getNewSkeleton().get3DJointY(i), 
 							e.getNewSkeleton().get3DJointZ(i));
 		}
-		mvt.steps.add(step);
+		mvt.steps.add(step);		
 	}
-
+	
 	public static void main(String[] args)
 	{
 		
