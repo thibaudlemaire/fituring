@@ -5,10 +5,10 @@ from matplotlib import pyplot as plt
 
 maxINT=maxsize
 
-def distance_euclid(a,b):
+def distance_euclid(a,b): #distance if a,b=[x,y,z] but it doesn't matter if a,b = [x,y,t] cause it's the same time, thanks to interpolation
     return sqrt((b[0]-a[0])**2+(b[1]-a[1])**2+(b[2]-a[2])**2)
     
-def distance_tchebychev(a,b):
+def distance_tchebychev(a,b): #distance if a,b=[x,y,z] but it doesn't matter if a,b = [x,y,t] cause it's the same time, thanks to interpolation
     return max(abs(b[0]-a[0]), abs(b[1]-a[1]), abs(b[2]-a[2]))   
     
 def distance(a,b):
@@ -21,6 +21,8 @@ def DTW(chaine1, chaine2):
         dtw.append([])
         for j in range(len(chaine2)):
             dtw[i].append(maxINT)
+    
+    # to avoid index problems        
     dtw[0][0] = distance(chaine1[0],chaine2[0])
     dtw[0][1] = distance(chaine1[0],chaine2[1])+dtw[0][0]
     dtw[1][0] = distance(chaine1[1],chaine2[0])+dtw[0][0]
@@ -32,12 +34,12 @@ def DTW(chaine1, chaine2):
    # return dtw    
 
 
-#Pour l'instant, que des chaînes en [x,y,t], il est très simple de rajouter la hauteur
+# here are only [x,y,t] chains, but it's really easy to add z
 Test1 = [[0,3,0],[1,3,1],[2,3,2],[3,3,3],[2,2,4],[1,1,5],[0,0,6],[1,0,7],[2,0,8],[3,0,9]]    #"Z" droit
 Test2 = [[0,3,0],[1,3.5,0.9],[2,3.5,2],[3,3,2.9],[2,2,4.1],[1,1,5],[0,0,6.2],[1,0.5,6.9],[2,0.5,7.9],[3,0,9]] #"Z" courbé
 Test3 = [[0,0,0],[0,1,1],[0,2,2],[0,3,3],[1,2,4],[2,1,5],[3,0,6],[3,1,7],[3,2,8],[3,3,9]]  #"N" droit 
 
-#pour pouvoir tracer les graphes, renvoie des arraylists d'abscisses et d'ordonnées
+# in order to show graphs, need of arraylists
 def prog(chaine):
     resultX=[]
     resultY=[]
@@ -58,7 +60,7 @@ Test3Abs = prog(Test3)[0]
 Test3Ord = prog(Test3)[1] 
 
 
-#interpolation linéaire pour que les 2 chaînes aient des points définis aux mêmes temps
+# linear interpolation to define the chains at the same times
 def interpolation(chaine1, chaine2):
     a=0
     t1=chaine2[0][2]
@@ -85,10 +87,10 @@ Test4Abs = prog(Test4)[0]
 Test4Ord = prog(Test4)[1]
 
 plt.axis([-1,4,-1,4])
-plt.plot(Test1Abs, Test1Ord, 'r', linewidth=2) #rouge
-plt.plot(Test2Abs, Test2Ord, 'b', linewidth=2) #bleu
-plt.plot(Test3Abs, Test3Ord, 'g', linewidth=2) #vert
-plt.plot(Test4Abs, Test4Ord, 'k', linewidth=1) #noir
+plt.plot(Test1Abs, Test1Ord, 'r', linewidth=2) # red
+plt.plot(Test2Abs, Test2Ord, 'b', linewidth=2) # blue
+plt.plot(Test3Abs, Test3Ord, 'g', linewidth=2) # green
+plt.plot(Test4Abs, Test4Ord, 'k', linewidth=1) # black
 
 plt.show()
 
