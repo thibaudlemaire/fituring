@@ -28,9 +28,4 @@ public class MovementRecorder implements KinectListenerInterface {
 		}
 		mvt.steps.add(step);
 	}
-
-	public static void main(String[] args)
-	{
-		
-	}
 }
