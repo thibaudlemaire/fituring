@@ -1,3 +1,4 @@
 /frontend/
 /.metadata/
 /.recommenders/
+*.class
