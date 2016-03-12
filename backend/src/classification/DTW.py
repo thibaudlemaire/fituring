@@ -32,10 +32,10 @@ def DTW(chaine1, chaine2):
    # return dtw    
 
 
-#Pour l'instant, que des chaînes en [x,y], possibilités rajouter hauteur
-Test1 = [[0,3],[1,3],[2,3],[3,3],[2,2],[1,1],[0,0],[1,0],[2,0],[3,0]]    #"Z" droit
-Test2 = [[0,3],[1,3.5],[2,3.5],[3,3],[2,2],[1,1],[0,0],[1,0.5],[2,0.5],[3,0]] #"Z" courbé
-Test3 = [[0,0],[0,1],[0,2],[0,3],[1,2],[2,1],[3,0],[3,1],[3,2],[3,3]]  #"N" droit 
+#Pour l'instant, que des chaînes en [x,y,t], il est très simple de rajouter la hauteur
+Test1 = [[0,3,0],[1,3,1],[2,3,2],[3,3,3],[2,2,4],[1,1,5],[0,0,6],[1,0,7],[2,0,8],[3,0,9]]    #"Z" droit
+Test2 = [[0,3,0],[1,3.5,0.9],[2,3.5,2],[3,3,2.9],[2,2,4.1],[1,1,5],[0,0,6.2],[1,0.5,6.9],[2,0.5,7.9],[3,0,9]] #"Z" courbé
+Test3 = [[0,0,0],[0,1,1],[0,2,2],[0,3,3],[1,2,4],[2,1,5],[3,0,6],[3,1,7],[3,2,8],[3,3,9]]  #"N" droit 
 
 #pour pouvoir tracer les graphes, renvoie des arraylists d'abscisses et d'ordonnées
 def prog(chaine):
@@ -48,7 +48,7 @@ def prog(chaine):
     chaineY=np.asarray(resultY)
     return chaineX, chaineY
 
-"""
+
     
 Test1Abs = prog(Test1)[0]
 Test1Ord = prog(Test1)[1]    
@@ -57,15 +57,6 @@ Test2Ord = prog(Test2)[1]
 Test3Abs = prog(Test3)[0]
 Test3Ord = prog(Test3)[1] 
 
-
-plt.axis([-1,4,-1,4])
-plt.plot(Test1Abs, Test1Ord, 'r', linewidth=2) #rouge
-plt.plot(Test2Abs, Test2Ord, 'b', linewidth=2) #bleu
-plt.plot(Test3Abs, Test3Ord, 'g', linewidth=2) #vert
-
-plt.show()
-
-"""
 
 #interpolation linéaire pour que les 2 chaînes aient des points définis aux mêmes temps
 def interpolation(chaine1, chaine2):
@@ -79,14 +70,30 @@ def interpolation(chaine1, chaine2):
             a=a+1
             t1 , t2= chaine2[a][2] , chaine2[a+1][2]
         if t1==t0 :
-            newChaine.append([chaine2[a]])
+            newChaine.append([chaine2[a][0], chaine2[a][1], t0])
         elif t2==t0 :
-            newChaine.append([chaine2[a+1]])
+            newChaine.append([chaine2[a+1][0], chaine2[a+1][1], t0])
         else :
            x=chaine2[a][0]+(chaine2[a+1][0]-chaine2[a][0])*(t0-t1)/(t2-t1)
            y=chaine2[a][1]+(chaine2[a+1][1]-chaine2[a][1])*(t0-t1)/(t2-t1)    
            newChaine.append([x,y,t0])
-    return newChaine                
+    return newChaine   
+    
+Test4 =interpolation(Test1, Test2)
+
+Test4Abs = prog(Test4)[0]
+Test4Ord = prog(Test4)[1]
+
+plt.axis([-1,4,-1,4])
+plt.plot(Test1Abs, Test1Ord, 'r', linewidth=2) #rouge
+plt.plot(Test2Abs, Test2Ord, 'b', linewidth=2) #bleu
+plt.plot(Test3Abs, Test3Ord, 'g', linewidth=2) #vert
+plt.plot(Test4Abs, Test4Ord, 'k', linewidth=1) #noir
+
+plt.show()
+
+
+                 
             
         
         
