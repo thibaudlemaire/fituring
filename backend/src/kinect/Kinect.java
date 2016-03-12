@@ -77,7 +77,7 @@ public class Kinect extends J4KSDK implements KinectInterface
 	}
 
 	@Override
-	public Video getVideo() {
+	public Object getVideo() {
 		// TODO Auto-generated method stub
 		return null;
 	}
