@@ -14,7 +14,7 @@ public class Alpha {
 		
 		kinect.initKinectModule();
 
-		try {Thread.sleep(10000);} catch (InterruptedException e) {}
+		try {Thread.sleep(20000);} catch (InterruptedException e) {}
 		
 		kinect.stop();	
 		
