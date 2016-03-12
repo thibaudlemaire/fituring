@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-/bin/
-=======
-/frontend/
-/.metadata/
-/.recommenders/
-*.class
+frontend/
+**/*.class
 bin/
->>>>>>> Fituring/Kinect
+.metadata/
+.recommenders/
