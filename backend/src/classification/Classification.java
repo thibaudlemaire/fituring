@@ -16,17 +16,15 @@ public class Classification implements ClassificationInterface, KinectListener {
 		kinectModule.setListener(this);
 		this.BDD = BDD ;	
 	}
-	
-	
+		
 
 	@Override
 	public void skeletonReceived(KinectEvent e) {
 		// TODO Auto-generated method stub
 		Skeleton newSkeleton = e.getNewSkeleton();
-		double[] wristLeftCoordinates = newSkeleton.get3DJoint(Skeleton.WRIST_LEFT);
-		double[] wristRightCoordinates = newSkeleton.get3DJoint(Skeleton.WRIST_RIGHT);
-		
-		
+		double[] handLeftCoordinates = newSkeleton.get3DJoint(Skeleton.HAND_LEFT);
+		double[] handRightCoordinates = newSkeleton.get3DJoint(Skeleton.HAND_RIGHT);
+			
 	}
 
 	
