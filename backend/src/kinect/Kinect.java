@@ -104,7 +104,7 @@ public class Kinect extends J4KSDK implements KinectInterface
 	
 	public long getFPS()
 	{
-		return new Date().getTime()-time;
+		return (new Date().getTime()-time)/counter;
 	}
 	
 }
