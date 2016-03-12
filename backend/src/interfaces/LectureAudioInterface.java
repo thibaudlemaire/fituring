@@ -21,4 +21,12 @@ public interface LectureAudioInterface {
 	 * @param volume in percent (0 to 100)
 	 */
 	public void addLoop(int sampleId, int startingTimeNumber, int volume);
+	
+	/**
+	 * This function get the right sound according to the attributes of a movement
+	 * @param attribut1 to be defined
+	 * @param attribut2 to be defined
+	 * @return
+	 */
+	public Object chooseTheSound(int attribut1, int attribut2);
 }
