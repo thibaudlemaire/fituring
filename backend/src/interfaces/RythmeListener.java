@@ -11,6 +11,6 @@ public interface RythmeListener {
 	 * This function is called each time a beat is detected
 	 * @param e
 	 */
-	public void RythmeBeats(RythmeEvent e);
+	public void RythmeBeats(RythmeEventInterface e);
 
 }
