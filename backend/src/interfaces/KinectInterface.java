@@ -19,7 +19,7 @@ public interface KinectInterface {
 	 * When the Kinect module receive new interesting datas, listeners are called
 	 * @param l a KinectListener
 	 */
-	public void setListener(KinectListener l);
+	public void setListener(KinectListenerInterface l);
 	
 	/** 
 	 * This function returns current Skeleton 
@@ -36,5 +36,5 @@ public interface KinectInterface {
 	 * This function returns the last video taken
 	 * @return video
 	 */
-	public Video getVideo(); //le type Video est provisoire
+	public Object getVideo(); //le type Video est provisoire
 }
