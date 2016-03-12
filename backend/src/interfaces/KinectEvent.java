@@ -11,4 +11,6 @@ public interface KinectEvent {
 
 	public Skeleton getNewSkeleton();
 	
+	public long getSkeletonTime();
+	
 }
