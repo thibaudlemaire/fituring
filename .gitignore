@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 frontend/
 .metadata/
 .recommenders/
 *.class
 bin/
+=======
+/bin/
+>>>>>>> Fituring/Classification

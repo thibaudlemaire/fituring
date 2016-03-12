@@ -2,17 +2,17 @@ package classification;
 
 public class DatasFIFO {
 	
-	float[][] tab;
+	double[][] tab;
 	int len;
 	
 	
 	// the size is 30 cause it matchs the duration of our recorded movements
 	public DatasFIFO() {
-		this.tab = new float[30][3];
+		this.tab = new double[30][3];
 		this.len=0;
 	}
 	
-	public void addData(float[] coordinates) {
+	public void addData(double[] coordinates) {
 		if (len < 29) {
 			tab[len+1]=coordinates;
 			len++;
