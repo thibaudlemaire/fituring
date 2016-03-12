@@ -1,5 +1,6 @@
 package main;
 
+import classification.Classification;
 import kinect.Kinect;
 
 public class Alpha {
@@ -8,6 +9,8 @@ public class Alpha {
 	{
 		System.out.println("Debut");
 		Kinect kinect=new Kinect();
+		Classification cl = new Classification();
+		cl.initClassificationModule(new Object(), kinect);
 		
 		kinect.initKinectModule();
 

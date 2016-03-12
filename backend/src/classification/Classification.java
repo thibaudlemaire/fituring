@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
 import interfaces.ClassificationInterface;
-import interfaces.KinectEvent;
+import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
-import interfaces.KinectListener;
+import interfaces.KinectListenerInterface;
 
-public class Classification implements ClassificationInterface, KinectListener {
+public class Classification implements ClassificationInterface, KinectListenerInterface {
 	
 	Object BDD ;
 
@@ -44,7 +44,7 @@ public class Classification implements ClassificationInterface, KinectListener {
 		
 
 	@Override
-	public void skeletonReceived(KinectEvent e){
+	public void skeletonReceived(KinectEventInterface e){
 		// TODO Auto-generated method stub
 		Skeleton newSkeleton = e.getNewSkeleton();
 		double[] handLeftCoordinates = newSkeleton.get3DJoint(Skeleton.HAND_LEFT);
