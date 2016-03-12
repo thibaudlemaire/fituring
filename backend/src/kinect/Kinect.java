@@ -6,8 +6,10 @@ import java.util.Date;
 
 import edu.ufl.digitalworlds.j4k.J4KSDK;
 import edu.ufl.digitalworlds.j4k.Skeleton;
+import interfaces.KinectInterface;
+import interfaces.KinectListener;
 
-public class Kinect extends J4KSDK 
+public class Kinect extends J4KSDK implements KinectInterface
 {
 	
 	Skeleton currentSkeleton = null;
@@ -49,6 +51,37 @@ public class Kinect extends J4KSDK
 		// TODO Auto-generated method stub
 		
 	}
+	
+	///////////////////// KinectInterface methods ////////////////////////
+	
+	@Override
+	public void initKinectModule() {
+		// TODO Auto-generated method stub
+		// A remplir à l'intégration
+	}
+
+	@Override
+	public void setListener(KinectListener l) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Skeleton getSkeleton() {
+		return currentSkeleton;
+	}
+
+	@Override
+	public int getNumberOfDancers() {
+		return 1;
+	}
+
+	@Override
+	public Video getVideo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 	public static void main(String[] args)
 	{
