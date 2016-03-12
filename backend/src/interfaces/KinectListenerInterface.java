@@ -7,13 +7,13 @@ import java.util.EventListener;
  * @author thibaud
  *
  */
-public interface KinectListener extends EventListener {
+public interface KinectListenerInterface extends EventListener {
 
 	/**
 	 * This function is automatically called when a new Skeleton is received 
 	 * from the Kinect sensor
 	 * @param e A KinectEvent object
 	 */
-	void skeletonReceived(KinectEvent e);
+	void skeletonReceived(KinectEventInterface e);
 
 }
