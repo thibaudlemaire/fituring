@@ -14,6 +14,6 @@ public interface KinectListener extends EventListener {
 	 * from the Kinect sensor
 	 * @param e A KinectEvent object
 	 */
-	void skeletonReceived(KinectEvent e);
+	void skeletonReceived(KinectEventInterface e);
 
 }
