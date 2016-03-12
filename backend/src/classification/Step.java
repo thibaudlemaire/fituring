@@ -18,7 +18,7 @@ public class Step implements Serializable
 	{
 	}
 	
-	public void setJoint(int joint, double x, double y, double z)
+	public void setJoint(int joint, float x, float y, float z)
 	{
 		float[] c = new float[3];
 		c[0] = x;
