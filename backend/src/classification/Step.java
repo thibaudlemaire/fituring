@@ -1,6 +1,7 @@
 package classification;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Step implements Serializable
 {
@@ -11,7 +12,7 @@ public class Step implements Serializable
 	private static final long serialVersionUID = -7057741325158870422L;
 
 	private long time;
-	private float[][] coordinates;
+	private ArrayList<float[]> coordinates = new ArrayList<float[]>();
 	
 	public Step()
 	{
@@ -19,9 +20,11 @@ public class Step implements Serializable
 	
 	public void setJoint(int joint, float x, float y, float z)
 	{
-		coordinates[joint][0] = x;
-		coordinates[joint][1] = y;
-		coordinates[joint][2] = z;
+		float[] c = new float[3];
+		c[0] = x;
+		c[1] = y;
+		c[2] = z;
+		coordinates.add(c);
 	}
 	
 	public void setTime(long time)
@@ -29,7 +32,7 @@ public class Step implements Serializable
 		this.time = time;
 	}
 
-	public float[][] getCoordinates() {
+	public ArrayList<float[]> getCoordinates() {
 		return coordinates;
 	}
 
