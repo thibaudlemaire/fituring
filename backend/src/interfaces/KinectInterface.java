@@ -36,5 +36,5 @@ public interface KinectInterface {
 	 * This function returns the last video taken
 	 * @return video
 	 */
-	public Video getVideo(); //le type Video est provisoire
+	public Object getVideo(); //le type Video est provisoire
 }
