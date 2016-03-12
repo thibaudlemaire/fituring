@@ -28,6 +28,7 @@ public class Classification implements ClassificationInterface, KinectListener {
 	double[][] secondMoveLeft = new double[30][3];
 	double[][] firstMoveRight = new double[30][3];
 	double[][] secondMoveRight = new double[30][3];
+	
 	for (int i =0; i<30; i++) {
 		firstMoveLeft[i]=steps1.get(i).getCoordinates()[Skeleton.HAND_LEFT];
 		firstMoveRight[i]=steps1.get(i).getCoordinates()[Skeleton.HAND_RIGHT];
@@ -55,9 +56,9 @@ public class Classification implements ClassificationInterface, KinectListener {
 		double distance2L = dtw2L.DTWDistance();
 		double distance2R = dtw2R.DTWDistance();
 		double distance1 = (distance1L + distance1R) *0.5;
-		double distance2 = (distance1R + distance2R) *0.5;	
+		double distance2 = (distance2L + distance2R) *0.5;	
 		System.out.println(distance1);
 		System.out.println(distance2);
 	}
-
 }
+
