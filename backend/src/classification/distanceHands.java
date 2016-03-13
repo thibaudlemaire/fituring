@@ -10,6 +10,8 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	
 	KinectInterface kinectModule;
 	Object BDD;
+	static float limitUp = (float) 1.30;
+	static float limitDown = (float) 0.2;
 	
 	
 	@Override
@@ -32,6 +34,14 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		float handRightCoordinatesZ = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT);
 		float distance = (float) Math.sqrt((handRightCoordinatesX - handLeftCoordinatesX)*(handRightCoordinatesX - handLeftCoordinatesX) + (handRightCoordinatesY - handLeftCoordinatesY)*(handRightCoordinatesY - handLeftCoordinatesY) + (handRightCoordinatesZ - handLeftCoordinatesZ)*(handRightCoordinatesZ - handLeftCoordinatesZ));
 		System.out.println(distance);
+		
+		if (distance > limitUp) {
+			SyntheseAudio.armsExtended();
+		}
+		
+		if (distance < limitDown) {
+			SyntheseAudio.clap();
+		}
 	}
 
 	
