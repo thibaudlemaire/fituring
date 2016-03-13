@@ -5,7 +5,7 @@ package interfaces;
  * @author thibaud
  *
  */
-public interface LectureAudioInterface {
+public interface LectureAudioInterface extends LectureInterface{
 
 	/**
 	 * This function is called at the beginning to setup the module
