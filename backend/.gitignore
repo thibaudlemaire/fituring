@@ -1,4 +1,3 @@
-*.classpath
-/bin/
-/.metadata/
-/.settings/
+bin/
+.metadata/
+.settings/
