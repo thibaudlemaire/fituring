@@ -57,7 +57,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		//Noticing when arms are extended
 		if (distance > limitUp && limitUpExceeded == false && handLeftCoordinatesY < (shouldersAverageCoordinatesY + trigger) && handRightCoordinatesY < (shouldersAverageCoordinatesY + trigger) && handLeftCoordinatesY > (shouldersAverageCoordinatesY - trigger) && handRightCoordinatesY > (shouldersAverageCoordinatesY - trigger)) {
 			limitUpExceeded = true;
-			audio.playSound("");
+			audio.playSound("sounds/cymbal.wav");
 		}
 		
 		if (limitUpExceeded == true && distance < (limitUp - trigger)) {
@@ -77,7 +77,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		//Noticing when the left hand is risen
 		if (handLeftCoordinatesY > headCoordinatesY && leftHandAboveHead == false) {
 			leftHandAboveHead = true;
-			audio.playSound("");
+			audio.playSound("sounds/snare.wav");
 		}
 		
 		if (leftHandAboveHead == true && handLeftCoordinatesY < (headCoordinatesY - trigger)) {
@@ -87,7 +87,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		//Noticing when the right hand is risen
 		if (handRightCoordinatesY > headCoordinatesY && rightHandAboveHead == false) {
 			rightHandAboveHead = true;
-			audio.playSound("");
+			audio.playSound("sounds/basse.wav");
 		}
 		
 		if (rightHandAboveHead == true && handRightCoordinatesY < (headCoordinatesY - trigger)) {
