@@ -1,34 +1,43 @@
 package syntheseAudio;
 
-import javax.sound.sampled.SourceDataLine;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
-import wavFile.WaveReaderAndPlayer;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 public class PulsThread extends Thread{
 	
-	int BPM;
-	String filePath;
-	//SourceDataLine sourceLine;
-	
-	public PulsThread(int BPM, String filePath /*SourceDataLine sourceLine*/){
+	private String filePath;
+	private int period;
+		
+	public PulsThread(String filePath, int period) throws FileNotFoundException
+	{
 		super();
-		this.BPM=BPM;
-		this.filePath= filePath;
-		//this.sourceLine = sourceLine;
+		this.filePath = filePath;
+		this.period = period;
 	}
 	
-	public void run(){
-		WaveReaderAndPlayer waveRP = new WaveReaderAndPlayer();
-		while (true) {
-			try {
-				waveRP.PlayWave(filePath /*sourceLine*/);
-				System.out.println("pulse");
-				PulsThread.sleep(60/BPM);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
+	public void run()
+	{
+		System.out.println("Début pulse");
+		while(true)
+		{
+			System.out.println("pulse");
+			try 
+			{
+				{
+					InputStream in = new FileInputStream(filePath);
+				    AudioStream as = new AudioStream(in);
+				    AudioPlayer.player.start(as);
+					Thread.sleep(period);
+				}
+			}
+			catch (Exception e) 
+			{
 				e.printStackTrace();
 			}
 		}
 	}
-	
 }
