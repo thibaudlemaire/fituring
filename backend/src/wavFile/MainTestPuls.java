@@ -11,11 +11,11 @@ public class MainTestPuls {
 		
 		WaveReaderAndPlayer waveRP = new WaveReaderAndPlayer();
 		int count =0;
-		System.out.println("Dèbut de la boucle de pulsation");
+		System.out.println("Debut de la boucle de pulsation");
 		while (count<BPM/3){ // the loop lasts 20 seconds
 			
-			// chemin ‡ modifer bien sur selon l'utilisateur et la machine
-			waveRP.PlayWave("adresse du ficher wav à completer");
+			// chemin � modifer bien sur selon l'utilisateur et la machine
+			waveRP.PlayWave("C:/Users/NotAfraid/Documents/Sons-PACT/kick.wav");
 			try {
                 Thread.sleep(60/BPM);// afin de respecter le BPM
             } catch (InterruptedException ex) {

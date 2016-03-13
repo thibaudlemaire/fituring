@@ -57,7 +57,7 @@ public class WaveReaderAndPlayer
 		}
 	}
 	
-	public void PlayWave (String fileName) throws Exception {
+	public void PlayWave (String fileName/*, SourceDataLine sourceLine*/) throws Exception {
 		
 		AudioInputStream audioStream = null;
 		AudioFormat audioFormat;
