@@ -11,7 +11,8 @@ import interfaces.KinectListenerInterface;
 public class Classification implements ClassificationInterface, KinectListenerInterface {
 	
 	Object BDD ;
-
+	KinectInterface kinectModule;
+	
 	private float[][] firstMoveLeft = new float[30][3];
 	private float[][] secondMoveLeft = new float[30][3];
 	private float[][] firstMoveRight = new float[30][3];
@@ -22,9 +23,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	@Override
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule) {
 		// TODO Auto-generated method stub
-		kinectModule.setListener(this);
-		this.BDD = BDD ;
-		
+		this.kinectModule = kinectModule;
+		this.BDD = BDD ;	
 		
 		MovementSerializer moveSerial = new MovementSerializer();
 		Move mvt1=moveSerial.deSerialize("datas/m1.mvt");
