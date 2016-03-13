@@ -10,6 +10,7 @@ public class Alpha {
 	public static void main(String[] args) 
 	{
 	    Scanner sc = new Scanner(System.in);
+	    String strIn = "";
 
 		System.out.println("Création des instances");
 		Kinect kinect = new Kinect();
@@ -19,16 +20,20 @@ public class Alpha {
 		cl.initClassificationModule(new Object(), kinect);
 		kinect.initKinectModule();
 
-		System.out.print("Appuyer sur une Entrer pour démarer l'analyse");
-	    sc.nextLine();
+		while(true)
+		{
+			System.out.print("Appuyer sur une Entrer pour démarer l'analyse (q pour quitter)");
+			strIn = sc.nextLine();
+		    if(strIn == "q")
+		    	break;
+		    
+		    cl.startListening();
+		    sc.nextLine();
+		    cl.stopListeninf();
+		}
 	    
-	    cl.startListening();
-	    
-	    sc.nextLine();
 		kinect.stop();	
-		
 		sc.close();
-		
 		System.out.println("FPS: "+kinect.getFPS());
 	}
 
