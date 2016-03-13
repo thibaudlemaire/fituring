@@ -3,8 +3,8 @@ package classification;
 public class DatasFIFO {
 	
 	private float[][] tab;
-	private int len;
-	private int pointer;
+	private int len; // range of the first tab
+	private int pointer; //points the index of the last added data
 	
 	
 	public DatasFIFO(int len) {
@@ -26,15 +26,14 @@ public class DatasFIFO {
 			pointer--;
 		}
 		else {
-			for (int i=1; i<len
-					; i++) {
+			for (int i=1; i<len; i++) {
 				tab[i-1] = tab[i];
 			}
 			tab[len-1]=coordinates;
 		}
 	}
 	
-	public float[][] getFIFOTab(int n) {
+	public float[][] getFIFOTab(int n) {  //allows to get just a part of tab, useful in classification
 		if (n <= 0){
 			System.out.println("Error in DatasFIFO.getFIFOTab, size too small");
 		}
