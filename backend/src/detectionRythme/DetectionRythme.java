@@ -1,7 +1,6 @@
 package detectionRythme;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
-import events.KinectEvent;
 import interfaces.KinectEventInterface;
 import interfaces.KinectListenerInterface;
 import interfaces.RyhtmeInterface;
@@ -11,7 +10,6 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	private TableauCoordoneeTemps tab;
 	private double bpm;
 	
-	@Override
 	public void skeletonReceived(KinectEventInterface e) {
 		// TODO Auto-generated method stub
 		double newcoordinate = (double) e.getNewSkeleton().get3DJointX(Skeleton.WRIST_RIGHT);
@@ -33,20 +31,17 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	}
 	}
 
-	@Override
 	public void initRythmeModule() {
 		// TODO Auto-generated method stub
 	tab = new TableauCoordoneeTemps();
 
 	}
 
-	@Override
 	public int getCurrentTrueBPM() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	public int getCurrentUsedBPM() {
 		// TODO Auto-generated method stub
 		return 0;
