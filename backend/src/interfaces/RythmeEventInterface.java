@@ -5,7 +5,7 @@ package interfaces;
  * @author thibaud
  *
  */
-public interface RythmeEvent {
+public interface RythmeEventInterface {
 
 	/**
 	 * This function returns current true BPM 
