@@ -10,7 +10,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	
 	KinectInterface kinectModule;
 	Object BDD;
-	static float trigger = (float) 0.15;
+	static float trigger = (float) 0.2;
 	static float limitUp = (float) 1.40;
 	static float limitDown = (float) 0.2;
 	
