@@ -25,8 +25,7 @@ public class AlphaV3 {
 		kinect.initKinectModule();
 		audio.initLectureAudioModule(new Object(), 100);
 		cl.initClassificationModule(new Object(), kinect, (LectureInterface) audio);
-		dr.initRythmeModule();
-		kinect.setListener(dr);
+		dr.initRythmeModule(kinect, audio);
 		
 		while(true)
 		{
