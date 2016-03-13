@@ -14,13 +14,11 @@ public class AudioThread extends Thread {
 	public AudioThread(String filePath) throws FileNotFoundException
 	{
 		super();
-		System.out.println("Constructeur");
 		this.filePath = filePath;
 	}
 	
 	public void run()
 	{
-		System.out.println("Début audio");
 		try 
 		{
 			InputStream in = new FileInputStream(filePath);
