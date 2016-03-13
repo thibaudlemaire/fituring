@@ -16,8 +16,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	private float[][] secondMoveLeft = new float[30][3];
 	private float[][] firstMoveRight = new float[30][3];
 	private float[][] secondMoveRight = new float[30][3];
-	private DatasFIFO datasFIFOLeft = new DatasFIFO(30);
-	private DatasFIFO datasFIFORight = new DatasFIFO(30);
+	private DatasFIFO datasFIFOLeft = new DatasFIFO();
+	private DatasFIFO datasFIFORight = new DatasFIFO();
 	
 	@Override
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule) {

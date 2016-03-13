@@ -26,6 +26,10 @@ public class DatasFIFO {
 		}
 
 	}
+
+	public float[][] getFIFOTab() {
+		return tab;
+	}
 	
 	
 	
