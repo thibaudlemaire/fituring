@@ -7,11 +7,13 @@ import interfaces.ClassificationInterface;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
+import interfaces.LectureAudioSimpleInterface;
 
 public class Classification implements ClassificationInterface, KinectListenerInterface {
 	
 	Object BDD ;
 	KinectInterface kinectModule;
+	LectureAudioSimpleInterface audio;
 	
 	private float[][] firstMoveLeft ;
 	private float[][] secondMoveLeft ;
@@ -25,10 +27,11 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	private int size2;
 	
 	@Override
-	public void initClassificationModule(Object BDD, KinectInterface kinectModule) {
+	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureAudioSimpleInterface audio) {
 		// TODO Auto-generated method stub
 		this.kinectModule = kinectModule;
-		this.BDD = BDD ;	
+		this.BDD = BDD ;
+		this.audio = audio;
 		
 		MovementSerializer moveSerial = new MovementSerializer();
 		Move mvt1=moveSerial.deSerialize("datas/m1.mvt");
@@ -49,15 +52,30 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		
 		for (int i =0; i<size1; i++) 
 		{
-			firstMoveLeft[i]=steps1.get(i).getCoordinates().get(Skeleton.HAND_LEFT);
-			firstMoveRight[i]=steps1.get(i).getCoordinates().get(Skeleton.HAND_RIGHT);
+			firstMoveLeft[i]=substract(steps1.get(i).getCoordinates().get(Skeleton.HAND_LEFT),steps1.get(i).getCoordinates().get(Skeleton.SPINE_MID));
+			firstMoveRight[i]=substract(steps1.get(i).getCoordinates().get(Skeleton.HAND_RIGHT),steps1.get(i).getCoordinates().get(Skeleton.SPINE_MID));
 		}	
 		
 		for (int i =0; i<size2; i++) 
 		{
-			secondMoveLeft[i]=steps2.get(i).getCoordinates().get(Skeleton.HAND_LEFT);
-			secondMoveRight[i]=steps2.get(i).getCoordinates().get(Skeleton.HAND_RIGHT);
+			secondMoveLeft[i]=substract(steps2.get(i).getCoordinates().get(Skeleton.HAND_LEFT),steps2.get(i).getCoordinates().get(Skeleton.SPINE_MID));
+			secondMoveRight[i]=substract(steps2.get(i).getCoordinates().get(Skeleton.HAND_RIGHT),steps2.get(i).getCoordinates().get(Skeleton.SPINE_MID));
 		}	
+	}
+
+	private float[] substract(float[] F1, float[] F2) {
+		// TODO Auto-generated method stub
+		float[] result=new float [F1.length];
+		if (F1.length != F2.length){
+			System.out.println("Erreur");
+			return null;
+		}
+		else {
+			for (int i =0; i< F1.length;i++){
+				result[i]=F1[i]-F2[i];
+			}
+		}
+		return result;
 	}
 
 	private int max(int a, int b) {
@@ -70,14 +88,17 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	public void skeletonReceived(KinectEventInterface e){  //automatically called when a new skeleton is captured by the kinect
 		// TODO Auto-generated method stub
 		Skeleton newSkeleton = e.getNewSkeleton();
+		float baseX = newSkeleton.get3DJointX(Skeleton.SPINE_MID);
+		float baseY = newSkeleton.get3DJointY(Skeleton.SPINE_MID);
+		float baseZ = newSkeleton.get3DJointZ(Skeleton.SPINE_MID);
 		float[] handLeftCoordinates = new float[3];
-		handLeftCoordinates[0] = newSkeleton.get3DJointX(Skeleton.HAND_LEFT);
-		handLeftCoordinates[1] = newSkeleton.get3DJointY(Skeleton.HAND_LEFT);
-		handLeftCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_LEFT);
+		handLeftCoordinates[0] = newSkeleton.get3DJointX(Skeleton.HAND_LEFT)-baseX;
+		handLeftCoordinates[1] = newSkeleton.get3DJointY(Skeleton.HAND_LEFT)-baseY;
+		handLeftCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_LEFT)-baseZ;
 		float[] handRightCoordinates = new float[3];
-		handRightCoordinates[0] = newSkeleton.get3DJointX(Skeleton.HAND_RIGHT);
-		handRightCoordinates[1] = newSkeleton.get3DJointY(Skeleton.HAND_RIGHT);
-		handRightCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT);
+		handRightCoordinates[0] = newSkeleton.get3DJointX(Skeleton.HAND_RIGHT)-baseX;
+		handRightCoordinates[1] = newSkeleton.get3DJointY(Skeleton.HAND_RIGHT)-baseY;
+		handRightCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT)-baseZ;
 		datasFIFOLeft.addData(handLeftCoordinates);
 		datasFIFORight.addData(handRightCoordinates);
 		DTW dtw1L = new DTW(firstMoveLeft, datasFIFOLeft.getFIFOTab(size1));
@@ -97,8 +118,9 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		kinectModule.setListener(this);
 	}
 
-	public void stopListeninf() {
+	public void stopListening() {
 		kinectModule.unsetListener(this);		
 	}
+
 }
 
