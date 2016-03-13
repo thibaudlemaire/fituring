@@ -21,10 +21,15 @@ public class Kinect extends J4KSDK implements KinectInterface
 	 * Event-called when new skeleton is received
 	 */
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status) {
-		System.out.println("New skeleton !");
-		
+		//System.out.println("New skeleton !");
+		int skeletonIdent = 0;
 		// Getting new skeleton
-		currentSkeleton = Skeleton.getSkeleton(0, skeleton_tracked, positions, orientations, joint_status, this);
+		for(int i = 5; i>=0; i--)
+		{
+			if(skeleton_tracked[i])
+				skeletonIdent = i;
+		}
+		currentSkeleton = Skeleton.getSkeleton(skeletonIdent, skeleton_tracked, positions, orientations, joint_status, this);
 		
 		// Create the event
 		KinectEvent event = new KinectEvent(currentSkeleton);
