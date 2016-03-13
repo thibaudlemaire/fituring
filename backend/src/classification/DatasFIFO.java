@@ -27,9 +27,9 @@ public class DatasFIFO {
 		}
 		else {
 			for (int i=len-1; i>0 ; i--) {
-				tab[i] = tab[i-1];
+				tab[i-1] = tab[i];
 			}
-			tab[0]=coordinates;
+			tab[len-1]=coordinates;
 		}
 	}
 	
