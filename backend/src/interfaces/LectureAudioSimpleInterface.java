@@ -1,6 +1,6 @@
 package interfaces;
 
-public interface LectureAudioSimpleInterface {
+public interface LectureAudioSimpleInterface extends LectureInterface{
 	/**
 	 * This function is called at the beginning to setup the module
 	 * @param player TypeToBeDefined, where to play the sound
@@ -24,7 +24,7 @@ public interface LectureAudioSimpleInterface {
 	 * Used to stop the current beat loop
 	 * @param BPM
 	 */
-	public void stopBeating(int BPM);
+	public void stopBeating();
 	
 	/** 
 	 * Used to play the specified sound once
