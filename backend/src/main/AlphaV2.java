@@ -2,6 +2,7 @@ package main;
 
 import java.util.Scanner;
 
+import classification.SoundTest;
 import classification.distanceHands;
 import kinect.Kinect;
 
@@ -12,17 +13,18 @@ public class AlphaV2 {
 	    Scanner sc = new Scanner(System.in);
 	    String strIn;
 
-		System.out.println("Création des instances");
+		System.out.println("Crï¿½ation des instances");
 		Kinect kinect = new Kinect();
 		distanceHands cl = new distanceHands();
 		
 		System.out.println("Initialisation des modules");
 		kinect.initKinectModule();
 		cl.initClassificationModule(new Object(), kinect);
+		SoundTest.initSoundTest();
 		
 		while(true)
 		{
-			System.out.print("Appuyer sur une Entrer pour démarer l'analyse (q pour quitter)");
+			System.out.print("Appuyer sur une Entrer pour dï¿½marer l'analyse (q pour quitter)");
 			strIn = sc.nextLine();
 		    if(strIn.length() >= 1 && strIn.charAt(0) == 'q')
 		    	break;
