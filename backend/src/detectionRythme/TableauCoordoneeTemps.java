@@ -9,7 +9,7 @@ public class TableauCoordoneeTemps {
 		
 		
 		public TableauCoordoneeTemps() {
-			this.tab = new double[400][2];
+			this.tab = new double[2][400];
 			this.len=0;
 		}
 		
@@ -27,15 +27,20 @@ public class TableauCoordoneeTemps {
 		
 		public void addData(double[] coordinates) {
 			if (len < 399) {
-				tab[len+1]=coordinates;
+				tab[0][len+1]=coordinates[0];
+				tab[1][len+1]=coordinates[1];
 				len++;
 			}
 			
 			else {
 				for (int i=0; i<398 ; i++) {
-					tab[i] = tab[i+1];
+					
+					tab[0][i] = tab[0][i+1];
+					tab[1][i] = tab[1][i+1];
+					
 				}
-				tab[399]=coordinates;
+				tab[0][399]=coordinates[0];
+				tab[1][399]=coordinates[1];
 			}
 
 		}
