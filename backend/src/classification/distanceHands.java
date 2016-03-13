@@ -11,9 +11,14 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	KinectInterface kinectModule;
 	Object BDD;
 	static float limitUp = (float) 1.30;
-	static float limitDown = (float) 0.2;
-	static boolean limitUpExceeded = false;
-	static boolean limitDownExceeded = false;
+	static float limitDown = (float) 0.3;
+	
+	//Booleans needed to make an hysteresis when some movements are noticed
+	boolean limitUpExceeded = false;
+	boolean limitDownExceeded = false;
+	boolean leftHandAboveHead = false;
+	boolean rightHandAboveHead = false;
+	
 	
 	
 	
@@ -27,26 +32,32 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 
 	@Override
 	public void skeletonReceived(KinectEventInterface e) {
-		// TODO Auto-generated method stub
 		Skeleton newSkeleton = e.getNewSkeleton();
+		float headCoordinatesY = newSkeleton.get3DJointY(Skeleton.HEAD);
+		
 		float handLeftCoordinatesX = newSkeleton.get3DJointX(Skeleton.HAND_LEFT);
 		float handRightCoordinatesX = newSkeleton.get3DJointX(Skeleton.HAND_RIGHT);
 		float handLeftCoordinatesY = newSkeleton.get3DJointY(Skeleton.HAND_LEFT);
 		float handRightCoordinatesY = newSkeleton.get3DJointY(Skeleton.HAND_RIGHT);
 		float handLeftCoordinatesZ = newSkeleton.get3DJointZ(Skeleton.HAND_LEFT);
 		float handRightCoordinatesZ = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT);
+		
+		
+		//Determinating the distance between the two hands
 		float distance = (float) Math.sqrt((handRightCoordinatesX - handLeftCoordinatesX)*(handRightCoordinatesX - handLeftCoordinatesX) + (handRightCoordinatesY - handLeftCoordinatesY)*(handRightCoordinatesY - handLeftCoordinatesY) + (handRightCoordinatesZ - handLeftCoordinatesZ)*(handRightCoordinatesZ - handLeftCoordinatesZ));
 		System.out.println(distance);
 		
+		//Noticing when arms are extended
 		if (distance > limitUp && limitUpExceeded == false) {
 			limitUpExceeded = true;
-			SoundTest.clap();
+			SoundTest.armsExtended();
 		}
 		
 		if (limitUpExceeded == true && distance < limitUp) {
 			limitUpExceeded = false;
 		}
 		
+		//Noticing when a clap is done
 		if (distance < limitDown && limitDownExceeded == false) {
 			limitDownExceeded = true;
 			SoundTest.clap();
@@ -54,6 +65,26 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		
 		if (limitDownExceeded == true && distance > limitDown) {
 			limitDownExceeded = false;
+		}
+		
+		//Noticing when the left hand is risen
+		if (handLeftCoordinatesY > headCoordinatesY && leftHandAboveHead == false) {
+			leftHandAboveHead = true;
+			SoundTest.leftHandAboveHead();
+		}
+		
+		if (leftHandAboveHead == true && handLeftCoordinatesY < headCoordinatesY) {
+			leftHandAboveHead = false;
+		}
+		
+		//Noticing when the right hand is risen
+		if (handRightCoordinatesY > headCoordinatesY && rightHandAboveHead == false) {
+			rightHandAboveHead = true;
+			SoundTest.rightHandAboveHead();
+		}
+		
+		if (rightHandAboveHead == true && handRightCoordinatesY < headCoordinatesY) {
+			rightHandAboveHead = false;
 		}
 	}
 
