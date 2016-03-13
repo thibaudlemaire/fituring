@@ -8,10 +8,11 @@ import interfaces.KinectListenerInterface;
 public class MovementRecorder implements KinectListenerInterface {
 	
 	private Move mvt;
+	private KinectInterface kinect;
 	
 	public MovementRecorder(KinectInterface kinect)
 	{
-		kinect.setListener(this);
+		this.kinect = kinect;
 		mvt = new Move();
 	}
 
@@ -27,5 +28,16 @@ public class MovementRecorder implements KinectListenerInterface {
 							e.getNewSkeleton().get3DJointZ(i));
 		}
 		mvt.steps.add(step);
+		System.out.print("#");
+	}
+	
+	public void startListener()
+	{
+		kinect.setListener(this);
+	}
+	
+	public void stopListener()
+	{
+		kinect.unsetListener(this);
 	}
 }
