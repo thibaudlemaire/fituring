@@ -13,7 +13,6 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 
 	KinectInterface kinect;
 	LectureAudioSimpleInterface audio;
-	int BPM;
 	
 	static float trigger = (float) 0.1;
 	static float limitUp = (float) 0.8;
@@ -33,9 +32,8 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	public void initRythmeModule(KinectInterface kinect, LectureAudioSimpleInterface audio) 
 	{
 		this.kinect = kinect;
-		this.BPM = 110;
+		this.mean = 500;
 		this.audio = audio;
-		this.audio.startBeating(120);
 	}
 	
 	public void skeletonReceived(KinectEventInterface e) 
@@ -107,11 +105,13 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	
 	public void startListening() 
 	{
+		audio.startBeating(getCurrentTrueBPM());
 		kinect.setListener(this);
 	}
 
 	public void stopListening() 
 	{
+		audio.stopBeating();
 		kinect.unsetListener(this);
 	}
 
