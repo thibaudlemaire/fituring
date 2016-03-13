@@ -11,20 +11,20 @@ public class DatasFIFO {
 	public DatasFIFO(int len) {
 		this.len=len;
 		this.tab = new float[len][3];
-		this.pointer=0;
+		this.pointer=len;
 	}
 	
 	public void addData(float[] coordinates) {
-		if (pointer < 29) {
-			tab[pointer+1]=coordinates;
-			pointer++;
+		if (pointer > 0) {
+			tab[pointer-1]=coordinates;
+			pointer--;
 		}
 		
 		else {
-			for (int i=0; i<29 ; i++) {
-				tab[i] = tab[i+1];
+			for (int i=len-1; i>0 ; i--) {
+				tab[i] = tab[i-1];
 			}
-			tab[len-1]=coordinates;
+			tab[0]=coordinates;
 		}
 
 	}
