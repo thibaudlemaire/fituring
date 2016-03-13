@@ -10,7 +10,7 @@ import sun.audio.AudioStream;
 public class PulsThread extends Thread{
 	
 	private String filePath;
-	private int period;
+	private int period; //period : a BPM 
 		
 	public PulsThread(String filePath, int period) throws FileNotFoundException
 	{
@@ -31,7 +31,7 @@ public class PulsThread extends Thread{
 					InputStream in = new FileInputStream(filePath);
 				    AudioStream as = new AudioStream(in);
 				    AudioPlayer.player.start(as);
-					Thread.sleep(period);
+					Thread.sleep(60000/period); // sleep takes an argument in milliseconds
 				}
 			}
 			catch (Exception e) 
