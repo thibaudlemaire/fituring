@@ -95,7 +95,7 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 
 	public int getCurrentTrueBPM() 
 	{
-		return (int) (60/mean);
+		return (int) (60000/mean);
 	}
 
 	public int getCurrentUsedBPM() 
