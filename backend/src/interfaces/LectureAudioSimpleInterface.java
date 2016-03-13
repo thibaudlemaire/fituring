@@ -24,7 +24,7 @@ public interface LectureAudioSimpleInterface extends LectureInterface{
 	 * Used to stop the current beat loop
 	 * @param BPM
 	 */
-	public void stopBeating(int BPM);
+	public void stopBeating();
 	
 	/** 
 	 * Used to play the specified sound once
