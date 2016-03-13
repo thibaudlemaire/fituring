@@ -11,7 +11,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	KinectInterface kinectModule;
 	Object BDD;
 	static float limitUp = (float) 1.30;
-	static float limitDown = (float) 0.2;
+	static float limitDown = (float) 0.3;
 	static boolean limitUpExceeded = false;
 	static boolean limitDownExceeded = false;
 	
@@ -40,7 +40,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		
 		if (distance > limitUp && limitUpExceeded == false) {
 			limitUpExceeded = true;
-			SoundTest.clap();
+			SoundTest.armsExtended();
 		}
 		
 		if (limitUpExceeded == true && distance < limitUp) {
