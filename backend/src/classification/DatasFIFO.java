@@ -28,6 +28,12 @@ public class DatasFIFO {
 	}
 	
 	public float[][] getFIFOTab(int n) {
+		if (n <= 0){
+			System.out.println("Error in DatasFIFO.getFIFOTab, size too small");
+		}
+		if (n>len){
+			System.out.println("Error in DatasFIFO.getFIFOTab, size too large");
+		}
 		float[][] newTab=new float[n][3];
 		for (int i=0; i<n;i++){
 			newTab[i]=tab[i];
