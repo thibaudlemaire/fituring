@@ -30,13 +30,13 @@ public class LectureAudio implements LectureAudioSimpleInterface {
 	@Override
 	public void updateBPM(int BPM) {
 		// TODO Auto-generated method stub
-		
+		pulsThread.setBPM(BPM);
 	}
 
 	@Override
-	public void stopBeating(int BPM) {
+	public void stopBeating() {
 		// TODO Auto-generated method stub
-		
+		pulsThread.stopPulsThread();
 	}
 
 	@Override
