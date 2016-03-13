@@ -17,8 +17,10 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	private float[][] secondMoveLeft = new float[30][3];
 	private float[][] firstMoveRight = new float[30][3];
 	private float[][] secondMoveRight = new float[30][3];
-	private DatasFIFO datasFIFOLeft = new DatasFIFO(30);
-	private DatasFIFO datasFIFORight = new DatasFIFO(30);
+	
+	// the size is 30 cause it matchs the duration of our recorded moves 
+	private DatasFIFO datasFIFOLeft = new DatasFIFO(30);   
+	private DatasFIFO datasFIFORight = new DatasFIFO(30); 
 	
 	@Override
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule) {
@@ -43,7 +45,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		}
 	}
 
-	public void skeletonReceived(KinectEventInterface e){
+	public void skeletonReceived(KinectEventInterface e){  //automatically called when a new skeleton is captured by the kinect
 		// TODO Auto-generated method stub
 		Skeleton newSkeleton = e.getNewSkeleton();
 		float[] handLeftCoordinates = new float[3];
@@ -56,10 +58,12 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		handRightCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT);
 		datasFIFOLeft.addData(handLeftCoordinates);
 		datasFIFORight.addData(handRightCoordinates);
-		DTW dtw1L = new DTW(firstMoveLeft, datasFIFOLeft.getFIFOTab());
-		DTW dtw1R = new DTW(firstMoveRight, datasFIFORight.getFIFOTab());
-		DTW dtw2L = new DTW(secondMoveLeft, datasFIFOLeft.getFIFOTab());
-		DTW dtw2R = new DTW(secondMoveRight, datasFIFORight.getFIFOTab());
+		float[][] tabCoordinatesLeft = datasFIFOLeft.getFIFOTab();
+		float[][] tabCoordinatesRight = datasFIFORight.getFIFOTab();
+		DTW dtw1L = new DTW(firstMoveLeft, tabCoordinatesLeft);
+		DTW dtw1R = new DTW(firstMoveRight, tabCoordinatesRight);
+		DTW dtw2L = new DTW(secondMoveLeft, tabCoordinatesLeft);
+		DTW dtw2R = new DTW(secondMoveRight, tabCoordinatesRight);
 		double distance1L = dtw1L.DTWDistance();
 		double distance1R = dtw1R.DTWDistance();
 		double distance2L = dtw2L.DTWDistance();

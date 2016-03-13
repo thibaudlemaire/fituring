@@ -7,7 +7,6 @@ public class DatasFIFO {
 	private int pointer;
 	
 	
-	// the size is 30 cause it matchs the duration of our recorded movements
 	public DatasFIFO(int len) {
 		this.len=len;
 		this.tab = new float[len][3];
@@ -26,7 +25,6 @@ public class DatasFIFO {
 			}
 			tab[0]=coordinates;
 		}
-
 	}
 	
 	public float[][] getFIFOTab() {
