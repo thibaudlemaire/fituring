@@ -15,7 +15,7 @@ public interface ClassificationInterface {
 	/**
 	 * This function stops the listening of kinect skeleton
 	 */
-	public void stopListeninf();
+	public void stopListening();
 	
 	
 	

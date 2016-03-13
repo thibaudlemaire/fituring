@@ -100,7 +100,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	}
 
 	@Override
-	public void stopListeninf() {
+	public void stopListening() {
 		// TODO Auto-generated method stub
 		kinectModule.unsetListener(this);
 	}
