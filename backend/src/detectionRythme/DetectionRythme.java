@@ -1,14 +1,18 @@
 package detectionRythme;
 
+import java.util.Date;
+
 import edu.ufl.digitalworlds.j4k.Skeleton;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
+import interfaces.LectureAudioSimpleInterface;
 import interfaces.RyhtmeInterface;
 
 public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface {
 
 	KinectInterface kinect;
+	LectureAudioSimpleInterface audio;
 	int BPM;
 	
 	static float trigger = (float) 0.1;
@@ -21,10 +25,17 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	boolean leftHandAboveHead = false;
 	boolean rightHandAboveHead = false;
 	
-	public void initRythmeModule(KinectInterface kinect) 
+	long lastDate = 0;
+	long lastPeriod[] = {0,0,0,0,0,0,0,0,0,0};
+	int lastPeriodPointer = 0;
+	long mean = 500;
+	
+	public void initRythmeModule(KinectInterface kinect, LectureAudioSimpleInterface audio) 
 	{
 		this.kinect = kinect;
 		this.BPM = 110;
+		this.audio = audio;
+		this.audio.startBeating(120);
 	}
 	
 	public void skeletonReceived(KinectEventInterface e) 
@@ -66,18 +77,31 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	
 	private void beat()
 	{
-		
+		if (lastDate != 0)
+		{
+			long currentDate = new Date().getTime();
+			long timeElapsed = currentDate - lastDate;
+			lastDate = currentDate;
+			mean = ((mean*10) + timeElapsed - lastPeriod[lastPeriodPointer])/10;
+			lastPeriod[lastPeriodPointer] = timeElapsed;
+			if(lastPeriodPointer <= 8)
+				lastPeriodPointer++;
+			else
+				lastPeriodPointer = 0;
+			audio.updateBPM(getCurrentTrueBPM());
+		}
+		else
+			lastDate = new Date().getTime();
+			
 	}
 
 	public int getCurrentTrueBPM() 
 	{
-		
-		return 0;
+		return (int) (60/mean);
 	}
 
 	public int getCurrentUsedBPM() 
 	{
-
 		return 0;
 	}
 	
