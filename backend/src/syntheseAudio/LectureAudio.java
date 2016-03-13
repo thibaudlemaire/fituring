@@ -34,7 +34,7 @@ public class LectureAudio implements LectureAudioSimpleInterface {
 	}
 
 	@Override
-	public void stopBeating(int BPM) {
+	public void stopBeating() {
 		// TODO Auto-generated method stub
 		pulsThread.stopPulsThread();
 	}
