@@ -26,7 +26,7 @@ public class DatasFIFO {
 			pointer--;
 		}
 		else {
-			for (int i=0; i<len-1 ; i++) {
+			for (int i=1; i<len-1 ; i++) {
 				tab[i-1] = tab[i];
 			}
 			tab[len-1]=coordinates;
