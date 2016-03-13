@@ -2,36 +2,32 @@ package classification;
 
 public class DatasFIFO {
 	
-	float[][] tab;
-	int len;
+	private float[][] tab;
+	private int len;
 	
 	
-	// the size is 30 cause it matchs the duration of our recorded movements
-	public DatasFIFO() {
-		this.tab = new float[120][3];
-		this.len=0;
+	public DatasFIFO(int len) {
+		this.len=len;
+		this.tab = new float[len][3];
+		this.pointer=len;
 	}
 	
 	public void addData(float[] coordinates) {
-		if (len < 119) {
-			tab[len+1]=coordinates;
-			len++;
+		if (pointer > 0) {
+			tab[pointer-1]=coordinates;
+			pointer--;
 		}
 		
 		else {
-			for (int i=0; i<119 ; i++) {
-				tab[i] = tab[i+1];
+			for (int i=len-1; i>0 ; i--) {
+				tab[i] = tab[i-1];
 			}
-			tab[119]=coordinates;
+			tab[0]=coordinates;
 		}
-
 	}
 
 	public float[][] getFIFOTab() {
 		return tab;
 	}
 	
-	
-	
-
 }

@@ -15,9 +15,10 @@ public class DTW {
 	public float distance_euclid(float[] chaine1, float[] chaine2) {
 		float result=0;
 		for (int i = 0; i < chaine1.length; i++) {
-			result=(float) (result + Math.sqrt((chaine2[i]-chaine1[i])*(chaine2[i]-chaine1[i])));
+			result= (float) (result + (chaine2[i]-chaine1[i])*(chaine2[i]-chaine1[i]));
 		}
-		return result;
+		result = (float) Math.sqrt(result);
+		return result ;
 	}
 	
 	
