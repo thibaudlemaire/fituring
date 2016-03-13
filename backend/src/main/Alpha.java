@@ -2,7 +2,7 @@ package main;
 
 import java.util.Scanner;
 
-import classification.distanceHands;
+import classification.Classification;
 import interfaces.LectureInterface;
 import kinect.Kinect;
 import syntheseAudio.LectureAudio;
@@ -16,7 +16,7 @@ public class Alpha {
 
 		System.out.println("Creation des instances");
 		Kinect kinect = new Kinect();
-		distanceHands cl = new distanceHands();
+		Classification cl = new Classification();
 		LectureAudio audio = new LectureAudio();
 		
 		System.out.println("Initialisation des modules");
