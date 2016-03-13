@@ -11,20 +11,20 @@ public class PulsThread extends Thread{
 	
 	private String filePath;
 	private int period; //period : a BPM 
+	private boolean keepPlayin;
 		
 	public PulsThread(String filePath, int period) throws FileNotFoundException
 	{
 		super();
 		this.filePath = filePath;
 		this.period = period;
+		keepPlayin=true;
 	}
 	
 	public void run()
 	{
-		System.out.println("Début pulse");
-		while(true)
+		while(keepPlayin)
 		{
-			System.out.println("pulse");
 			try 
 			{
 				{
@@ -39,5 +39,13 @@ public class PulsThread extends Thread{
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void setBPM (int BPM){
+		this.period=BPM;
+	}
+	
+	public void stopPulsThread (){
+		keepPlayin=false;
 	}
 }
