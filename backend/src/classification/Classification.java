@@ -110,9 +110,9 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		double distance1R = dtw1R.DTWDistance();
 		double distance2L = dtw2L.DTWDistance();
 		double distance2R = dtw2R.DTWDistance();
-		double distance1 = (distance1L + distance1R) *0.5;
-		double distance2 = (distance2L + distance2R) *0.5;	
-		System.out.print("D1 : " + distance1 + "   -   D2 : " + distance2 + "\r");
+		//double distance1 = (distance1L + distance1R) *0.5;
+		//double distance2 = (distance2L + distance2R) *0.5;	
+		System.out.print("D1 : " + distance1L + "   -   D2 : " + distance2R + "\r");
 	}
 	
 	public void startListening() {
