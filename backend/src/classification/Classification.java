@@ -69,5 +69,13 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		System.out.println("D1 : " + distance1);
 		System.out.println("D2 : " + distance2);
 	}
+	
+	public void startListening() {
+		kinectModule.setListener(this);
+	}
+
+	public void stopListeninf() {
+		kinectModule.unsetListener(this);		
+	}
 }
 
