@@ -24,9 +24,13 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	public void skeletonReceived(KinectEventInterface e) {
 		// TODO Auto-generated method stub
 		Skeleton newSkeleton = e.getNewSkeleton();
-		float handLeftCoordinates = newSkeleton.get3DJointX(Skeleton.HAND_LEFT);
-		float handRightCoordinates = newSkeleton.get3DJointX(Skeleton.HAND_RIGHT);
-		float distance = handRightCoordinates - handLeftCoordinates;
+		float handLeftCoordinatesX = newSkeleton.get3DJointX(Skeleton.HAND_LEFT);
+		float handRightCoordinatesX = newSkeleton.get3DJointX(Skeleton.HAND_RIGHT);
+		float handLeftCoordinatesY = newSkeleton.get3DJointY(Skeleton.HAND_LEFT);
+		float handRightCoordinatesY = newSkeleton.get3DJointY(Skeleton.HAND_RIGHT);
+		float handLeftCoordinatesZ = newSkeleton.get3DJointZ(Skeleton.HAND_LEFT);
+		float handRightCoordinatesZ = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT);
+		float distance = (float) Math.sqrt((handRightCoordinatesX - handLeftCoordinatesX)*(handRightCoordinatesX - handLeftCoordinatesX) + (handRightCoordinatesY - handLeftCoordinatesY)*(handRightCoordinatesY - handLeftCoordinatesY) + (handRightCoordinatesZ - handLeftCoordinatesZ)*(handRightCoordinatesZ - handLeftCoordinatesZ));
 		System.out.println(distance);
 	}
 
