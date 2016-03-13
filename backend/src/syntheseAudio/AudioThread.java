@@ -1,31 +1,33 @@
 package syntheseAudio;
 
-import javax.sound.sampled.SourceDataLine;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
-import wavFile.WaveReaderAndPlayer;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
-public class AudioThread extends Thread{
+public class AudioThread extends Thread {
 	
-	String filePath;
-	//SourceDataLine sourceLine;
-	
-	public AudioThread(String filePath/*, SourceDataLine sourceLine*/){
+	private String filePath;
+		
+	public AudioThread(String filePath) throws FileNotFoundException
+	{
 		super();
-		this.filePath=filePath;
-		//this.sourceLine=sourceLine;
+		this.filePath = filePath;
 	}
 	
-	public void run() {
-		WaveReaderAndPlayer waveRP =new WaveReaderAndPlayer() ;
-		while(true){
-		try {
-			waveRP.PlayWave(filePath/*, sourceLine*/);
-			System.out.println("audio");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+	public void run()
+	{
+		try 
+		{
+			InputStream in = new FileInputStream(filePath);
+		    AudioStream as = new AudioStream(in);
+		    AudioPlayer.player.start(as);
+		}
+		catch (Exception e) 
+		{
 			e.printStackTrace();
 		}
 	}
-	}
-
 }
