@@ -13,9 +13,9 @@ public class MainTest {
 		double[] range_table = {3, 2 , 2, 3};
 		
 		/*Enregistrement du fichier créé dans un dossier personel, chemin à modifier selon utilisateur */
-		waveWriter.WriteWave("C:/Users/NotAfraid/documents/Sons-PACT/test2.wav", 44000, 5, freq_table, range_table);
-		waveRP.ReadWave("C:/Users/NotAfraid/documents/Sons-PACT/test2.wav");
-		waveRP.PlayWave("C:/Users/NotAfraid/documents/Sons-PACT/test2.wav");
+		//waveWriter.WriteWave("C:/Users/NotAfraid/documents/Sons-PACT/test2.wav", 44000, 5, freq_table, range_table);
+		//waveRP.ReadWave("C:/Users/NotAfraid/documents/Sons-PACT/clap-hall-01.wav");
+		waveRP.PlayWave("C:/Users/NotAfraid/documents/Sons-PACT/clap-hall-01.wav");
 	}
 
 }
