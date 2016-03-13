@@ -40,4 +40,9 @@ public class MovementRecorder implements KinectListenerInterface {
 	{
 		kinect.unsetListener(this);
 	}
+	
+	public Move getMovement()
+	{
+		return mvt;
+	}
 }
