@@ -10,9 +10,9 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	
 	KinectInterface kinectModule;
 	Object BDD;
-	static float trigger = (float) 0.1;
-	static float limitUp = (float) 1.30;
-	static float limitDown = (float) 0.3;
+	static float trigger = (float) 0.15;
+	static float limitUp = (float) 1.40;
+	static float limitDown = (float) 0.2;
 	
 	//Booleans needed to make an hysteresis when some movements are noticed
 	boolean limitUpExceeded = false;
@@ -35,6 +35,9 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	public void skeletonReceived(KinectEventInterface e) {
 		Skeleton newSkeleton = e.getNewSkeleton();
 		float headCoordinatesY = newSkeleton.get3DJointY(Skeleton.HEAD);
+		float shoulderLeftCoordinatesY = newSkeleton.get3DJointY(Skeleton.SHOULDER_LEFT);
+		float shoulderRightCoordinatesY = newSkeleton.get3DJointY(Skeleton.SHOULDER_RIGHT);
+		float shouldersAverageCoordinatesY = (shoulderLeftCoordinatesY + shoulderRightCoordinatesY)/2;
 		
 		float handLeftCoordinatesX = newSkeleton.get3DJointX(Skeleton.HAND_LEFT);
 		float handRightCoordinatesX = newSkeleton.get3DJointX(Skeleton.HAND_RIGHT);
@@ -49,7 +52,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		//System.out.println(distance);
 		
 		//Noticing when arms are extended
-		if (distance > limitUp && limitUpExceeded == false) {
+		if (distance > limitUp && limitUpExceeded == false && handLeftCoordinatesY < (shouldersAverageCoordinatesY + trigger) && handRightCoordinatesY < (shouldersAverageCoordinatesY + trigger) && handLeftCoordinatesY > (shouldersAverageCoordinatesY - trigger) && handRightCoordinatesY > (shouldersAverageCoordinatesY - trigger)) {
 			limitUpExceeded = true;
 			SoundTest.armsExtended();
 		}
