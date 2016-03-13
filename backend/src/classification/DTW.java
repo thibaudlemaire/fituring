@@ -4,7 +4,7 @@ public class DTW {
 	float[][] s;
 	float[][] t;
 	
-	/* voir l'attribut comme une suite de coordonnées, par exemple [[x1,y1,z1], [x2,y2,z2],...] */
+	/* voir l'attribut comme une suite de coordonnï¿½es, par exemple [[x1,y1,z1], [x2,y2,z2],...] */
 	
 	public DTW(float[][] s, float[][] t)
 	{
@@ -21,10 +21,10 @@ public class DTW {
 	}
 	
 	
-	/* en supposant que les sous-listes sont de longueur 3 : [x,y,z] ; à modifier sinon */
+	/* en supposant que les sous-listes sont de longueur 3 : [x,y,z] ; ï¿½ modifier sinon */
 	
-	public double distance_tchebychev(double[] chaine1, double[] chaine2) {
-		return max(Math.abs(chaine2[0]-chaine1[0]) , Math.abs(chaine2[1]-chaine1[1]), Math.abs(chaine2[2]-chaine1[2]));
+	public float distance_tchebychev(float[] chaine1, float[] chaine2) {
+		return (float) max(Math.abs(chaine2[0]-chaine1[0]) , Math.abs(chaine2[1]-chaine1[1]), Math.abs(chaine2[2]-chaine1[2]));
 	}
 	
 	public float distance(float[] chaine1, float[] chaine2) {
@@ -32,9 +32,9 @@ public class DTW {
 		/* return distance_tchebychev(chaine1, chaine2) */
 	}
 	
-	public double DTWDistance()
+	public float DTWDistance()
 	{
-		double[][] dtw = new double[s.length][t.length];
+		float[][] dtw = new float[s.length][t.length];
 		for (int i = 0; i < s.length; i++)
 		{
 			dtw[i][0] = Integer.MAX_VALUE;
@@ -45,16 +45,16 @@ public class DTW {
 		}
 		dtw[0][0] = 0;
 		
-		double cost = distance_euclid(s[0], t[0]);
-		dtw[0][0] = cost;
-		dtw[1][0] = distance_euclid(s[1], t[0]) + dtw[0][0];
-		dtw[0][1] = distance_euclid(s[0], t[1]) + dtw[0][0];
+		float cost;
+		dtw[0][0]=distance(s[0], t[0]);
+		dtw[1][0]=distance(s[1], t[0]) +dtw[0][0];
+		dtw[0][1]=distance(s[0], t[1]) +dtw[0][0];
 		for (int i = 1; i < s.length; i++)
 		{
 			for (int j = 1; j < t.length; j++)
 			{
-				cost = distance_euclid(s[i], t[j]);
-				dtw[i][j] = cost + min(dtw[i-1][j], dtw[i][j-1], dtw[i-1][j-1]);
+				cost = distance(s[i], t[j]);
+				dtw[i][j] = (float) (cost + min(dtw[i-1][j], dtw[i][j-1], dtw[i-1][j-1]));
 			}
 		}
 		return dtw[s.length-1][t.length-1];
@@ -100,8 +100,8 @@ public class DTW {
 		}
 	}
 	
-	/* Fonction nécessaire afin de pouvoir comparer 2 chaînes dont les coordonnées sont prises aux mêmes instants
-	 * Réaliséeà l'aide d'une interpolation linéaire */
+	/* Fonction nï¿½cessaire afin de pouvoir comparer 2 chaï¿½nes dont les coordonnï¿½es sont prises aux mï¿½mes instants
+	 * Rï¿½alisï¿½eï¿½ l'aide d'une interpolation linï¿½aire */
 	public double[][] interpolation(double[][] chaine1, double[][] chaine2) {
 		double[][] result = new double[chaine1.length][3];
 		int a = 0;

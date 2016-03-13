@@ -16,8 +16,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	private float[][] secondMoveLeft = new float[30][3];
 	private float[][] firstMoveRight = new float[30][3];
 	private float[][] secondMoveRight = new float[30][3];
-	private DatasFIFO datasFIFOLeft = new DatasFIFO();
-	private DatasFIFO datasFIFORight = new DatasFIFO();
+	private DatasFIFO datasFIFOLeft = new DatasFIFO(30);
+	private DatasFIFO datasFIFORight = new DatasFIFO(30);
 	
 	@Override
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule) {
@@ -42,11 +42,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			secondMoveRight[i]=steps2.get(i).getCoordinates().get(Skeleton.HAND_RIGHT);
 		}
 	}
-	
-	
-		
 
-	@Override
 	public void skeletonReceived(KinectEventInterface e){
 		// TODO Auto-generated method stub
 		Skeleton newSkeleton = e.getNewSkeleton();
@@ -60,18 +56,18 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		handRightCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT);
 		datasFIFOLeft.addData(handLeftCoordinates);
 		datasFIFORight.addData(handRightCoordinates);
-		DTW dtw1L = new DTW(firstMoveLeft, datasFIFOLeft.tab);
-		DTW dtw1R = new DTW(firstMoveRight, datasFIFORight.tab);
-		DTW dtw2L = new DTW(secondMoveLeft, datasFIFOLeft.tab);
-		DTW dtw2R = new DTW(secondMoveRight, datasFIFORight.tab);
+		DTW dtw1L = new DTW(firstMoveLeft, datasFIFOLeft.getFIFOTab());
+		DTW dtw1R = new DTW(firstMoveRight, datasFIFORight.getFIFOTab());
+		DTW dtw2L = new DTW(secondMoveLeft, datasFIFOLeft.getFIFOTab());
+		DTW dtw2R = new DTW(secondMoveRight, datasFIFORight.getFIFOTab());
 		double distance1L = dtw1L.DTWDistance();
 		double distance1R = dtw1R.DTWDistance();
 		double distance2L = dtw2L.DTWDistance();
 		double distance2R = dtw2R.DTWDistance();
 		double distance1 = (distance1L + distance1R) *0.5;
 		double distance2 = (distance2L + distance2R) *0.5;	
-		System.out.println("D1 : " + distance1L);
-		//System.out.println("D2 : " + distance2R);
+		System.out.println("D1 : " + distance1);
+		System.out.println("D2 : " + distance2);
 	}
 }
 
