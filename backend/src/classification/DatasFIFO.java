@@ -19,14 +19,15 @@ public class DatasFIFO {
 			pointer--;
 		}
 		else if (pointer > 0) {
-			for (int i=pointer; i<len-1;i++){
+			for (int i=pointer; i<len;i++){
 				tab[i-1]=tab[i];
 			}
 			tab[len-1]=coordinates;
 			pointer--;
 		}
 		else {
-			for (int i=1; i<len-1 ; i++) {
+			for (int i=1; i<len
+					; i++) {
 				tab[i-1] = tab[i];
 			}
 			tab[len-1]=coordinates;
