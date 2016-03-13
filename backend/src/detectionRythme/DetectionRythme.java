@@ -19,7 +19,7 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 		if(tab.getLen()>398){
 			double [] zero = new double[400];
 			double[] tdf = TableauCoordoneeTemps.fft(tab.getCoordinateTable(),zero,true);
-			int indicemax = 0;
+			int indicemax = 12;
 			for (int i = 12; i < 40; i++) {
 			if (tdf[i] > tdf[indicemax])
 			{
