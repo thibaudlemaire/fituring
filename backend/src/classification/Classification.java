@@ -106,10 +106,10 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		DTW dtw1R = new DTW(firstMoveRight, datasFIFOLeft.getFIFOTab(size1));
 		DTW dtw2L = new DTW(secondMoveLeft, datasFIFOLeft.getFIFOTab(size2));
 		DTW dtw2R = new DTW(secondMoveRight, datasFIFOLeft.getFIFOTab(size2));
-		double distance1L = dtw1L.DTWDistance();
-		double distance1R = dtw1R.DTWDistance();
-		double distance2L = dtw2L.DTWDistance();
-		double distance2R = dtw2R.DTWDistance();
+		double distance1L = dtw1L.DTWDistance()/size1;
+		double distance1R = dtw1R.DTWDistance()/size1;
+		double distance2L = dtw2L.DTWDistance()/size2;
+		double distance2R = dtw2R.DTWDistance()/size2;
 		//double distance1 = (distance1L + distance1R) *0.5;
 		//double distance2 = (distance2L + distance2R) *0.5;	
 		System.out.print("D1 : " + distance1L + "   -   D2 : " + distance2R + "\r");
