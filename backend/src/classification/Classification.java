@@ -115,7 +115,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		kinectModule.setListener(this);
 	}
 
-	public void stopListeninf() {
+	public void stopListening() {
 		kinectModule.unsetListener(this);		
 	}
 }
