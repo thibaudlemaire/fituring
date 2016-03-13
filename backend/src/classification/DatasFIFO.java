@@ -14,16 +14,22 @@ public class DatasFIFO {
 	}
 	
 	public void addData(float[] coordinates) {
-		if (pointer > 0) {
+		if (pointer == len){
 			tab[pointer-1]=coordinates;
 			pointer--;
 		}
-		
+		else if (pointer > 0) {
+			for (int i=len-1; i<pointer-1;i--){
+				tab[i-1]=tab[i];
+			}
+			tab[len-1]=coordinates;
+			pointer--;
+		}
 		else {
 			for (int i=len-1; i>0 ; i--) {
-				tab[i] = tab[i-1];
+				tab[i-1] = tab[i];
 			}
-			tab[0]=coordinates;
+			tab[len-1]=coordinates;
 		}
 	}
 	
