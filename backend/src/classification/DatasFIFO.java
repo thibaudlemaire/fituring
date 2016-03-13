@@ -27,8 +27,12 @@ public class DatasFIFO {
 		}
 	}
 	
-	public float[][] getFIFOTab() {
-		return tab;
+	public float[][] getFIFOTab(int n) {
+		float[][] newTab=new float[n][3];
+		for (int i=0; i<n;i++){
+			newTab[i]=tab[i];
+		}
+		return newTab;
 	}
 	
 }
