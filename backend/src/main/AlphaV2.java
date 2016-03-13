@@ -3,7 +3,9 @@ package main;
 import java.util.Scanner;
 
 import classification.distanceHands;
+import interfaces.LectureInterface;
 import kinect.Kinect;
+import syntheseAudio.LectureAudio;
 
 public class AlphaV2 {
 
@@ -15,10 +17,12 @@ public class AlphaV2 {
 		System.out.println("Creation des instances");
 		Kinect kinect = new Kinect();
 		distanceHands cl = new distanceHands();
+		LectureAudio audio = new LectureAudio();
 		
 		System.out.println("Initialisation des modules");
 		kinect.initKinectModule();
-		cl.initClassificationModule(new Object(), kinect);
+		audio.initLectureAudioModule(new Object(), 100);
+		cl.initClassificationModule(new Object(), kinect, (LectureInterface) audio);
 		
 		while(true)
 		{
@@ -29,7 +33,7 @@ public class AlphaV2 {
 		    
 		    cl.startListening();
 		    sc.nextLine();
-		    cl.stopListeninf();
+		    cl.stopListening();
 		}
 	    System.out.println("Stopping Kinect");
 		kinect.stop();	
