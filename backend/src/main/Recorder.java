@@ -11,9 +11,9 @@ public class Recorder {
 	public static void main(String[] args) 
 	{
 	    Scanner sc = new Scanner(System.in);
-	    String strIn = "";
+	    String strIn;
 	    
-		System.out.println("Création des instances");
+		System.out.println("Creation des instances");
 		Kinect kinect = new Kinect();
 		MovementRecorder mr = new MovementRecorder(kinect);
 		MovementSerializer ms = new MovementSerializer();
@@ -23,23 +23,26 @@ public class Recorder {
 
 		while(true)
 		{
-			System.out.println("Appuyer sur une Entrer pour démarer l'enregistrement");
-		    sc.nextLine();
-		    if(strIn == "q")
+			System.out.println("Appuyer sur une Entrer pour d�marer l'enregistrement");
+		    strIn = sc.nextLine();
+		    strIn = sc.nextLine();
+		    if(strIn.length() >= 1 && strIn.charAt(0) == 'q')
 		    	break;
+		    
 		    mr.startListener();
 		    
 		    sc.nextLine();
 		    mr.stopListener();
 		    
-		    System.out.println("\r\n" + "Nommer cet enregistrement");
+		    System.out.println("Nommer cet enregistrement");
 		    strIn = sc.nextLine();
 		    ms.serialize(mr.getMovement(), "datas/" + strIn);
 		}
+		
+		System.out.println("Stopping Kinect");
 		kinect.stop();	
-		
+	    System.out.println("Closing scanner stream");
 		sc.close();
-		
 		System.out.println("FPS: "+kinect.getFPS());
 	}
 
