@@ -5,7 +5,7 @@ public interface ClassificationInterface {
 	/**
 	 * This function initialize the Classification Module
 	 */
-	public void initClassificationModule(Object BDD, KinectInterface kinectModule);
+	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureAudioSimpleInterface audio);
 	
 	/**
 	 * This function starts the listening of kinect skeleton

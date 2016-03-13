@@ -5,11 +5,13 @@ import interfaces.ClassificationInterface;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
+import interfaces.LectureAudioSimpleInterface;
 
 public class distanceHands implements ClassificationInterface, KinectListenerInterface {
 	
 	KinectInterface kinectModule;
 	Object BDD;
+	LectureAudioSimpleInterface audio;
 	static float trigger = (float) 0.2;
 	static float limitUp = (float) 1.40;
 	static float limitDown = (float) 0.2;
@@ -24,10 +26,11 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	
 	
 	@Override
-	public void initClassificationModule(Object BDD, KinectInterface kinectModule) {
+	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureAudioSimpleInterface audio) {
 		// TODO Auto-generated method stub
 		this.kinectModule = kinectModule;
-		this.BDD = BDD ;
+		this.BDD = BDD;
+		this.audio = audio;
 	}
 
 
@@ -54,7 +57,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		//Noticing when arms are extended
 		if (distance > limitUp && limitUpExceeded == false && handLeftCoordinatesY < (shouldersAverageCoordinatesY + trigger) && handRightCoordinatesY < (shouldersAverageCoordinatesY + trigger) && handLeftCoordinatesY > (shouldersAverageCoordinatesY - trigger) && handRightCoordinatesY > (shouldersAverageCoordinatesY - trigger)) {
 			limitUpExceeded = true;
-			SoundTest.armsExtended();
+			audio.playSound("");
 		}
 		
 		if (limitUpExceeded == true && distance < (limitUp - trigger)) {
@@ -64,7 +67,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		//Noticing when a clap is done
 		if (distance < limitDown && limitDownExceeded == false) {
 			limitDownExceeded = true;
-			SoundTest.clap();
+			audio.playSound("sounds/clap.wav");
 		}
 		
 		if (limitDownExceeded == true && distance > (limitDown + trigger)) {
@@ -74,7 +77,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		//Noticing when the left hand is risen
 		if (handLeftCoordinatesY > headCoordinatesY && leftHandAboveHead == false) {
 			leftHandAboveHead = true;
-			SoundTest.leftHandAboveHead();
+			audio.playSound("");
 		}
 		
 		if (leftHandAboveHead == true && handLeftCoordinatesY < (headCoordinatesY - trigger)) {
@@ -84,7 +87,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		//Noticing when the right hand is risen
 		if (handRightCoordinatesY > headCoordinatesY && rightHandAboveHead == false) {
 			rightHandAboveHead = true;
-			SoundTest.rightHandAboveHead();
+			audio.playSound("");
 		}
 		
 		if (rightHandAboveHead == true && handRightCoordinatesY < (headCoordinatesY - trigger)) {
