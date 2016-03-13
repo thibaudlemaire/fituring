@@ -1,5 +1,8 @@
 package detectionRythme;
 
-public class DetectionRythme {
+import interfaces.KinectListenerInterface;
+import interfaces.RyhtmeInterface;
+
+public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface{
 
 }
