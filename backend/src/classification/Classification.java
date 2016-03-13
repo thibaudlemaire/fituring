@@ -13,14 +13,16 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	Object BDD ;
 	KinectInterface kinectModule;
 	
-	private float[][] firstMoveLeft = new float[30][3];
-	private float[][] secondMoveLeft = new float[30][3];
-	private float[][] firstMoveRight = new float[30][3];
-	private float[][] secondMoveRight = new float[30][3];
+	private float[][] firstMoveLeft ;
+	private float[][] secondMoveLeft ;
+	private float[][] firstMoveRight ;
+	private float[][] secondMoveRight ;
 	
-	// the size is 30 cause it matchs the duration of our recorded moves 
-	private DatasFIFO datasFIFOLeft = new DatasFIFO(30);   
-	private DatasFIFO datasFIFORight = new DatasFIFO(30); 
+	private DatasFIFO datasFIFOLeft ;   
+	private DatasFIFO datasFIFORight; 
+	
+	private int size1;
+	private int size2;
 	
 	@Override
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule) {
@@ -33,16 +35,36 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		Move mvt2=moveSerial.deSerialize("datas/m2.mvt");
 		ArrayList<Step> steps1 = mvt1.steps;
 		ArrayList<Step> steps2 = mvt2.steps;
+		size1 = steps1.size();
+		size2 =steps2.size();
+		
+		firstMoveLeft = new float[size1][3];
+		firstMoveRight = new float[size1][3];
+		secondMoveLeft = new float[size2][3];
+		secondMoveRight = new float[size2][3];	
+		
+		datasFIFOLeft=new DatasFIFO(max(size1, size2));
+		datasFIFORight=new DatasFIFO(max(size1, size2));
 		
 		
-		
-		for (int i =0; i<30; i++) 
+		for (int i =0; i<size1; i++) 
 		{
 			firstMoveLeft[i]=steps1.get(i).getCoordinates().get(Skeleton.HAND_LEFT);
 			firstMoveRight[i]=steps1.get(i).getCoordinates().get(Skeleton.HAND_RIGHT);
+		}	
+		
+		for (int i =0; i<size2; i++) 
+		{
 			secondMoveLeft[i]=steps2.get(i).getCoordinates().get(Skeleton.HAND_LEFT);
 			secondMoveRight[i]=steps2.get(i).getCoordinates().get(Skeleton.HAND_RIGHT);
-		}
+		}	
+	}
+
+	private int max(int a, int b) {
+		// TODO Auto-generated method stub
+		if (a < b)
+			return b ;
+		return a;
 	}
 
 	public void skeletonReceived(KinectEventInterface e){  //automatically called when a new skeleton is captured by the kinect
@@ -58,12 +80,10 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		handRightCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT);
 		datasFIFOLeft.addData(handLeftCoordinates);
 		datasFIFORight.addData(handRightCoordinates);
-		float[][] tabCoordinatesLeft = datasFIFOLeft.getFIFOTab();
-		float[][] tabCoordinatesRight = datasFIFORight.getFIFOTab();
-		DTW dtw1L = new DTW(firstMoveLeft, tabCoordinatesLeft);
-		DTW dtw1R = new DTW(firstMoveRight, tabCoordinatesRight);
-		DTW dtw2L = new DTW(secondMoveLeft, tabCoordinatesLeft);
-		DTW dtw2R = new DTW(secondMoveRight, tabCoordinatesRight);
+		DTW dtw1L = new DTW(firstMoveLeft, datasFIFOLeft.getFIFOTab(size1));
+		DTW dtw1R = new DTW(firstMoveRight, datasFIFOLeft.getFIFOTab(size1));
+		DTW dtw2L = new DTW(secondMoveLeft, datasFIFOLeft.getFIFOTab(size2));
+		DTW dtw2R = new DTW(secondMoveRight, datasFIFOLeft.getFIFOTab(size2));
 		double distance1L = dtw1L.DTWDistance();
 		double distance1R = dtw1R.DTWDistance();
 		double distance2L = dtw2L.DTWDistance();
