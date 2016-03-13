@@ -10,6 +10,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	
 	KinectInterface kinectModule;
 	Object BDD;
+	static float trigger = (float) 0.1;
 	static float limitUp = (float) 1.30;
 	static float limitDown = (float) 0.3;
 	
@@ -45,7 +46,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		
 		//Determinating the distance between the two hands
 		float distance = (float) Math.sqrt((handRightCoordinatesX - handLeftCoordinatesX)*(handRightCoordinatesX - handLeftCoordinatesX) + (handRightCoordinatesY - handLeftCoordinatesY)*(handRightCoordinatesY - handLeftCoordinatesY) + (handRightCoordinatesZ - handLeftCoordinatesZ)*(handRightCoordinatesZ - handLeftCoordinatesZ));
-		System.out.println(distance);
+		//System.out.println(distance);
 		
 		//Noticing when arms are extended
 		if (distance > limitUp && limitUpExceeded == false) {
@@ -53,7 +54,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 			SoundTest.armsExtended();
 		}
 		
-		if (limitUpExceeded == true && distance < limitUp) {
+		if (limitUpExceeded == true && distance < (limitUp - trigger)) {
 			limitUpExceeded = false;
 		}
 		
@@ -63,7 +64,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 			SoundTest.clap();
 		}
 		
-		if (limitDownExceeded == true && distance > limitDown) {
+		if (limitDownExceeded == true && distance > (limitDown + trigger)) {
 			limitDownExceeded = false;
 		}
 		
@@ -73,7 +74,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 			SoundTest.leftHandAboveHead();
 		}
 		
-		if (leftHandAboveHead == true && handLeftCoordinatesY < headCoordinatesY) {
+		if (leftHandAboveHead == true && handLeftCoordinatesY < (headCoordinatesY - trigger)) {
 			leftHandAboveHead = false;
 		}
 		
@@ -83,7 +84,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 			SoundTest.rightHandAboveHead();
 		}
 		
-		if (rightHandAboveHead == true && handRightCoordinatesY < headCoordinatesY) {
+		if (rightHandAboveHead == true && handRightCoordinatesY < (headCoordinatesY - trigger)) {
 			rightHandAboveHead = false;
 		}
 	}
