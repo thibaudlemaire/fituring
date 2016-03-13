@@ -2,34 +2,38 @@ package main;
 
 import java.util.Scanner;
 
-import classification.Classification;
+import classification.distanceHands;
+import interfaces.LectureInterface;
 import kinect.Kinect;
+import syntheseAudio.LectureAudio;
 
 public class Alpha {
 
 	public static void main(String[] args) 
 	{
-	    Scanner sc = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 	    String strIn;
 
-		System.out.println("Création des instances");
+		System.out.println("Creation des instances");
 		Kinect kinect = new Kinect();
-		Classification cl = new Classification();
+		distanceHands cl = new distanceHands();
+		LectureAudio audio = new LectureAudio();
 		
 		System.out.println("Initialisation des modules");
 		kinect.initKinectModule();
-		cl.initClassificationModule(new Object(), kinect);
+		audio.initLectureAudioModule(new Object(), 100);
+		cl.initClassificationModule(new Object(), kinect, (LectureInterface) audio);
 		
 		while(true)
 		{
-			System.out.print("Appuyer sur une Entrer pour démarer l'analyse (q pour quitter)");
+			System.out.print("Appuyer sur une Entrer pour demarer l'analyse (q pour quitter)");
 			strIn = sc.nextLine();
 		    if(strIn.length() >= 1 && strIn.charAt(0) == 'q')
 		    	break;
 		    
 		    cl.startListening();
 		    sc.nextLine();
-		    cl.stopListeninf();
+		    cl.stopListening();
 		}
 	    System.out.println("Stopping Kinect");
 		kinect.stop();	
