@@ -17,7 +17,6 @@ public class LectureAudio implements LectureAudioSimpleInterface {
 	@Override
 	public void startBeating(int BPM) {
 		// TODO Auto-generated method stub
-		PulsThread pulsThread = null;
 		try 
 		{
 			pulsThread = new PulsThread("sounds/kick.wav", BPM);
