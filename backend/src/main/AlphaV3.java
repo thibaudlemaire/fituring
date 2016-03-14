@@ -29,14 +29,17 @@ public class AlphaV3 {
 		
 		while(true)
 		{
-			System.out.print("Appuyer sur une Entrer pour demarer l'analyse (q pour quitter)");
+			System.out.print("Appuyer sur une Entrer pour commencer (q pour quitter)");
 			strIn = sc.nextLine();
 		    if(strIn.length() >= 1 && strIn.charAt(0) == 'q')
 		    	break;
-		    
+			System.out.println("Ajout des listeners");
+
 		    cl.startListening();
+		    dr.startListening();
 		    sc.nextLine();
 		    cl.stopListening();
+		    dr.stopListening();
 		}
 	    System.out.println("Stopping Kinect");
 		kinect.stop();	
