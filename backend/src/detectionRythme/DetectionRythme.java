@@ -15,7 +15,7 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	LectureAudioSimpleInterface audio;
 	
 	static float trigger = (float) 0.1;
-	static float limitUp = (float) 0.8;
+	static float limitUp = (float) 0.5;
 	static float limitDown = (float) 0.1;
 	
 	//Booleans needed to make an hysteresis when some movements are noticed
@@ -25,7 +25,7 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	boolean rightHandAboveHead = false;
 	
 	long lastDate = 0;
-	long lastPeriod[] = {0,0,0,0,0,0,0,0,0,0};
+	long lastPeriod[] = {500,500,500};
 	int lastPeriodPointer = 0;
 	long mean = 500;
 	
@@ -55,7 +55,7 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 		//Noticing when arms are extended
 		if (distance > limitUp && limitUpExceeded == false) {
 			limitUpExceeded = true;
-			beat();
+			//beat();
 		}
 		
 		if (limitUpExceeded == true && distance < (limitUp - trigger)) {
@@ -78,15 +78,21 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 		if (lastDate != 0)
 		{
 			long currentDate = new Date().getTime();
-			long timeElapsed = currentDate - lastDate;
-			lastDate = currentDate;
-			mean = ((mean*10) + timeElapsed - lastPeriod[lastPeriodPointer])/10;
+			long timeElapsed = (long)(currentDate - lastDate)/2;
+			lastDate = currentDate;		
+			if (!(timeElapsed <= mean*1.5 && timeElapsed >= mean*0.5))
+				timeElapsed = mean;
 			lastPeriod[lastPeriodPointer] = timeElapsed;
-			if(lastPeriodPointer <= 8)
+			long somme = 0;
+			for(int i=0; i<3; i++)
+				somme += lastPeriod[i];
+			mean = somme / 3;
+			if(lastPeriodPointer < 2)
 				lastPeriodPointer++;
 			else
 				lastPeriodPointer = 0;
 			audio.updateBPM(getCurrentTrueBPM());
+			System.out.println("Mise � jour BPM : " + getCurrentTrueBPM());
 		}
 		else
 			lastDate = new Date().getTime();
@@ -95,7 +101,7 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 
 	public int getCurrentTrueBPM() 
 	{
-		return (int) (60/mean);
+		return (int) (60000/mean);
 	}
 
 	public int getCurrentUsedBPM() 
@@ -113,6 +119,11 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	{
 		audio.stopBeating();
 		kinect.unsetListener(this);
+		mean = 500;
+		lastPeriod[0] = 500;
+		lastPeriod[1] = 500;
+		lastPeriod[1] = 500;
+		lastDate = 0;
 	}
 
 }
