@@ -59,6 +59,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		if (distance > limitUp && limitUpExceeded == false && handLeftCoordinatesY < (shouldersAverageCoordinatesY + trigger) && handRightCoordinatesY < (shouldersAverageCoordinatesY + trigger) && handLeftCoordinatesY > (shouldersAverageCoordinatesY - trigger) && handRightCoordinatesY > (shouldersAverageCoordinatesY - trigger)) {
 			limitUpExceeded = true;
 			audio.playSound("sounds/cymbal.wav");
+			System.out.println("Cymbale !");
 		}
 		
 		if (limitUpExceeded == true && distance < (limitUp - trigger)) {
@@ -69,6 +70,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		if (distance < limitDown && limitDownExceeded == false) {
 			limitDownExceeded = true;
 			audio.playSound("sounds/clap.wav");
+			System.out.println("Clap !");
 		}
 		
 		if (limitDownExceeded == true && distance > (limitDown + trigger)) {
@@ -79,6 +81,7 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		if (handLeftCoordinatesY > headCoordinatesY && leftHandAboveHead == false) {
 			leftHandAboveHead = true;
 			audio.playSound("sounds/snare.wav");
+			System.out.println("Snare !");
 		}
 		
 		if (leftHandAboveHead == true && handLeftCoordinatesY < (headCoordinatesY - trigger)) {
@@ -89,6 +92,8 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 		if (handRightCoordinatesY > headCoordinatesY && rightHandAboveHead == false) {
 			rightHandAboveHead = true;
 			audio.playSound("sounds/basse.wav");
+			System.out.println("Basse !");
+
 		}
 		
 		if (rightHandAboveHead == true && handRightCoordinatesY < (headCoordinatesY - trigger)) {
