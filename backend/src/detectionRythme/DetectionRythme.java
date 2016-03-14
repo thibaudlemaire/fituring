@@ -2,7 +2,9 @@ package detectionRythme;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
 import interfaces.KinectEventInterface;
+import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
+import interfaces.LectureAudioSimpleInterface;
 import interfaces.RyhtmeInterface;
 
 public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface{
@@ -45,6 +47,11 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	public int getCurrentUsedBPM() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public void initRythmeModule(KinectInterface kinect, LectureAudioSimpleInterface audio) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
