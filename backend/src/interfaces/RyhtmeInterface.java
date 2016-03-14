@@ -10,7 +10,7 @@ public interface RyhtmeInterface {
 	/**
 	 * This function initialize the RythmeModule
 	 */
-	public void initRythmeModule();
+	public void initRythmeModule(KinectInterface kinect, LectureAudioSimpleInterface audio);
 
 	/**
 	 * This function returns current true BPM 
