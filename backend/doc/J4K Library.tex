@@ -13,62 +13,57 @@
 \maketitle
 \chapter*{Installation}
 
-\subsection*{Téléchargement des fichiers .jar}
-Sur : \underline{http://research.dwi.ufl.edu/ufdw/download.php}, télécharger ufdw.jar.
+Tout d'abord, il est \textit{imp\'eratif} d'avoir la version 1.8 du SDK Kinect et non la 2.0 car celle-ci est inexploitable (probl\`emes de pilotes).
 
-\textbf{Intégration avec Eclipse}
+\subsection*{T\'el\'echargement du fichier .jar}
+Sur : \underline{http://research.dwi.ufl.edu/ufdw/download.php}, t\'el\'echarger ufdw.jar.
+
+\subsubsection*{Int\'egration avec Eclipse}
 \begin{enumerate}
 \item Ouvrir Eclipse, aller dans Project > Properties et aller dans l'onglet Java Build Path
-\item Cliquer sur le bouton "Add External JARs..." et choisir le chemin vers le fichier ufdw.jar précédemment téléchargé.
-\item On peut désormais importer les fichiers de la librairie grâce à la commande "import edu.ufl.digitalworlds.j4k.*".
+\item Cliquer sur le bouton "Add External JARs..." et choisir le chemin vers le fichier ufdw.jar pr\'ec\'edemment t\'el\'echarg\'e.
+\item D\'eplacer le fichier "ufdw\_j4k\_32bit.dll" ou "ufdw\_j4k\_64bit.dll" en fonction de la machine utilis\'ee \`a la racine du projet Java pour \'eviter les probl\`emes de dll manquantes.
+\item On peut d\'esormais importer les fichiers de la librairie grâce à la commande "import edu.ufl.digitalworlds.j4k.*".
 \end{enumerate}
 
-\textbf{Ajout d'un projet de démonstration sous Eclipse}
+\subsubsection*{Recommandations pour l'int\'egration avec git}
 \begin{enumerate}
-\item Ouvrir Eclipse, aller dans File > Import... et sélectionner Git > Projects from Git
-\item Sélectionner URI puis cliquer sur "Next"
-\item Copier \underline{http://research.dwi.ufl.edu/git/j4kdemo} dans l'espace dédié à l'URI et cliquer sur "Next" autant de fois que nécessaire, puis "Finish" : un nouveau projet "j4kdemo" est crée.
+\item Tout d'abord, il ne faut surtout pas ignorer le fichier .classpath au risque d'avoir des probl\`emes avec git.
+\item Dans le fichier .classpath, le chemin vers ufdw.jar doit être relatif et non absolu au risque de conflits d\`es qu'un utilisateur souhaite faire un push ou un pull.
 \end{enumerate}
 
-\chapter*{Liste des méthodes de cette bibliothèque}
-\section*{Constructeurs}
-\textbf{public J4KSDK(tex);}
-The constructor of the J4KSDK class. It establishes connection with the native library, which uses the Microsoft's Kinect SDK. This constructor can automatically initialize the object based on the type of the Kinect sensor that  is connected. If various types of sensors are connected priority is given to Kinect 1 devices.
+\subsubsection*{Ajout d'un projet de d\'emonstration sous Eclipse}
+\begin{enumerate}
+\item Ouvrir Eclipse, aller dans File > Import... et s\'electionner Git > Projects from Git
+\item S\'electionner URI puis cliquer sur "Next"
+\item Copier \underline{http://research.dwi.ufl.edu/git/j4kdemo} dans l'espace d\'edi\'e à l'URI et cliquer sur "Next" autant de fois que n\'ecessaire, puis "Finish" : un nouveau projet "j4kdemo" est cr\'ee.
+\end{enumerate}
+
+
+
+\chapter*{Cr\'eation de l'objet Kinect}
+\section*{Initialisation}
+\textbf{initKinectModule();}
+
+Initialise la Kinect, les donn\'ees, le squelette, etc...
+
+
+\section*{M\'ethodes}
+\textbf{public void onSkeletonFrameEvent(boolean[] skeleton\_tracked, float[] positions, float[] orientations, byte[] joint\_status);}
+
+M\'ethode appel\'ee lorsqu'un nouveau squelette est recu. Cette m\'ethode remplace le squelette de l'attribut associ\'e de type Skeleton, cr\'ee un \'ev\'enement et l'envoie \`a tous les modules via un syst\`eme de Listeners.
+
 
 \hspace{1\baselineskip}
 
-\textbf{public J4KSDK(byte kinect\_type);}
-Another constructor of the J4KSDK class. This constructor instantiates the object based the type of the Kinect sensor, which is passed as argument.
+\textbf{public void onDepthFrameEvent(short[] arg0, byte[] arg1, float[] arg2, float[] arg3);}
 
-\hspace{1\baselineskip}
-
-\textbf{public J4KSDK(byte kinect\_type, int id)}
-This constructor instantiates the object based the type of the Kinect sensor and id, which are passed as arguments. For example if there are two Kinect 1 sensors, the first one corresponds to id=0 and the second one to id=1
-
-
-\section*{Méthodes}
-\textbf{public static final byte MICROSOFT\_KINECT\_1 = 0x1;}
-\textbf{public static final byte MICROSOFT\_KINECT\_2 = 0x2;}
-These two constants specify the different types of Kinect sensors to be used in the following constructors.
-
-\hspace{1\baselineskip}
-
-\textbf{public static final int COLOR = 0x1;}
-\textbf{public static final int INFRARED = 0x2;}
-\textbf{public static final int LONG\_EXPOSURE\_INFRARED = 0x4;}
-\textbf{public static final int DEPTH = 0x8; }
-The following constants represent the different types of data streams.
-
-\hspace{1\baselineskip}
-
-\textbf{public static final int PLAYER\_INDEX = 0x10;}
-\textbf{public static final int SKELETON = 0x20;}
-PLAYER\_INDEX is a stream of 2D image frames, which contain the id of the depicted 
-      player in each pixel of the depth frame.
+Permet de fixer une date de lancement de la Kinect pour, entre autre, calculer le bpm. Cet Event est appel\'e lorsque le depthFrame est recu.
+      
       
 \hspace{1\baselineskip}
 
-\textbf{public static final int UV = 0x100;}
+\textbf{public void setListener(KinectListenerInterface l);}
 UV is a stream of 2D frames, which contain the U,V texture coordinate mapping for each pixel in the depth frame.
 
 \hspace{1\baselineskip}
@@ -88,14 +83,29 @@ This method turns off the Kinect sensor, and stops all the open streams.
 
 
 \chapter*{Autres ressources disponibles sur ce site}
-\section*{D'autres méthodes}
+\section*{D'autres m\'ethodes}
 Disponibles sur : \underline{http://research.dwi.ufl.edu/ufdw/j4k/J4KSDK.php}
 
 \section*{Exemples de codes utilisant cette librairie}
 Disponibles sur : \underline{http://research.dwi.ufl.edu/ufdw/j4k/examples.php}
 
-\section*{Comment créer notre propre programme Java utilisant la Kinect?}
+\section*{Comment cr\'eer notre propre programme Java utilisant la Kinect?}
 Tutoriel disponible sur : \underline{http://research.dwi.ufl.edu/ufdw/j4k/examples.php\#how}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
