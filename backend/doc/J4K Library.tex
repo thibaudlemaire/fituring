@@ -23,20 +23,20 @@ Sur : \underline{http://research.dwi.ufl.edu/ufdw/download.php}, t\'el\'echarger
 \item Ouvrir Eclipse, aller dans Project > Properties et aller dans l'onglet Java Build Path
 \item Cliquer sur le bouton "Add External JARs..." et choisir le chemin vers le fichier ufdw.jar pr\'ec\'edemment t\'el\'echarg\'e.
 \item D\'eplacer le fichier "ufdw\_j4k\_32bit.dll" ou "ufdw\_j4k\_64bit.dll" en fonction de la machine utilis\'ee \`a la racine du projet Java pour \'eviter les probl\`emes de dll manquantes.
-\item On peut d\'esormais importer les fichiers de la librairie grâce à la commande "import edu.ufl.digitalworlds.j4k.*".
+\item On peut d\'esormais importer les fichiers de la librairie gr?ce ? la commande "import edu.ufl.digitalworlds.j4k.*".
 \end{enumerate}
 
 \subsubsection*{Recommandations pour l'int\'egration avec git}
 \begin{enumerate}
 \item Tout d'abord, il ne faut surtout pas ignorer le fichier .classpath au risque d'avoir des probl\`emes avec git.
-\item Dans le fichier .classpath, le chemin vers ufdw.jar doit être relatif et non absolu au risque de conflits d\`es qu'un utilisateur souhaite faire un push ou un pull.
+\item Dans le fichier .classpath, le chemin vers ufdw.jar doit ?tre relatif et non absolu au risque de conflits d\`es qu'un utilisateur souhaite faire un push ou un pull.
 \end{enumerate}
 
 \subsubsection*{Ajout d'un projet de d\'emonstration sous Eclipse}
 \begin{enumerate}
 \item Ouvrir Eclipse, aller dans File > Import... et s\'electionner Git > Projects from Git
 \item S\'electionner URI puis cliquer sur "Next"
-\item Copier \underline{http://research.dwi.ufl.edu/git/j4kdemo} dans l'espace d\'edi\'e à l'URI et cliquer sur "Next" autant de fois que n\'ecessaire, puis "Finish" : un nouveau projet "j4kdemo" est cr\'ee.
+\item Copier \underline{http://research.dwi.ufl.edu/git/j4kdemo} dans l'espace d\'edi\'e ? l'URI et cliquer sur "Next" autant de fois que n\'ecessaire, puis "Finish" : un nouveau projet "j4kdemo" est cr\'ee.
 \end{enumerate}
 
 
@@ -58,43 +58,42 @@ M\'ethode appel\'ee lorsqu'un nouveau squelette est recu. Cette m\'ethode rempla
 
 \textbf{public void onDepthFrameEvent(short[] arg0, byte[] arg1, float[] arg2, float[] arg3);}
 
-Permet de fixer une date de lancement de la Kinect pour, entre autre, calculer le bpm. Cet Event est appel\'e lorsque le depthFrame est recu.
+Permet de fixer une date de lancement de la Kinect pour, entre autre, calculer le fps. Cet Event est appel\'e lorsque le depthFrame est recu.
       
       
 \hspace{1\baselineskip}
 
-\textbf{public void setListener(KinectListenerInterface l);}
-UV is a stream of 2D frames, which contain the U,V texture coordinate mapping for each pixel in the depth frame.
+\textbf{public Skeleton getSkeleton();}
+
+Getter pour r\'ecup\'erer le Skeleton.
+
 
 \hspace{1\baselineskip}
 
-\textbf{public static final int XYZ = 0x1000;}
-XYZ is a stream of 2D frames, which contain the X,Y,Z coordinates that correspond to each depth pixel in the depth frame.
+\textbf{public int getNumberOfDancers();}
+
+Renvoie le nombre de personnes d\'et\'ect\'ees par la Kinect (renvoie automatiquement 1 pour l'instant).
+
 
 \hspace{1\baselineskip}
 
-\textbf{public int start(int flags);}
-This method turns on the Kinect sensor and initializes the data streams specified by the input flags. The flags can be specified using the above types of streams according to your needs. For example flag=COLOR | DEPTH | SKELETON; initializes the color, depth, and skeleton streams.
+\textbf{public Object getVideo();}
+
+Renvoie la vid\'eo (pas encore impl\'ement\'ee.
+
 
 \hspace{1\baselineskip}
 
-\textbf{public void stop();}
-This method turns off the Kinect sensor, and stops all the open streams.
+\textbf{public long getFPS();}
 
-
-\chapter*{Autres ressources disponibles sur ce site}
-\section*{D'autres m\'ethodes}
-Disponibles sur : \underline{http://research.dwi.ufl.edu/ufdw/j4k/J4KSDK.php}
-
-\section*{Exemples de codes utilisant cette librairie}
-Disponibles sur : \underline{http://research.dwi.ufl.edu/ufdw/j4k/examples.php}
-
-\section*{Comment cr\'eer notre propre programme Java utilisant la Kinect?}
-Tutoriel disponible sur : \underline{http://research.dwi.ufl.edu/ufdw/j4k/examples.php\#how}
+Renvoie le nombre de squelettes re\c{c}us par seconde.
 
 
 
+\chapter*{Comment les \'ev\'enements sont r\'ecup\'er\'es?}
+Les \'ev\'enements sont r\'ecup\'er\'es via un syst\`eme de Listeners.
 
+\section*{Qu'est-ce qu'un listener?}
 
 
 
