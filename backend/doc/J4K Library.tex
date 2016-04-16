@@ -8,6 +8,7 @@
 \usepackage[francais]{babel}
 \usepackage{graphicx}
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=3cm]{geometry}
+\usepackage{verbatim}
 
 \begin{document}
 \maketitle
@@ -43,66 +44,148 @@ Sur : \underline{http://research.dwi.ufl.edu/ufdw/download.php}, t\'el\'echarger
 
 \chapter*{Cr\'eation de l'objet Kinect}
 \section*{Initialisation}
-\textbf{initKinectModule();}
+\verb"initKinectModule();"
 
 Initialise la Kinect, les donn\'ees, le squelette, etc...
 
 
 \section*{M\'ethodes}
-\textbf{public void onSkeletonFrameEvent(boolean[] skeleton\_tracked, float[] positions, float[] orientations, byte[] joint\_status);}
+\verb"public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations,"
+\newline
+\verb"byte[] joint_status);"
 
-M\'ethode appel\'ee lorsqu'un nouveau squelette est recu. Cette m\'ethode remplace le squelette de l'attribut associ\'e de type Skeleton, cr\'ee un \'ev\'enement et l'envoie \`a tous les modules via un syst\`eme de Listeners.
+M\'ethode appel\'ee lorsqu'un nouveau squelette est re\c{c}u. Cette m\'ethode remplace le squelette de l'attribut associ\'e de type Skeleton, cr\'ee un \'ev\'enement et l'envoie \`a tous les modules via un syst\`eme de Listeners.
 
 
 \hspace{1\baselineskip}
 
-\textbf{public void onDepthFrameEvent(short[] arg0, byte[] arg1, float[] arg2, float[] arg3);}
+\verb"public void onDepthFrameEvent(short[] arg0, byte[] arg1, float[] arg2, float[] arg3);"
 
 Permet de fixer une date de lancement de la Kinect pour, entre autre, calculer le fps. Cet Event est appel\'e lorsque le depthFrame est recu.
       
       
 \hspace{1\baselineskip}
 
-\textbf{public Skeleton getSkeleton();}
+\verb"public Skeleton getSkeleton();"
 
 Getter pour r\'ecup\'erer le Skeleton.
 
 
 \hspace{1\baselineskip}
 
-\textbf{public int getNumberOfDancers();}
+\verb"public int getNumberOfDancers();"
 
 Renvoie le nombre de personnes d\'et\'ect\'ees par la Kinect (renvoie automatiquement 1 pour l'instant).
 
 
 \hspace{1\baselineskip}
 
-\textbf{public Object getVideo();}
+\verb"public Object getVideo();"
 
 Renvoie la vid\'eo (pas encore impl\'ement\'ee.
 
 
 \hspace{1\baselineskip}
 
-\textbf{public long getFPS();}
+\verb"public long getFPS();"
 
 Renvoie le nombre de squelettes re\c{c}us par seconde.
 
 
 
-\chapter*{Comment les \'ev\'enements sont r\'ecup\'er\'es?}
+\chapter*{Comment les \'ev\'enements sont-ils r\'ecup\'er\'es?}
 Les \'ev\'enements sont r\'ecup\'er\'es via un syst\`eme de Listeners.
 
 \section*{Qu'est-ce qu'un listener?}
+Un listener est une instance d'une classe qui possèdes certaines méthodes qui sont destinées à être appelées par un gestionnaire d'événement. Une classe de listener doit h\'eriter de la classe 'EventListener'. Nous allons nous servir de ces listeners pour faire les transitions entre tous les modules de notre projet.
+
+\section*{Utilisation dans notre projet}
+
+\subsection*{La classe KinectEvent}
+Nous avons besoin de cr\'eer une nouvelle classe KinectEvent. En effet, ce sera un objet de la classe KinectEvent qui sera r\'ecup\'er\'e par les autres modules. Cette classe poss\`ede un attribut Skeleton et un attribut long repr\'esentant le temps. Elle poss\`ede \'egalement deux getters permettant de r\'ecup\'erer ces attributs, et permettant ainsi \`a la classe ayant re\c{c}u un \'ev\'enement d'exploiter le squelette.
+
+\subsection*{L'interface KinectListenerInterface}
+Cette interface va \^etre impl\'ement\'ee par toutes les classes ayant besoin d'\'ecouter la classe Kinect. Cette interface ne contient qu'une m\'ethode de signature \verb"void skeletonReceived(KinectEventInterface e);" qui va devoir \^etre impl\'ement\'ee \`a chaque fois qu'une classe impl\'emente KinectListenerInterface. C'est cette m\'ethode qui sera appel\'ee d\`es qu'un KinectEventInterface sera re\c{c}u.
 
 
+\newpage
+\chapter*{Comment le squelette est-il manipul\'e?}
+On suppose avoir un objet de type Skeleton appel\'e squelette. Alors la classe Skeleton impl\'ement\'ee par la J4KSDK fournit directement des m\'ethodes de signatures \verb"public float get3DJointX(int joint_id);", \verb"public float get3DJointY(int joint_id);", \verb"public float get3DJointZ(int joint_id);" permettant de r\'ecup\'erer respectivement les coordonn\'ees $(x, y, z)$ du squelette. Enfin, la classe Skeleton contient plusieurs constantes de classes permettant de tracker une partie du corps bien pr\'ecise en rempla\c{c}ant l'entier \verb"joint_id" par une des constantes de classes suivantes :
 
+\hspace{1\baselineskip}
 
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+Identifiant & Entier associ\'e \\
+\hline
+SPINE\_BASE & 0 \\
+\hline
+SPINE\_MID & 1 \\
+\hline
+NECK & 2 \\
+\hline
+HEAD & 3 \\
+\hline
+SHOULDER\_LEFT & 4 \\
+\hline
+ELBOW\_LEFT & 5 \\
+\hline
+WRIST\_LEFT & 6 \\
+\hline
+HAND\_LEFT & 7 \\
+\hline
+SHOULDER\_RIGHT & 8 \\
+\hline
+ELBOW\_RIGHT & 9 \\
+\hline
+WRIST\_RIGHT & 10 \\
+\hline
+HAND\_RIGHT & 11 \\
+\hline
+HIP\_LEFT & 12 \\
+\hline
+KNEE\_LEFT & 13 \\
+\hline
+ANKLE\_LEFT & 14 \\
+\hline
+FOOT\_LEFT & 15 \\
+\hline
+HIP\_RIGHT & 16 \\
+\hline
+KNEE\_RIGHT & 17 \\
+\hline
+ANKLE\_RIGHT & 18 \\
+\hline
+FOOT\_RIGHT & 19 \\
+\hline
+SPINE\_SHOULDER & 20 \\
+\hline
+HAND\_TIP\_LEFT & 21 \\
+\hline
+THUMB\_LEFT & 22 \\
+\hline
+HAND\_TIP\_RIGHT & 23 \\
+\hline
+THUMB\_RIGHT & 24 \\
+\hline
+JOINT\_COUNT & 25 \\
+\hline
+\end{tabular}
+\end{center}
 
+\section*{Exemple pour tracker la main droite}
+Il suffit de tapper les lignes de commandes : 
+\newline
+\verb"int x, y, z;"
+\newline
+\verb"x = get3DJointX(Skeleton.HAND_RIGHT);"
+\newline
+\verb"y = get3DJointY(Skeleton.HAND_RIGHT);"
+\newline
+\verb"z = get3DJointZ(Skeleton.HAND_RIGHT);"
 
-
-
-
+Alors les coordonn\'ees de la main droite sont $(x, y, z)$.
 
 
 
