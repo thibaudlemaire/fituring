@@ -75,7 +75,7 @@ public class NDollarParameters
 	// Note: these default values are never used because it uses config.xml always.
 	// They are provided as example values only.
 	public String GestureSet = "unistrokes";
-	public String SamplesDirectory = "samples/"; // can be relative or absolute in config.xml
+	public String SamplesDirectory = "gesture.samples/"; // can be relative or absolute in config.xml
 	public boolean RotationInvariant = false; // when set to false, recognition is sensitive to rotation
 	public boolean ProcessUnistrokes = true; // when set to false, does not reverse order of unistrokes
 	public boolean Include1D = true; // when set to false, does not include gestures who pass the 1D test
