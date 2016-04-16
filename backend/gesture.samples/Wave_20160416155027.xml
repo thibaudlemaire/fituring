@@ -1,4 +1,4 @@
-<Gesture Name=« Wave Subject="test" Speed="test" NumPts="133" Milliseconds="0" AppName="NDollarRecognizer-java" AppVer="1.0" Date="04/16/2016" TimeOfDay="15:50:27">
+<Gesture Name="Wave" Subject="test" Speed="test" NumPts="133" Milliseconds="0" AppName="NDollarRecognizer-java" AppVer="1.0" Date="04/16/2016" TimeOfDay="15:50:27">
 <Stroke index="1">
 <Point X="52.0" Y="240.0" T="0" />
 <Point X="52.0" Y="237.0" T="0" />
