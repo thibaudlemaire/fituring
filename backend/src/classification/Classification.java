@@ -1,6 +1,11 @@
 package classification;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Vector;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
 import interfaces.ClassificationInterface;
@@ -9,6 +14,7 @@ import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
 import interfaces.LectureAudioSimpleInterface;
 import interfaces.LectureInterface;
+import ndollar.*;
 
 public class Classification implements ClassificationInterface, KinectListenerInterface {
 	
@@ -26,6 +32,10 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	
 	private int size1;
 	private int size2;
+	
+	Vector<PointR> points = new Vector<PointR>();
+	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
+	static NDollarRecognizer _rec = new NDollarRecognizer();
 	
 	@Override
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureInterface audio) {
@@ -100,19 +110,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		handRightCoordinates[0] = newSkeleton.get3DJointX(Skeleton.HAND_RIGHT)-baseX;
 		handRightCoordinates[1] = newSkeleton.get3DJointY(Skeleton.HAND_RIGHT)-baseY;
 		handRightCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT)-baseZ;
-		datasFIFOLeft.addData(handLeftCoordinates);
-		datasFIFORight.addData(handRightCoordinates);
-		DTW dtw1L = new DTW(firstMoveLeft, datasFIFOLeft.getFIFOTab(size1));
-		DTW dtw1R = new DTW(firstMoveRight, datasFIFORight.getFIFOTab(size1));
-		DTW dtw2L = new DTW(secondMoveLeft, datasFIFOLeft.getFIFOTab(size2));
-		DTW dtw2R = new DTW(secondMoveRight, datasFIFORight.getFIFOTab(size2));
-		double distance1L = dtw1L.DTWDistance()/size1;
-		double distance1R = dtw1R.DTWDistance()/size1;
-		double distance2L = dtw2L.DTWDistance()/size2;
-		double distance2R = dtw2R.DTWDistance()/size2;
-		//double distance1 = (distance1L + distance1R) *0.5;
-		//double distance2 = (distance2L + distance2R) *0.5;	
-		System.out.print("D1 : " + distance1L + "   -   D2 : " + distance2R + "\r");
+		
+		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
 	}
 	
 	public void startListening() {
@@ -120,8 +119,59 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	}
 
 	public void stopListening() {
+		if (points.size() > 1) {
+			strokes.add(new Vector<PointR>(points));
+		}
 		kinectModule.unsetListener(this);		
 	}
 
+	//Renvoie le nom du geste reconnu
+	public String nDollarRegognizer() {
+		String samplesDir = NDollarParameters.getInstance().SamplesDirectory;
+		File currentDir = new File(samplesDir);
+		File[] allXMLFiles = currentDir.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(".xml");
+			}
+		});
+
+		// read them
+		for (int i = 0; i < allXMLFiles.length; ++i) {
+			_rec.LoadGesture(allXMLFiles[i]);
+		}
+		
+		if (strokes.size() > 0) {
+			Vector<PointR> allPoints = new Vector<PointR>();
+			Enumeration<Vector<PointR>> en = strokes.elements();
+			while (en.hasMoreElements()) {
+				Vector<PointR> pts = en.nextElement();
+				allPoints.addAll(pts);
+			}
+			NBestList result = _rec.Recognize(allPoints, strokes.size());
+			//String resultTxt;
+			if (result.getScore() == -1) {
+				//resultTxt = MessageFormat.format(
+						//"No Match!\n[{0} out of {1} comparisons made]",
+						//result.getActualComparisons(),
+						//result.getTotalComparisons());
+				return "No Match";
+			} else {
+				//resultTxt = MessageFormat
+				//		.format("{0}: {1} ({2}px, {3}{4})  [{5,number,integer} out of {6,number,integer} comparisons made]",
+				//				result.getName(),
+				//				Utils.round(result.getScore(), 2),
+				//				Utils.round(result.getDistance(), 2),
+				//				Utils.round(result.getAngle(), 2),
+				//				(char) 176, result.getActualComparisons(),
+				//				result.getTotalComparisons());
+			}
+			points.clear();
+			return result.getName();
+		}
+		else {
+			return "Error";
+		}
+	}
 }
 
