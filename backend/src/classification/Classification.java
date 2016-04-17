@@ -36,6 +36,9 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	Vector<PointR> points = new Vector<PointR>();
 	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
 	static NDollarRecognizer _rec = new NDollarRecognizer();
+	Object[] recognize = new Object[2];
+	
+	private static final double threshold = 0.85;
 	
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureInterface audio) {
 		// TODO Auto-generated method stub
@@ -112,6 +115,14 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		handRightCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT)-baseZ;
 		
 		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
+		
+		recognize = nDollarRecognizer();
+		if ((double) recognize[2] > threshold) {
+			points.clear();
+			System.out.println("Geste reconnu : " + (String) recognize[1]);
+		}
+		points.clear();
+		
 	}
 	
 	public void startListening() {
@@ -126,7 +137,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	}
 
 	//Renvoie le nom du geste reconnu
-	public String nDollarRegognizer() {
+	public Object[] nDollarRecognizer() {
+		Object[] tab = new Object[2];
 		String samplesDir = NDollarParameters.getInstance().SamplesDirectory;
 		File currentDir = new File(samplesDir);
 		File[] allXMLFiles = currentDir.listFiles(new FilenameFilter() {
@@ -154,7 +166,9 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 						//"No Match!\n[{0} out of {1} comparisons made]",
 						//result.getActualComparisons(),
 						//result.getTotalComparisons());
-				return "No Match";
+				tab[0] = "No match";
+				tab[1] = 0.0;
+				return tab;
 			} else {
 				//resultTxt = MessageFormat
 				//		.format("{0}: {1} ({2}px, {3}{4})  [{5,number,integer} out of {6,number,integer} comparisons made]",
@@ -165,11 +179,14 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				//				(char) 176, result.getActualComparisons(),
 				//				result.getTotalComparisons());
 			}
-			points.clear();
-			return result.getName() + " pourcentage : " + result.getScore();
+			tab[0] = result.getName();
+			tab[1] = result.getScore();
+			return tab;
 		}
 		else {
-			return "Error";
+			tab[0] = "Error";
+			tab[1] = -1.0;
+			return tab;
 		}
 	}
 }
