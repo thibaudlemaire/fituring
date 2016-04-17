@@ -36,9 +36,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	Vector<PointR> points = new Vector<PointR>();
 	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
 	static NDollarRecognizer _rec = new NDollarRecognizer();
-	Object[] recognize = new Object[2];
-	
-	private static final double threshold = 0.85;
 	
 	@Override
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureInterface audio) {
@@ -136,8 +133,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	}
 
 	//Renvoie le nom du geste reconnu
-	public Object[] nDollarRecognizer() {
-		Object[] tab = new Object[2];
+	public String nDollarRegognizer() {
 		String samplesDir = NDollarParameters.getInstance().SamplesDirectory;
 		File currentDir = new File(samplesDir);
 		File[] allXMLFiles = currentDir.listFiles(new FilenameFilter() {
@@ -166,9 +162,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 						//"No Match!\n[{0} out of {1} comparisons made]",
 						//result.getActualComparisons(),
 						//result.getTotalComparisons());
-				tab[0] = "No match";
-				tab[1] = 0.0;
-				return tab;
+				return "No Match";
 			} else {
 				//resultTxt = MessageFormat
 				//		.format("{0}: {1} ({2}px, {3}{4})  [{5,number,integer} out of {6,number,integer} comparisons made]",
@@ -179,14 +173,11 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				//				(char) 176, result.getActualComparisons(),
 				//				result.getTotalComparisons());
 			}
-			tab[0] = result.getName();
-			tab[1] = result.getScore();
-			return tab;
+			points.clear();
+			return result.getName();
 		}
 		else {
-			tab[0] = "Error";
-			tab[1] = -1.0;
-			return tab;
+			return "Error";
 		}
 	}
 }
