@@ -117,7 +117,6 @@ public class AddGestureLauncher extends Frame implements MouseMotionListener,
 		// create the set of filenames to read in
 		File currentDir = new File(samplesDir);
 		File[] allXMLFiles = currentDir.listFiles(new FilenameFilter() {
-			@Override
 			public boolean accept(File dir, String name) {
 				return name.toLowerCase().endsWith(".xml");
 			}
@@ -210,7 +209,6 @@ public class AddGestureLauncher extends Frame implements MouseMotionListener,
 		g.drawImage(bufImage, 0, 0, this);
 	}
 
-	@Override
 	public void mouseDragged(MouseEvent e) {
 		Point point = e.getPoint();
 		points.add(new PointR(point.x, point.y));
@@ -218,19 +216,15 @@ public class AddGestureLauncher extends Frame implements MouseMotionListener,
 		repaint();
 	}
 
-	@Override
 	public void mouseMoved(MouseEvent e) {
 	}
 
-	@Override
 	public void mouseClicked(MouseEvent e) {
 	}
 
-	@Override
 	public void mousePressed(MouseEvent e) {
 	}
 
-	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			if (points.size() > 1) {
@@ -304,15 +298,12 @@ public class AddGestureLauncher extends Frame implements MouseMotionListener,
 		}
 	}
 
-	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
-	@Override
 	public void mouseExited(MouseEvent e) {
 	}
 	
-	@Override
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource().equals(save)
 				|| evt.getSource().equals(input)) {

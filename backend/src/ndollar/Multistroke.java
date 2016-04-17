@@ -245,7 +245,6 @@ public class Multistroke implements Comparable<Multistroke> {
 		return allUnistrokes;
 	}
 
-	@Override
 	public int compareTo(Multistroke ms) {
 		return (Name.equals(ms.Name)) ? 0 : 1;
 	}
