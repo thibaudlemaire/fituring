@@ -42,7 +42,7 @@ public class AlphaV3 {
 		    cl.stopListening();
 		    dr.stopListening();
 		}
-		System.out.println(cl.nDollarRegognizer());
+		System.out.println(cl.nDollarRecognizer());
 	    System.out.println("Stopping Kinect");
 		kinect.stop();	
 	    System.out.println("Closing scanner stream");

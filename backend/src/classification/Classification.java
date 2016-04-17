@@ -38,7 +38,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	static NDollarRecognizer _rec = new NDollarRecognizer();
 	Object[] recognize = new Object[2];
 	
-	private static final double threshold = 0.85;
+	private static final double threshold = 0; //0.85;
 	
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureInterface audio) {
 		// TODO Auto-generated method stub
@@ -115,14 +115,16 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		handRightCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT)-baseZ;
 		
 		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
-		
-		recognize = nDollarRecognizer();
-		if ((double) recognize[2] > threshold) {
-			points.clear();
-			System.out.println("Geste reconnu : " + (String) recognize[1]);
+		if (points.size() > 50) {
+			strokes.clear();
+			strokes.add(new Vector<PointR>(points));
+			recognize = nDollarRecognizer();
+			if ((double) recognize[1] > threshold) 
+			{
+				System.out.println("Nombre de points : " + points.size() + " - Geste reconnu : " + recognize[0] + " - Score : " + recognize[1]);
+				points.clear();
+			}
 		}
-		points.clear();
-		
 	}
 	
 	public void startListening() {
@@ -130,9 +132,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	}
 
 	public void stopListening() {
-		if (points.size() > 1) {
-			strokes.add(new Vector<PointR>(points));
-		}
+		
 		kinectModule.unsetListener(this);		
 	}
 

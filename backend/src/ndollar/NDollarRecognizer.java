@@ -468,7 +468,7 @@ public class NDollarRecognizer {
 		
 			// _gestures now contains Multistrokes, not just Gestures
 			// Lisa 12/21/2007
-			System.out.println("add "+p.Name);
+			//System.out.println("add "+p.Name);
 			_gestures.put(p.Name, p);
 			if (fis != null) {
 				fis.close();
