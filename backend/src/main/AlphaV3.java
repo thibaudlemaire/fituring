@@ -2,6 +2,7 @@ package main;
 
 import java.util.Scanner;
 
+import classification.Classification;
 import classification.distanceHands;
 import detectionRythme.DetectionRythme;
 import interfaces.LectureInterface;
@@ -17,7 +18,7 @@ public class AlphaV3 {
 
 		System.out.println("Creation des instances");
 		Kinect kinect = new Kinect();
-		distanceHands cl = new distanceHands();
+		Classification cl = new Classification();
 		LectureAudio audio = new LectureAudio();
 		DetectionRythme dr = new DetectionRythme();
 		
@@ -41,6 +42,7 @@ public class AlphaV3 {
 		    cl.stopListening();
 		    dr.stopListening();
 		}
+		System.out.println(cl.nDollarRegognizer());
 	    System.out.println("Stopping Kinect");
 		kinect.stop();	
 	    System.out.println("Closing scanner stream");

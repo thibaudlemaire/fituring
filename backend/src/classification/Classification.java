@@ -97,6 +97,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 
 	public void skeletonReceived(KinectEventInterface e){  //automatically called when a new skeleton is captured by the kinect
 		// TODO Auto-generated method stub
+		System.out.println("New Skeleton !");
 		Skeleton newSkeleton = e.getNewSkeleton();
 		float baseX = newSkeleton.get3DJointX(Skeleton.SPINE_MID);
 		float baseY = newSkeleton.get3DJointY(Skeleton.SPINE_MID);
@@ -165,7 +166,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				//				result.getTotalComparisons());
 			}
 			points.clear();
-			return result.getName();
+			return result.getName() + " pourcentage : " + result.getScore();
 		}
 		else {
 			return "Error";
