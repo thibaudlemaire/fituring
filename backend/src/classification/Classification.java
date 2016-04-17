@@ -120,7 +120,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			points.clear();
 			System.out.println("Geste reconnu : " + (String) recognize[1]);
 		}
-		points.clear();
 		
 	}
 	
