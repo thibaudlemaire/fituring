@@ -44,9 +44,9 @@ Sur : \underline{http://research.dwi.ufl.edu/ufdw/download.php}, t\'el\'echarger
 
 \chapter*{Cr\'eation de l'objet Kinect}
 \section*{Initialisation}
-\verb"initKinectModule();"
+\verb"public int start(int flags);"
 
-Initialise la Kinect, les donn\'ees, le squelette, etc...
+Initialise la Kinect, les donn\'ees, le squelette, etc... L'entier flags pass\'e en param\`etre permet d'ajouter des options, en fonction des besoins du projet. Par exemple, \verb"flag = COLOR" initialise la Kinect avec une image en couleur,  \verb"DEPTH" permet d'avoir la 3D et \verb"flag = SKELETON" permet d'exploiter le squelette. On peut enfin cumuler ces options gr\^ace au s\'eparateur \verb"|".
 
 
 \section*{M\'ethodes}
@@ -56,41 +56,20 @@ Initialise la Kinect, les donn\'ees, le squelette, etc...
 
 M\'ethode appel\'ee lorsqu'un nouveau squelette est re\c{c}u. Cette m\'ethode remplace le squelette de l'attribut associ\'e de type Skeleton, cr\'ee un \'ev\'enement et l'envoie \`a tous les modules via un syst\`eme de Listeners.
 
+Il est important d'exploiter le tableau de bool\'eens \verb"skeleton_tracked" pour savoir quel squelette a \'et\'e re\c{c}u sous peine d'un comportement de la Kinect assez impr\'evisible.
 
 \hspace{1\baselineskip}
 
 \verb"public void onDepthFrameEvent(short[] arg0, byte[] arg1, float[] arg2, float[] arg3);"
 
-Permet de fixer une date de lancement de la Kinect pour, entre autre, calculer le fps. Cet Event est appel\'e lorsque le depthFrame est recu.
+Cette m\'ethode est appel\'e lorsque le depthFrame est recu.
       
       
 \hspace{1\baselineskip}
 
-\verb"public Skeleton getSkeleton();"
+\verb"public void stop();"
 
-Getter pour r\'ecup\'erer le Skeleton.
-
-
-\hspace{1\baselineskip}
-
-\verb"public int getNumberOfDancers();"
-
-Renvoie le nombre de personnes d\'et\'ect\'ees par la Kinect (renvoie automatiquement 1 pour l'instant).
-
-
-\hspace{1\baselineskip}
-
-\verb"public Object getVideo();"
-
-Renvoie la vid\'eo (pas encore impl\'ement\'ee.
-
-
-\hspace{1\baselineskip}
-
-\verb"public long getFPS();"
-
-Renvoie le nombre de squelettes re\c{c}us par seconde.
-
+Cette m\'ethode permet d'arr\^eter la Kinect et de fermer le flux pr\'ec\'edemment ouvert.
 
 
 \chapter*{Comment les \'ev\'enements sont-ils r\'ecup\'er\'es?}
