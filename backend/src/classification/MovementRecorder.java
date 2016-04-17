@@ -16,8 +16,7 @@ public class MovementRecorder implements KinectListenerInterface {
 		mvt = new Move();
 	}
 
-	public void skeletonReceived(KinectEventInterface e) 
-	{
+	public void skeletonReceived(KinectEventInterface e) {
 		Step step = new Step();
 		step.setTime(e.getSkeletonTime());
 		for(int i = 0; i<Skeleton.JOINT_COUNT; i++)

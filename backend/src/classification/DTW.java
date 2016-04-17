@@ -4,7 +4,7 @@ public class DTW {
 	float[][] s;
 	float[][] t;
 	
-	/* voir l'attribut comme une suite de coordonnées, par exemple [[x1,y1,z1], [x2,y2,z2],...] */
+	/* voir l'attribut comme une suite de coordonnï¿½es, par exemple [[x1,y1,z1], [x2,y2,z2],...] */
 	
 	public DTW(float[][] s, float[][] t)
 	{
@@ -22,7 +22,7 @@ public class DTW {
 	}
 	
 	
-	/* en supposant que les sous-listes sont de longueur 3 : [x,y,z] ; à modifier sinon */
+	/* en supposant que les sous-listes sont de longueur 3 : [x,y,z] ; ï¿½ modifier sinon */
 	
 	public float distance_tchebychev(float[] chaine1, float[] chaine2) {
 		return (float) max(Math.abs(chaine2[0]-chaine1[0]) , Math.abs(chaine2[1]-chaine1[1]), Math.abs(chaine2[2]-chaine1[2]));
@@ -58,7 +58,7 @@ public class DTW {
 				dtw[i][j] = (float) (cost + min(dtw[i-1][j], dtw[i][j-1], dtw[i-1][j-1]));
 			}
 		}
-		return dtw[s.length][t.length];
+		return dtw[s.length-1][t.length-1];
 	}
 	
 	private double min(double a, double b, double c)
@@ -101,8 +101,8 @@ public class DTW {
 		}
 	}
 	
-	/* Fonction nécessaire afin de pouvoir comparer 2 chaînes dont les coordonnées sont prises aux mêmes instants
-	 * Réaliséeà l'aide d'une interpolation linéaire */
+	/* Fonction nï¿½cessaire afin de pouvoir comparer 2 chaï¿½nes dont les coordonnï¿½es sont prises aux mï¿½mes instants
+	 * Rï¿½alisï¿½eï¿½ l'aide d'une interpolation linï¿½aire */
 	public double[][] interpolation(double[][] chaine1, double[][] chaine2) {
 		double[][] result = new double[chaine1.length][3];
 		int a = 0;

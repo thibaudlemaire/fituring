@@ -1,3 +1,8 @@
+
+*.synctex.gz
+*.aux
+*.log
 /J4K Library.aux
 /J4K Library.log
 /J4K Library.synctex.gz
+
