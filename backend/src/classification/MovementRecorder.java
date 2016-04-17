@@ -16,6 +16,7 @@ public class MovementRecorder implements KinectListenerInterface {
 		mvt = new Move();
 	}
 
+	@Override
 	public void skeletonReceived(KinectEventInterface e) 
 	{
 		Step step = new Step();
