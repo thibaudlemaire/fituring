@@ -228,6 +228,7 @@ public class Gesture implements Comparable<Gesture> {
 		return vector;
 	}
 
+	@Override
 	public int compareTo(Gesture g) {
 		return (Name.equals(g.Name)) ? 0 : 1;
 	}
