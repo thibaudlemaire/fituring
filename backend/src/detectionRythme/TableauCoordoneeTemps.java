@@ -9,7 +9,7 @@ public class TableauCoordoneeTemps {
 		
 		
 		public TableauCoordoneeTemps() {
-			this.tab = new double[2][400];
+			this.tab = new double[300][61];
 			this.len=0;
 		}
 		
