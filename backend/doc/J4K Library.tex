@@ -139,7 +139,7 @@ ANKLE\_RIGHT & 18 \\
 FOOT\_RIGHT & 19 \\
 \hline
 SPINE\_SHOULDER & 20 \\
-\hline
+\hline·
 HAND\_TIP\_LEFT & 21 \\
 \hline
 THUMB\_LEFT & 22 \\
@@ -165,6 +165,37 @@ Il suffit de tapper les lignes de commandes :
 \verb"z = get3DJointZ(Skeleton.HAND_RIGHT);"
 
 Alors les coordonn\'ees de la main droite sont $(x, y, z)$.
+
+
+\chapter*{Annexe : Utilisation de Kinect Studio}
+T\'el\'echarger et installer tout d'abord Kinect Studio, inclus dans Kinect Windows Developer Toolkit v1.8 (lien : \underline{https://www.microsoft.com/en-us/download/details.aspx?id=40276}).
+
+\begin{enumerate}
+\item Lancer Kinect Studio
+\item Une fen\^etre s'ouvre, demandant de lancer la Kinect. Brancher la Kinect en USB et lancer le programme Java (qui doit contenir la ligne de commande \verb"start(int flag);", en rempla\c{c}ant l'entier flag).
+\item Appuyer sur "Refresh" : la Kinect apparait. Cliquer sur "Connect".
+\item Aller dans View > Color, Depth ou 3D View pour afficher la vue de la Kinect (attention : pour afficher la vue en couleur, le param\`etre \verb"flag" dans la m\'ethode \verb"start" doit contenir \verb"J4KSDK.COLOR". De m\^eme pour la vue en profondeur).
+\end{enumerate}
+
+On peut alors enregistrer une s\'equence en appuyant sur le bouton "Record", arr\^eter l'enregistrement en appuyant sur "Stop" et la rejouer avec "Play/Pause". Il est \'egalement possible d'ouvrir un enregistrement (de type Kinect Studio Files) et de le rejouer.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=4in]{Images/KinectStudio.png}
+\caption{Kinect Studio et l'affichage de la vue en couleur.}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
