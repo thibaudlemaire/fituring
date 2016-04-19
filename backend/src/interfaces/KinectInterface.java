@@ -1,6 +1,7 @@
 package interfaces;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
+import interfaces.KinectListenerInterface;
 
 /**
  * Kinect module interface

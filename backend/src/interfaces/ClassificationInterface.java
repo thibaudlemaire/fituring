@@ -5,7 +5,7 @@ public interface ClassificationInterface {
 	/**
 	 * This function initialize the Classification Module
 	 */
-	public void initClassificationModule(Object BDD, KinectInterface kinectModule);
+	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureInterface audio);
 	
 	/**
 	 * This function starts the listening of kinect skeleton
@@ -15,7 +15,7 @@ public interface ClassificationInterface {
 	/**
 	 * This function stops the listening of kinect skeleton
 	 */
-	public void stopListeninf();
+	public void stopListening();
 	
 	
 	

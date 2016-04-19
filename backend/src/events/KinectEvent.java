@@ -10,17 +10,15 @@ public class KinectEvent implements KinectEventInterface {
 	private Skeleton skeleton;
 	private long time;
 	
-	KinectEvent(Skeleton skeleton)
+	public KinectEvent(Skeleton skeleton)
 	{
 		this.skeleton = skeleton;
 		this.time = new Date().getTime();
 	}
-	@Override
 	public Skeleton getNewSkeleton() {
 		return skeleton;
 	}
 
-	@Override
 	public long getSkeletonTime() {
 		// TODO Auto-generated method stub
 		return time;
