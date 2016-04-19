@@ -112,6 +112,8 @@ public class Utils {
 
 	public static double PathLength(Vector<PointR> points) {
 		double length = 0;
+		if (points.size() < 1)
+			return 0;
 		for (int i = 1; i < points.size(); i++) {
 			length += Distance((PointR) points.elementAt(i - 1),
 					(PointR) points.elementAt(i));
