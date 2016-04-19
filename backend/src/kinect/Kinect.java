@@ -13,6 +13,8 @@ public class Kinect extends J4KSDK implements KinectInterface
 	Skeleton currentSkeleton = null; // Last skeleton received
 	int counter=0; // Used to calculate FPS
 	long time=0; // Used to calculate FPS
+	int numberOfDancers = 0; // Number of people recognized by the Kinect
+	
 	
 	// List of EventListener used to update each data's module
 	private final EventListenerList listeners = new EventListenerList();
@@ -23,12 +25,17 @@ public class Kinect extends J4KSDK implements KinectInterface
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status) {
 		//System.out.println("New skeleton !");
 		int skeletonIdent = 0;
+		int numberOfSkeleton = 0;
 		// Getting new skeleton
 		for(int i = 5; i>=0; i--)
 		{
 			if(skeleton_tracked[i])
+			{
 				skeletonIdent = i;
+				numberOfSkeleton++;
+			}
 		}
+		numberOfDancers = numberOfSkeleton;
 		currentSkeleton = Skeleton.getSkeleton(skeletonIdent, skeleton_tracked, positions, orientations, joint_status, this);
 		
 		// Create the event
@@ -87,7 +94,7 @@ public class Kinect extends J4KSDK implements KinectInterface
 	 * NOT YET IMPLEMENTED
 	 */
 	public int getNumberOfDancers() {
-		return 1;
+		return numberOfDancers;
 	}
 
 	/**
