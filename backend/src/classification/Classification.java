@@ -22,6 +22,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	KinectInterface kinectModule;
 	LectureAudioSimpleInterface audio;
 	
+	private int LIMIT_VECTOR_points = 50 ; //can be modified 
+	
 	private float[][] firstMoveLeft ;
 	private float[][] secondMoveLeft ;
 	private float[][] firstMoveRight ;
@@ -34,8 +36,13 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	private int size2;
 	
 	Vector<PointR> points = new Vector<PointR>();
+	Vector<PointR> samplePoints = new Vector<PointR>();
 	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
 	static NDollarRecognizer _rec = new NDollarRecognizer();
+	
+	public int NumResamplePoints = 64;
+	private double D=0;
+	private double I;
 	
 	@Override
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureInterface audio) {
@@ -126,9 +133,37 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		handRightCoordinates[1] = newSkeleton.get3DJointY(Skeleton.HAND_RIGHT)-baseY;
 		handRightCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT)-baseZ;
 		
-		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
+		PointR newPoint = new PointR(handRightCoordinates[0], handRightCoordinates[1]);
+		points.add(newPoint);
+		if (points.size() > LIMIT_VECTOR_points) {
+			PointR removedPoint = points.remove(0);
+			I=I-ndollar.Utils.Distance(removedPoint, points.elementAt(0))/NumResamplePoints ;
+		}
 		
+		if (points.size() > 1){
+			PointR pt1 = points.elementAt(points.size()-2);
+			PointR pt2 = points.elementAt(points.size()-1);
+			double d = ndollar.Utils.Distance(pt1, pt2);
+			I=I+d/NumResamplePoints;
+			
+			if ((D + d) >= I) {
+				double qx = pt1.X + ((I - D) / d) * (pt2.X - pt1.X);
+				double qy = pt1.Y + ((I - D) / d) * (pt2.Y - pt1.Y);
+				PointR q = new PointR(qx, qy);
+				D = 0.0;
+				samplePoints.add(q); // append new point 'q'
+				points.insertElementAt(q, points.size()-1); // insert 'q' at position i in
+												// points s.t.
+			}
+			else {
+				D += d;
+			}	
+			
+		}
 		
+		if (samplePoints.size() > LIMIT_VECTOR_points) {
+			samplePoints.remove(0);
+		}	
 	}
 	
 	public void startListening() {
@@ -142,6 +177,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		}
 		kinectModule.unsetListener(this);		
 	}
+	
+	
 
 	//Renvoie le nom du geste reconnu
 	public String nDollarRegognizer() {
