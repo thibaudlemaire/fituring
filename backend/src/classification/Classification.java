@@ -44,6 +44,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	private double D=0;
 	private double I;
 	
+	@Override
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureInterface audio) {
 		// TODO Auto-generated method stub
 		this.kinectModule = kinectModule;
@@ -82,6 +83,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		String samplesDir = NDollarParameters.getInstance().SamplesDirectory;
 		File currentDir = new File(samplesDir);
 		File[] allXMLFiles = currentDir.listFiles(new FilenameFilter() {
+			@Override
 			public boolean accept(File dir, String name) {
 				return name.toLowerCase().endsWith(".xml");
 			}
@@ -133,16 +135,53 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		
 		PointR newPoint = new PointR(handRightCoordinates[0], handRightCoordinates[1]);
 		points.add(newPoint);
+		
+		// traitement cyclique des points et ré-échantillonage spatial en réutilisant
+		// l'algorithme présent dans ndollar/Utils
+		
 		if (points.size() > LIMIT_VECTOR_points) {
 			PointR removedPoint = points.remove(0);
-			I=I-ndollar.Utils.Distance(removedPoint, points.elementAt(0))/NumResamplePoints ;
+			I=I-ndollar.Utils.Distance(removedPoint, points.elementAt(0))/(NumResamplePoints-1) ;
 		}
 		
-		if (points.size() > 1){
+		samplePoints.set(0, points.elementAt(0));
+		
+		if (points.size() > 1){			
+			
+			// should be used only once, at the second skeleton detected
+			if (samplePoints.size() < NumResamplePoints) {
+				
+				for (int i = 1; i < points.size(); i++) {
+					PointR pt1 = (PointR) points.elementAt(i - 1);
+					PointR pt2 = (PointR) points.elementAt(i);
+
+					double d = ndollar.Utils.Distance(pt1, pt2);
+					if ((D + d) >= I) {
+						double qx = pt1.X + ((I - D) / d) * (pt2.X - pt1.X);
+						double qy = pt1.Y + ((I - D) / d) * (pt2.Y - pt1.Y);
+						PointR q = new PointR(qx, qy);
+						samplePoints.add(q); // append new point 'q'
+						points.insertElementAt(q, i); // insert 'q' at position i in
+														// points s.t.
+						// 'q' will be the next i
+						D = 0.0;
+					} else {
+						D += d;
+					}
+				}	
+			}
+			
+			// "sometimes we fall a rounding-error short of adding the last point, so add it if so"
+			// should be used once
+			if (samplePoints.size() < NumResamplePoints){
+				samplePoints.add(points.elementAt(points.size()-1));
+			}
+			
+			// should be used at every skeleton received
 			PointR pt1 = points.elementAt(points.size()-2);
 			PointR pt2 = points.elementAt(points.size()-1);
 			double d = ndollar.Utils.Distance(pt1, pt2);
-			I=I+d/NumResamplePoints;
+			I=I+d/(NumResamplePoints-1);
 			
 			if ((D + d) >= I) {
 				double qx = pt1.X + ((I - D) / d) * (pt2.X - pt1.X);
@@ -155,13 +194,14 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			}
 			else {
 				D += d;
-			}	
+			}
 			
+			if(samplePoints.size() > NumResamplePoints) {
+				samplePoints.remove(1); 
+				//cause samplePoints.elementAt(0) must stay and match points.elementAt(0)
+			}	
 		}
 		
-		if (samplePoints.size() > LIMIT_VECTOR_points) {
-			samplePoints.remove(0);
-		}	
 	}
 	
 	public void startListening() {
@@ -170,8 +210,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 
 	public void stopListening() {
 		strokes.clear();
-		if (points.size() > 1) {
-			strokes.add(new Vector<PointR>(points));
+		if (samplePoints.size() > 1) {
+			strokes.add(new Vector<PointR>(samplePoints));
 		}
 		kinectModule.unsetListener(this);		
 	}
