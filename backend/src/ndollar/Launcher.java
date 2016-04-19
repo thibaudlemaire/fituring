@@ -82,7 +82,6 @@ public class Launcher {
 		// create the set of filenames to read in
 		File currentDir = new File(samplesDir);
 		File[] allXMLFiles = currentDir.listFiles(new FilenameFilter() {
-			@Override
 			public boolean accept(File dir, String name) {
 				return name.toLowerCase().endsWith(".xml");
 			}
