@@ -2,15 +2,21 @@ package detectionRythme;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
 import interfaces.KinectEventInterface;
+import interfaces.KinectInterface;
+import interfaces.KinectListenerInterface;
+import interfaces.LectureAudioSimpleInterface;
+import interfaces.RyhtmeInterface;
+import kinect.Kinect;
 
 
-public class DetectionRythme {
+public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface {
 
 	private TableauDonnéesBrutes tab;
 	private TableauDonnéesInterpolées tabI;
 	private Autocorrelation autoc;
 	private PositionPics pics;
 	private int compteur;
+	KinectInterface kinect;
 	
 	public DetectionRythme(){
 		this.tab = new TableauDonnéesBrutes();
@@ -20,8 +26,12 @@ public class DetectionRythme {
 		this.compteur=0;
 	}
 	
-	public void SetCompteurToZero(){
+	public void setCompteurToZero(){
 		this.compteur=0;
+	}
+	
+	public int getCompteur(){
+		return this.compteur;
 	}
 	
 	public void skeletonReceived(KinectEventInterface e){
@@ -97,6 +107,31 @@ public class DetectionRythme {
 		compteur=compteur+1;
 		
 		
+	}
+	
+	public void startListening() {
+		kinect.setListener(this);
+	}
+	
+	public void stopListening() {
+		kinect.unsetListener(this);
+	}
+
+	@Override
+	public void initRythmeModule(KinectInterface kinect, LectureAudioSimpleInterface audio) {
+		this.kinect = kinect;
+	}
+
+	@Override
+	public int getCurrentTrueBPM() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getCurrentUsedBPM() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
 
