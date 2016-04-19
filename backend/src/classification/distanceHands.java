@@ -26,7 +26,6 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	
 	
 	
-	@Override
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureInterface audio) {
 		// TODO Auto-generated method stub
 		this.kinectModule = kinectModule;
@@ -35,7 +34,6 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	}
 
 
-	@Override
 	public void skeletonReceived(KinectEventInterface e) {
 		Skeleton newSkeleton = e.getNewSkeleton();
 		float headCoordinatesY = newSkeleton.get3DJointY(Skeleton.HEAD);
@@ -102,13 +100,11 @@ public class distanceHands implements ClassificationInterface, KinectListenerInt
 	}
 
 	
-	@Override
 	public void startListening() {
 		// TODO Auto-generated method stub
 		kinectModule.setListener(this);
 	}
 
-	@Override
 	public void stopListening() {
 		// TODO Auto-generated method stub
 		kinectModule.unsetListener(this);

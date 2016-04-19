@@ -44,7 +44,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	private double D=0;
 	private double I;
 	
-	@Override
 	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureInterface audio) {
 		// TODO Auto-generated method stub
 		this.kinectModule = kinectModule;
@@ -83,7 +82,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		String samplesDir = NDollarParameters.getInstance().SamplesDirectory;
 		File currentDir = new File(samplesDir);
 		File[] allXMLFiles = currentDir.listFiles(new FilenameFilter() {
-			@Override
 			public boolean accept(File dir, String name) {
 				return name.toLowerCase().endsWith(".xml");
 			}
