@@ -24,17 +24,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	
 	private int LIMIT_VECTOR_points = 50 ; //can be modified 
 	
-	private float[][] firstMoveLeft ;
-	private float[][] secondMoveLeft ;
-	private float[][] firstMoveRight ;
-	private float[][] secondMoveRight ;
-	
-	private DatasFIFO datasFIFOLeft ;   
-	private DatasFIFO datasFIFORight; 
-	
-	private int size1;
-	private int size2;
-	
 	Vector<PointR> points = new Vector<PointR>();
 	Vector<PointR> samplePoints = new Vector<PointR>();
 	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
@@ -51,34 +40,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		this.BDD = BDD ;
 		this.audio = (LectureAudioSimpleInterface) audio;
 		
-		MovementSerializer moveSerial = new MovementSerializer();
-		Move mvt1=moveSerial.deSerialize("datas/m1.mvt");
-		Move mvt2=moveSerial.deSerialize("datas/m2.mvt");
-		ArrayList<Step> steps1 = mvt1.steps;
-		ArrayList<Step> steps2 = mvt2.steps;
-		size1 = steps1.size();
-		size2 =steps2.size();
-		
-		firstMoveLeft = new float[size1][3];
-		firstMoveRight = new float[size1][3];
-		secondMoveLeft = new float[size2][3];
-		secondMoveRight = new float[size2][3];	
-		
-		datasFIFOLeft=new DatasFIFO(max(size1, size2));
-		datasFIFORight=new DatasFIFO(max(size1, size2));
-		
-		
-		for (int i =0; i<size1; i++) 
-		{
-			firstMoveLeft[i]=substract(steps1.get(i).getCoordinates().get(Skeleton.HAND_LEFT),steps1.get(i).getCoordinates().get(Skeleton.SPINE_MID));
-			firstMoveRight[i]=substract(steps1.get(i).getCoordinates().get(Skeleton.HAND_RIGHT),steps1.get(i).getCoordinates().get(Skeleton.SPINE_MID));
-		}	
-		
-		for (int i =0; i<size2; i++) 
-		{
-			secondMoveLeft[i]=substract(steps2.get(i).getCoordinates().get(Skeleton.HAND_LEFT),steps2.get(i).getCoordinates().get(Skeleton.SPINE_MID));
-			secondMoveRight[i]=substract(steps2.get(i).getCoordinates().get(Skeleton.HAND_RIGHT),steps2.get(i).getCoordinates().get(Skeleton.SPINE_MID));
-		}	
 		
 		String samplesDir = NDollarParameters.getInstance().SamplesDirectory;
 		File currentDir = new File(samplesDir);
@@ -94,28 +55,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			_rec.LoadGesture(allXMLFiles[i]);
 		}
 		
-	}
-
-	private float[] substract(float[] F1, float[] F2) {
-		// TODO Auto-generated method stub
-		float[] result=new float [F1.length];
-		if (F1.length != F2.length){
-			System.out.println("Erreur");
-			return null;
-		}
-		else {
-			for (int i =0; i< F1.length;i++){
-				result[i]=F1[i]-F2[i];
-			}
-		}
-		return result;
-	}
-
-	private int max(int a, int b) {
-		// TODO Auto-generated method stub
-		if (a < b)
-			return b ;
-		return a;
 	}
 
 	public void skeletonReceived(KinectEventInterface e){  //automatically called when a new skeleton is captured by the kinect
