@@ -47,7 +47,6 @@ public class TableauDonnéesInterpolées {
 				}
 				autoc.setData(h,j,a/450);
 				autoc.setData(h,j,autoc.getData(h,j)/autoc.getData(0,j));
-
 			}
 		}
 	}

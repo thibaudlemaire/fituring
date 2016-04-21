@@ -1,5 +1,7 @@
 package detectionRythme;
 
+import java.util.Date;
+
 import edu.ufl.digitalworlds.j4k.Skeleton;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
@@ -11,12 +13,13 @@ import kinect.Kinect;
 
 public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface {
 
-	private TableauDonnéesBrutes tab;
+	private TableauDonnéesBrutes tab = new TableauDonnéesBrutes();
 	private TableauDonnéesInterpolées tabI;
 	private Autocorrelation autoc;
 	private PositionPics pics;
 	private int compteur;
 	KinectInterface kinect;
+	private long time = 0;
 	
 	public DetectionRythme(){
 		this.tab = new TableauDonnéesBrutes();
@@ -36,13 +39,16 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	
 	public void skeletonReceived(KinectEventInterface e){
 		
+		if (compteur == 0) {
+			time = new Date().getTime();
+		}
 		
 		for(int i = 0; i<299; i++){
 			for(int j = 0; j<61;j++){
 				tab.setData(i,j,tab.getData(i+1,j));
 			}
 		}
-		tab.setData(299, 0,(double) e.getSkeletonTime());
+		tab.setData(299, 0,(double) (e.getSkeletonTime() - time)/1000);
 		tab.setData(299,1,(double) e.getNewSkeleton().get3DJointX(Skeleton.SPINE_BASE));
 		tab.setData(299,2,(double) e.getNewSkeleton().get3DJointY(Skeleton.SPINE_BASE));
 		tab.setData(299,3,(double) e.getNewSkeleton().get3DJointZ(Skeleton.SPINE_BASE));
@@ -106,6 +112,7 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	
 		compteur=compteur+1;
 		
+		
 		if(this.getCompteur()==300){
 			tab.interpolationEtDistance(tabI);
 			tabI.autocorrelation(autoc);
@@ -116,6 +123,11 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 			sumAuto.SumAutocorr(autoc,pics);
 			sumAuto.detectionPics();
 			this.setCompteurTo200();
+			
+			for (int i = 0; i < 300; i++) {
+				System.out.println("autoc " + i + " : " + autoc.getData(i, 62) + " : " + tabI.getData(i, 62));
+			
+			}
 		}
 	}
 	

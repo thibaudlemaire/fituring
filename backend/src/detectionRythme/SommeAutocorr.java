@@ -3,10 +3,9 @@ package detectionRythme;
 
 public class SommeAutocorr {
 
-private double[][] bc ;
+private double[][] bc = new double[450][2]; ;
 	
 	public SommeAutocorr(Autocorrelation auto){
-		this.bc = new double[450][2];
 		for(int i=1;i<450;i++){
 			bc[i][0]= auto.getData(i,0);
 		}
@@ -63,9 +62,11 @@ private double[][] bc ;
 	public void detectionPics(){
 		double[][] H = diff2(sign(diff1(bc)));
 		int i =0;
-		while(H[i][1]!=-2 && i<448){
+		while(H[i][1]!=-2 && i<447){
 			i++;
 		}
+		System.out.println("i : " + i);
+		System.out.println("bc : " + this.bc[i][0]);
 		System.out.println("BPM ="+3000/this.bc[i][0]);
 
 	}

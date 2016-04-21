@@ -20,18 +20,18 @@ public class Autocorrelation {
 	}
 	
 	public double[][] diff1(double[][] B){
-		double[][] D = new double[449][67];
+		double[][] D = new double[449][66];
 		for(int k=1; k<66; k++){
 			for(int l=0; l<449; l++){
-				D[l][k]=B[l+1][k]-B[l][k];
+				D[l][k-1]=B[l+1][k]-B[l][k];
 			}
 		}
 		return D;
 	}
 	
 	public double[][] diff2(double[][] B){
-		double[][] D = new double[448][67];
-		for(int k=1; k<66; k++){
+		double[][] D = new double[448][66];
+		for(int k=0; k<66; k++){
 			for(int l=0; l<448; l++){
 				D[l][k]=B[l+1][k]-B[l][k];
 			}
@@ -62,7 +62,7 @@ public class Autocorrelation {
 		for(int i =0;i<448;i++){
 			for(int j=0;j<66;j++){
 				if(H[i][j]==-2){
-					P.getPics()[i+1][j] = true ;
+					P.getPics()[i+1][j+1] = true ;
 				}
 			}
 		}
