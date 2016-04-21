@@ -84,7 +84,11 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			I=I-ndollar.Utils.Distance(removedPoint, points.elementAt(0))/(NumResamplePoints-1) ;
 		}
 		
-		samplePoints.set(0, points.elementAt(0));
+		if (samplePoints.size()==0)
+			samplePoints.add(points.elementAt(0));
+		
+		else 
+			samplePoints.set(0, points.elementAt(0));
 		
 		if (points.size() > 1){			
 			
@@ -142,6 +146,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			}	
 		}
 		
+		this.nDollarRegognizer();
+		
 	}
 	
 	public void startListening() {
@@ -160,12 +166,12 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 
 	//Renvoie le nom du geste reconnu
 	public String nDollarRegognizer() {
-		if (strokes.size() > 0) {
+		if (samplePoints.size() > 0) {
 			Vector<PointR> allPoints = new Vector<PointR>();
-			Enumeration<Vector<PointR>> en = strokes.elements();
+			Enumeration<PointR> en = samplePoints.elements();
 			while (en.hasMoreElements()) {
-				Vector<PointR> pts = en.nextElement();
-				allPoints.addAll(pts);
+				PointR pts = en.nextElement();
+				allPoints.add(pts);
 			}
 			NBestList result = _rec.Recognize(allPoints, strokes.size());
 			//String resultTxt;
