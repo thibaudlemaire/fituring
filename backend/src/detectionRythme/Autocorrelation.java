@@ -22,10 +22,13 @@ public class Autocorrelation {
 	public double[][] diff1(double[][] B){
 		double[][] D = new double[449][66];
 		for(int k=1; k<66; k++){
-			for(int l=0; l<449; l++){
-				D[l][k-1]=B[l+1][k]-B[l][k];
+			for(int h=0; h<448; h++){
+				int l = 1;
+				while(B[h+l][k]-B[h][k]==0){
+					l++;
+				}
+				D[h][k-1]=B[h+1][k]-B[h][k];}
 			}
-		}
 		return D;
 	}
 	
