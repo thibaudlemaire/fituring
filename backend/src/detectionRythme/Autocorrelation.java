@@ -71,9 +71,7 @@ public class Autocorrelation {
 	public void test1et2(PositionPics P){
 		for(int i =0;i<450;i++){
 			for(int j=0;j<66;j++){
-				if ((i<12)||(i>80)){	
-					P.getPics()[i][j]=false ;
-				}
+				
 				
 			}
 		}
