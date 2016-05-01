@@ -3,16 +3,16 @@ package detectionRythme;
 import java.util.Date;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
+import interfaces.BPMupdateInterface;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
-import interfaces.LectureAudioSimpleInterface;
 import interfaces.RyhtmeInterface;
 
 public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface {
 
 	KinectInterface kinect;
-	LectureAudioSimpleInterface audio;
+	BPMupdateInterface engine;
 	
 	static float trigger = (float) 0.1;
 	static float limitUp = (float) 0.5;
@@ -29,11 +29,11 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	int lastPeriodPointer = 0;
 	long mean = 500;
 	
-	public void initRythmeModule(KinectInterface kinect, LectureAudioSimpleInterface audio) 
+	public void initRythmeModule(KinectInterface kinect, BPMupdateInterface engine) 
 	{
 		this.kinect = kinect;
 		this.mean = 500;
-		this.audio = audio;
+		this.engine = engine;
 	}
 	
 	public void skeletonReceived(KinectEventInterface e) 
@@ -91,39 +91,45 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 				lastPeriodPointer++;
 			else
 				lastPeriodPointer = 0;
-			audio.updateBPM(getCurrentTrueBPM());
-			System.out.println("Mise � jour BPM : " + getCurrentTrueBPM());
+			engine.updateBPM(getBPM());
+			System.out.println("Mise � jour BPM : " + getBPM());
 		}
 		else
 			lastDate = new Date().getTime();
 			
 	}
 
-	public int getCurrentTrueBPM() 
-	{
-		return (int) (60000/mean);
-	}
-
-	public int getCurrentUsedBPM() 
-	{
-		return 0;
-	}
-	
 	public void startListening() 
 	{
-		audio.startBeating(getCurrentTrueBPM());
 		kinect.setListener(this);
 	}
 
 	public void stopListening() 
 	{
-		audio.stopBeating();
 		kinect.unsetListener(this);
 		mean = 500;
 		lastPeriod[0] = 500;
 		lastPeriod[1] = 500;
 		lastPeriod[1] = 500;
 		lastDate = 0;
+	}
+
+	@Override
+	public int getBPM() {
+		// TODO Auto-generated method stub
+		return (int) (60000/mean);
+	}
+
+	@Override
+	public int getSimpleBPM() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getWealth() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
