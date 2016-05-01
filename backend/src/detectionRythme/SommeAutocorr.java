@@ -60,10 +60,13 @@ private double[][] bc = new double[450][2]; ;
 	}
 		
 	public void detectionPics(){
-		double[][] H = diff2(sign(diff1(bc)));
+		double max = 0.0;
 		int i =0;
-		while(H[i][1]!=-2 && i<447){
-			i++;
+		for(int j =0;j<447;j++){
+			max = Math.max(max,bc[j][1]);
+			if(max==bc[j][1]){
+				i = j;
+			}
 		}
 		System.out.println("i : " + i);
 		System.out.println("bc : " + this.bc[i][0]);
