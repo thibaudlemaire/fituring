@@ -13,8 +13,8 @@ import kinect.Kinect;
 
 public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface {
 
-	private TableauDonnéesBrutes tab = new TableauDonnéesBrutes();
-	private TableauDonnéesInterpolées tabI;
+	private TableauDonneesBrutes tab;
+	private TableauDonneesInterpolees tabI;
 	private Autocorrelation autoc;
 	private PositionPics pics;
 	private int compteur;
@@ -22,8 +22,8 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	private long time = 0;
 	
 	public DetectionRythme(){
-		this.tab = new TableauDonnéesBrutes();
-		this.tabI = new TableauDonnéesInterpolées(tab);
+		this.tab = new TableauDonneesBrutes();
+		this.tabI = new TableauDonneesInterpolees(tab);
 		this.autoc = new Autocorrelation(tabI);
 		this.pics = new PositionPics();
 		this.compteur=0;

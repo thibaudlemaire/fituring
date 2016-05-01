@@ -1,10 +1,10 @@
 package detectionRythme;
 
-public class TableauDonnéesBrutes {
+public class TableauDonneesBrutes {
 
 	private double[][] tab;
 	
-	public  TableauDonnéesBrutes(){
+	public  TableauDonneesBrutes(){
 		this.tab = new double[300][61];
 	}
 	
@@ -17,7 +17,7 @@ public class TableauDonnéesBrutes {
 	}
 	
 	
-	public void interpolationEtDistance(TableauDonnéesInterpolées tabI){
+	public void interpolationEtDistance(TableauDonneesInterpolees tabI){
 		for (int j=1; j<61;j++){
 			tabI.setData(0,j,tab[0][j]);
 			for(int i=1; i<450;i++){

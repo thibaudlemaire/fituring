@@ -4,7 +4,7 @@ public class Autocorrelation {
 	
 	private double[][] ac ;
 	
-	public Autocorrelation(TableauDonnéesInterpolées tabI){
+	public Autocorrelation(TableauDonneesInterpolees tabI){
 		this.ac = new double[450][67];
 		for(int i=1;i<450;i++){
 			ac[i][0]= tabI.getData(i,0);
