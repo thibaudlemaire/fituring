@@ -8,13 +8,6 @@ package interfaces;
 public interface LectureAudioInterface extends LectureInterface{
 
 	/**
-	 * This function is called at the beginning to setup the module
-	 * @param player TypeToBeDefined, where to play the sound
-	 * @param initialVolume in percent
-	 */
-	public void initLectureAudioModule(Object player, int initialVolume);
-	
-	/**
 	 * This function start the main sound player
 	 * @param bpm
 	 */
@@ -24,12 +17,6 @@ public interface LectureAudioInterface extends LectureInterface{
 	 * This function stop the music player
 	 */
 	public void stopMusic();
-	
-	/**
-	 * This function updates the current BPM of the music
-	 * @param newBPM
-	 */
-	public void updateBPM(int newBPM);
 	
 	/**
 	 * This function returns the ID of the current measure from the start of the music
