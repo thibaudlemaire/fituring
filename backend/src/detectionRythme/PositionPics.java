@@ -15,6 +15,10 @@ public class PositionPics {
 		return this.Pics;
 	}
 	
+	public void setPics(int line, int colonne,boolean val){
+		Pics[line][colonne]=val;
+	}
+	
 	public boolean[] getSelectionAutocorr(){
 		return this.selectionAutocorr;
 	}

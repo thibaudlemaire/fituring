@@ -58,16 +58,13 @@ public class Autocorrelation {
 	}
 		
 	public void detectionPics(PositionPics P){
-		for(int j=0;j<65;j++){
-			double max = 0.0;
-			int k =0;
-			for(int i =0;i<448;i++){
-				max = Math.max(max,ac[i][j]);
-				if(max==ac[i][j]){
-					k = i;
+		double[][] H = diff2(sign(diff1(ac)));
+		for(int i =0;i<448;i++){
+			for(int j=0;j<66;j++){
+				if(H[i][j]==-2){
+				P.setPics(i+1,j+1,true);
 				}
 			}
-			P.getPics()[k+1][j+1] = true ;
 		}
 	}
 	
@@ -76,16 +73,16 @@ public class Autocorrelation {
 		for(int i =0;i<450;i++){
 			for(int j=0;j<66;j++){
 				if ((i<12)||(i>80)){	
-					P.getPics()[i][j]=false ;
+					P.setPics(i,j,false) ;
 				}
 				if(P.getPics()[i][j]){
 					if(ac[i][j]<ac[i-1][j]||ac[i][j]<ac[i-2][j]||ac[i][j]<ac[i-3][j]||ac[i][j]<ac[i+1][j]||ac[i][j]<ac[i+2][j]||ac[i][j]<ac[i+3][j]){
-						P.getPics()[i][j]=false;
+						P.setPics(i,j,false);
 					}
 					
 				}
 				if (ac[i][j]/(1-i/450)<0.6){
-					P.getPics()[i][j]=false;
+					P.setPics(i,j,false);
 				}
 				
 				
