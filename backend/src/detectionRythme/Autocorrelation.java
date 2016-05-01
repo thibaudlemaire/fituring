@@ -61,13 +61,16 @@ public class Autocorrelation {
 	}
 		
 	public void detectionPics(PositionPics P){
-		double[][] H = diff2(sign(diff1(ac)));
-		for(int i =0;i<448;i++){
-			for(int j=0;j<66;j++){
-				if(H[i][j]==-2){
-				P.setPics(i+1,j+1,true);
+		for(int j=0;j<66;j++){
+			double max = 0.0;
+			int k =0;
+			for(int i =0;i<448;i++){
+				max = Math.max(max,ac[i][j]);
+				if(max==ac[i][j]){
+					k = i;
 				}
 			}
+			P.setPics(k+1,j+1,true) ;
 		}
 	}
 	
