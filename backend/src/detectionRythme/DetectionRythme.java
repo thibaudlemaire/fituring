@@ -124,8 +124,8 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 			sumAuto.detectionPics();
 			this.setCompteurTo200();
 			
-			for (int i = 0; i < 300; i++) {
-				System.out.println("autoc " + i + " : " + autoc.getData(i, 62) + " : " + tabI.getData(i, 62));
+			for (int i = 0; i < 66; i++) {
+				System.out.println("selectionAutocorr " + i + " : " + pics.getSelectionAutocorr()[i] );
 			
 			}
 		}
