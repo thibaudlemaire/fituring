@@ -14,13 +14,13 @@ import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
 import interfaces.LectureAudioSimpleInterface;
 import interfaces.LectureInterface;
+import interfaces.MovementFoundInterface;
 import ndollar.*;
 
 public class Classification implements ClassificationInterface, KinectListenerInterface {
 	
-	Object BDD ;
 	KinectInterface kinectModule;
-	LectureAudioSimpleInterface audio;
+	MovementFoundInterface engine;
 	
 	private int LIMIT_VECTOR_points = 50 ; //can be modified 
 	
@@ -34,11 +34,10 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	private double I;
 	
 	@Override
-	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureInterface audio) {
+	public void initClassificationModule(KinectInterface kinectModule, MovementFoundInterface engine) {
 		// TODO Auto-generated method stub
 		this.kinectModule = kinectModule;
-		this.BDD = BDD ;
-		this.audio = (LectureAudioSimpleInterface) audio;
+		this.engine = engine;
 		
 		
 		String samplesDir = NDollarParameters.getInstance().SamplesDirectory;
@@ -75,8 +74,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		PointR newPoint = new PointR(handRightCoordinates[0], handRightCoordinates[1]);
 		points.add(newPoint);
 		
-		// traitement cyclique des points et ré-échantillonage spatial en réutilisant
-		// l'algorithme présent dans ndollar/Utils
+		// traitement cyclique des points et rï¿½-ï¿½chantillonage spatial en rï¿½utilisant
+		// l'algorithme prï¿½sent dans ndollar/Utils
 		
 		if (points.size() > LIMIT_VECTOR_points) {
 			PointR removedPoint = points.remove(0);
@@ -196,6 +195,19 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		else {
 			return "Error";
 		}
+	}
+
+	
+	@Override
+	public int addGesture(String path) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getNumberOfGestures() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
 

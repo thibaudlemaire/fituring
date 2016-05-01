@@ -7,7 +7,13 @@ package interfaces;
  */
 public interface ServeurInterface {
 	
-	/**+
+	/**
+	 * This function is called to init the server module
+	 * @param engine
+	 */
+	public void initServeurModule(UpdateParamInterface engine);
+	
+	/**
 	 * The server gets the volume from the android app for the audio lecture modules
 	 * @return volume
 	 */
@@ -15,7 +21,13 @@ public interface ServeurInterface {
 	
 	/**
 	 * The server gets the musical style from the android app for the synthese audio module
-	 * @return the musical Style
+	 * @return the musical Style (int to define...)
 	 */
-	public Object getMusicalStyle(); //il faut définir le type de variable à utiliser pour le style de musique
+	public int getMusicalStyle();
+	
+	/**
+	 * This function return true if a client is connected to the server
+	 * @return True if connected 
+	 */
+	public boolean isConnected();
 }
