@@ -71,6 +71,18 @@ public class Autocorrelation {
 	public void test1et2(PositionPics P){
 		for(int i =0;i<450;i++){
 			for(int j=0;j<66;j++){
+				if ((i<12)||(i>80)){	
+					P.getPics()[i][j]=false ;
+				}
+				if(P.getPics()[i][j]){
+					if(ac[i][j]<ac[i-1][j]||ac[i][j]<ac[i-2][j]||ac[i][j]<ac[i-3][j]||ac[i][j]<ac[i+1][j]||ac[i][j]<ac[i+2][j]||ac[i][j]<ac[i+3][j]){
+						P.getPics()[i][j]=false;
+					}
+					
+				}
+				if (ac[i][j]/(1-i/450)<0.6){
+					P.getPics()[i][j]=false;
+				}
 				
 				
 			}
