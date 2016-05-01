@@ -58,7 +58,7 @@ public class Autocorrelation {
 	}
 		
 	public void detectionPics(PositionPics P){
-		for(int j=0;j<66;j++){
+		for(int j=0;j<65;j++){
 			double max = 0.0;
 			int k =0;
 			for(int i =0;i<448;i++){
