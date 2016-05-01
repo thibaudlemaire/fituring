@@ -117,6 +117,10 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 			tab.interpolationEtDistance(tabI);
 			tabI.autocorrelation(autoc);
 			autoc.detectionPics(pics);
+			for (int i = 0; i < 450; i++) {
+				System.out.println("pics " + i + " : " + pics.getPics()[i][17]);
+			
+			}
 			autoc.test1et2(pics);
 			pics.SetSelectionAutocorr();
 			SommeAutocorr sumAuto = new SommeAutocorr(autoc);
@@ -124,11 +128,13 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 			sumAuto.detectionPics();
 			this.setCompteurTo200();
 			
-			for (int i = 0; i < 449; i++) {
-				System.out.println("pics " + i + " : " + pics.getPics()[i][63] );
+			for (int i = 0; i < 450; i++) {
+				System.out.println("autoc " + i + " : " + autoc.getData(i, 18));
 			
 			}
 		}
+		
+		
 	}
 	
 	public void startListening() {

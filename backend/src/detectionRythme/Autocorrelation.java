@@ -1,8 +1,11 @@
 package detectionRythme;
 
+import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
+
 public class Autocorrelation {
 	
 	private double[][] ac ;
+	
 	
 	public Autocorrelation(TableauDonneesInterpolees tabI){
 		this.ac = new double[450][67];
@@ -10,6 +13,8 @@ public class Autocorrelation {
 			ac[i][0]= tabI.getData(i,0);
 		}
 	}
+	
+	
 	
 	public double getData(int line,int column){
 		return ac[line][column];
@@ -19,32 +24,29 @@ public class Autocorrelation {
 		ac[line][column]=newValue;
 	}
 	
-	public double[][] diff1(double[][] B){
-		double[][] D = new double[449][66];
-		for(int k=1; k<66; k++){
-			for(int h=0; h<448; h++){
-				int l = 1;
-				while(B[h+l][k]-B[h][k]==0){
-					l++;
-				}
-				D[h][k-1]=B[h+1][k]-B[h][k];}
+	public double[][] diff1(double[][] bc){
+		double[][] D = new double[449][67];
+		for(int k=1; k<67; k++){
+			for(int h=0; h<449; h++){
+			D[h][k]=bc[h+1][k]-bc[h][k];
 			}
+		}
 		return D;
 	}
 	
 	public double[][] diff2(double[][] B){
-		double[][] D = new double[448][66];
-		for(int k=0; k<66; k++){
-			for(int l=0; l<448; l++){
-				D[l][k]=B[l+1][k]-B[l][k];
+		double[][] D = new double[448][67];
+		for(int k=1; k<67; k++){
+			for(int h=0; h<448; h++){
+			D[h][k]=ac[h+1][k]-ac[h][k];
 			}
 		}
 		return D;
 	}
 	
 	public double[][] sign(double[][] D){
-		double [][] S = new double[449][66];
-		for(int k=1; k<66; k++){
+		double [][] S = new double[449][67];
+		for(int k=1; k<67; k++){
 			for(int l=0; l<449; l++){
 				if(D[l][k]>0){
 					S[l][k]=1;
@@ -61,16 +63,14 @@ public class Autocorrelation {
 	}
 		
 	public void detectionPics(PositionPics P){
-		for(int j=0;j<66;j++){
-			double max = 0.0;
-			int k =0;
-			for(int i =0;i<448;i++){
-				max = Math.max(max,ac[i][j]);
-				if(max==ac[i][j]){
-					k = i;
+		double[][] H = diff2(sign(diff1(ac)));
+		for(int i =0;i<448;i++){
+			for(int j=0;j<66;j++){
+				if(H[i][j]==-2){
+					P.getPics()[i+1][j+1] = true ;
+					System.out.println("TRUE");
 				}
 			}
-			P.setPics(k+1,j+1,true) ;
 		}
 	}
 	

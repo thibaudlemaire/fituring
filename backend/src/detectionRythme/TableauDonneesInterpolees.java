@@ -15,6 +15,13 @@ public class TableauDonneesInterpolees {
 	public double getData(int line,int column){
 		return tab[line][column];
 	}
+	public double[] getColumn(int column){
+		double[] col = new double[450];
+		for (int i= 0;i<450;i++){
+			col[i]=tab[i][column];
+		}
+		return col;
+	}
 
 	public void setData(int line, int column, double newValue){
 		tab[line][column]=newValue;
@@ -36,17 +43,24 @@ public class TableauDonneesInterpolees {
 	public void autocorrelation(Autocorrelation autoc){
 		for(int j = 1; j<67 ; j++){
 			double m = 0;
-			for (int i = 0 ; i > 450 ; i++){
+			for (int i = 0 ; i < 450 ; i++){
 				m = m + tab[i][j];
 			}
 			m = m/450;
+			
+			double v=0;
+			for(int i=0;i<450;i++){
+				v=v+(tab[i][j]-m)*(tab[i][j]-m);
+			}
+			v=v/450;
+			
 			for(int h=0;h<450;h++){
 				double a = 0;
-				for(int t=0; t<450-h;t++){
-					a = a + (tab[t+h][j]-m)*(tab[t][j]-m);
+				for(int t=h; t<450;t++){
+					a = a + (tab[t][j]-m)*(tab[t-h][j]-m);
 				}
-				autoc.setData(h,j,a/450);
-				autoc.setData(h,j,autoc.getData(h,j)/autoc.getData(0,j));
+				autoc.setData(h,j,a/(v*450));
+				
 			}
 		}
 	}
