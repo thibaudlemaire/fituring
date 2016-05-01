@@ -7,8 +7,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import interfaces.ServeurInterface;
+import interfaces.UpdateParamInterface;
 
-public class serveur implements ServeurInterface {
+public class serveur implements ServeurInterface  {
 
 	@Override
 	public int getVolume() {
@@ -36,10 +37,23 @@ public class serveur implements ServeurInterface {
 		    }
 	}
 
+
 	@Override
-	public Object getMusicalStyle() {
+	public void initServeurModule(UpdateParamInterface engine) {
 		// TODO Auto-generated method stub
-		return null;
+		
+	}
+
+	@Override
+	public int getMusicalStyle() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean isConnected() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
