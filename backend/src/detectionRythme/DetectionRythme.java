@@ -1,10 +1,10 @@
 package detectionRythme;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
+import interfaces.BPMupdateInterface;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
-import interfaces.LectureAudioSimpleInterface;
 import interfaces.RyhtmeInterface;
 
 public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface{
@@ -33,25 +33,28 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	}
 	}
 
-	public void initRythmeModule() {
-		// TODO Auto-generated method stub
-	tab = new TableauCoordoneeTemps();
-
-	}
-
-	public int getCurrentTrueBPM() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public int getCurrentUsedBPM() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void initRythmeModule(KinectInterface kinect, LectureAudioSimpleInterface audio) {
+	@Override
+	public void initRythmeModule(KinectInterface kinect, BPMupdateInterface bpmUpdate) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int getBPM() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getSimpleBPM() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getWealth() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -10,18 +10,24 @@ public interface RyhtmeInterface {
 	/**
 	 * This function initialize the RythmeModule
 	 */
-	public void initRythmeModule(KinectInterface kinect, LectureAudioSimpleInterface audio);
+	public void initRythmeModule(KinectInterface kinect, BPMupdateInterface bpmUpdate);
 
 	/**
-	 * This function returns current true BPM 
+	 * This function returns BPM by autocorrelation
 	 * @return true BPM
 	 */
-	public int getCurrentTrueBPM();
+	public int getBPM();
 	
 	/**
-	 * This function returns current used BPM
-	 * @return used BPM
+	 * This function returns BPM using hysteresis method
+	 * @return
 	 */
-	public int getCurrentUsedBPM();
+	public int getSimpleBPM();
+	
+	/**
+	 * This function return current wealth of dance
+	 * @return
+	 */
+	public int getWealth();
 	
 }
