@@ -125,7 +125,7 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 			this.setCompteurTo200();
 			
 			for (int i = 0; i < 449; i++) {
-				System.out.println("pics " + i + " : " + pics.getPics()[i][62] );
+				System.out.println("pics " + i + " : " + pics.getPics()[i][63] );
 			
 			}
 		}
