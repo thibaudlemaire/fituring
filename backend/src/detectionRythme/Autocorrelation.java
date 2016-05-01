@@ -74,12 +74,7 @@ public class Autocorrelation {
 				if ((i<12)||(i>80)){	
 					P.getPics()[i][j]=false ;
 				}
-				if(P.getPics()[i][j]){
-					if(ac[i][j]<ac[i-1][j]||ac[i][j]<ac[i-2][j]||ac[i][j]<ac[i-3][j]||ac[i][j]<ac[i+1][j]||ac[i][j]<ac[i+2][j]||ac[i][j]<ac[i+3][j]){
-						P.getPics()[i][j]=false;
-					}
-					
-				}
+				
 			}
 		}
 	}
