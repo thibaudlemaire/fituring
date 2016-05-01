@@ -78,7 +78,7 @@ public class Autocorrelation {
 					if(ac[i][j]<ac[i-1][j]||ac[i][j]<ac[i-2][j]||ac[i][j]<ac[i-3][j]||ac[i][j]<ac[i+1][j]||ac[i][j]<ac[i+2][j]||ac[i][j]<ac[i+3][j]){
 						P.getPics()[i][j]=false;
 					}
-					if (ac[i][j]/(1-i/450)<0.6){
+					if (ac[i][j]/(ac[0][j]-i/450)<0.5){
 						P.getPics()[i][j]=false;
 					}
 				}
