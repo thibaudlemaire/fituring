@@ -28,7 +28,7 @@ public class Autocorrelation {
 		double[][] D = new double[449][67];
 		for(int k=1; k<67; k++){
 			for(int h=0; h<449; h++){
-			D[h][k]=bc[h+1][k]-bc[h][k];
+				D[h][k]=bc[h+1][k]-bc[h][k];
 			}
 		}
 		return D;
@@ -38,7 +38,8 @@ public class Autocorrelation {
 		double[][] D = new double[448][67];
 		for(int k=1; k<67; k++){
 			for(int h=0; h<448; h++){
-			D[h][k]=ac[h+1][k]-ac[h][k];
+			D[h][k]=B[h+1][k]-B[h][k];
+			
 			}
 		}
 		return D;
@@ -54,21 +55,22 @@ public class Autocorrelation {
 				if(D[l][k]<0){
 					S[l][k]=-1;
 				}
-				else{
-					S[l][k]=0;
-				}
+				
+				
 			}
 		}
 		return S;
 	}
 		
 	public void detectionPics(PositionPics P){
-		double[][] H = diff2(sign(diff1(ac)));
+		double[][] F = diff1(ac);
+		double[][] G = sign(F);
+		double[][] H = diff2(G);
+		
 		for(int i =0;i<448;i++){
-			for(int j=0;j<66;j++){
+			for(int j=1;j<67;j++){
 				if(H[i][j]==-2){
-					P.getPics()[i+1][j+1] = true ;
-					System.out.println("TRUE");
+					P.getPics()[i+1][j-1] = true ;
 				}
 			}
 		}
