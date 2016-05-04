@@ -65,7 +65,7 @@ public class Kinect extends J4KSDK implements KinectInterface
 	 */
 	public void initKinectModule() {
 		// Init Kinect, datas, current skeleton, etc...
-		start(J4KSDK.DEPTH|J4KSDK.SKELETON);
+		start(J4KSDK.DEPTH|J4KSDK.SKELETON|J4KSDK.COLOR);
 	}
 
 	/**
