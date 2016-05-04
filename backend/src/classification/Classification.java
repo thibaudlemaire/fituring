@@ -23,8 +23,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	Vector<PointR> points = new Vector<PointR>();
 	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
 	static NDollarRecognizer _rec = new NDollarRecognizer();
-	int fifoLimit = 20; //size of the fifo
-	float resamplingDistance = (float) 0.1; //size of resampling
+	int fifoLimit = 64; //size of the fifo
+	float resamplingDistance = (float) 0.02; //size of resampling
 	
 	//Used in resampling :
 	float[] handRightCoordinatestmp = new float[3];
@@ -83,9 +83,15 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		//Gestion de la file
 		if (points.size() > fifoLimit) {
 			points.remove(0);
+			strokes.clear();
+			if (points.size() > 1) {
+				strokes.add(new Vector<PointR>(points));
+			}
 			Object[] result = nDollarRecognizer();
-			if ((double) result[0] > 0.8) {
+			System.out.println(result[0]);
+			if ((double) result[0] > 0.5) {
 				System.out.println("Movement recognized : " + (String) result[1]);
+				points.clear();
 			}
 		}
 		
@@ -96,10 +102,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	}
 
 	public void stopListening() {
-		strokes.clear();
-		if (points.size() > 1) {
-			strokes.add(new Vector<PointR>(points));
-		}
 		kinectModule.unsetListener(this);		
 	}
 
@@ -132,7 +134,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				//				(char) 176, result.getActualComparisons(),
 				//				result.getTotalComparisons());
 			}
-			points.clear();
 			resultReturn[0] = result.getScore();
 			resultReturn[1] = result.getName();
 		}
