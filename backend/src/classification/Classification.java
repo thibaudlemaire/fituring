@@ -91,6 +91,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			Object[] result = nDollarRecognizer();
 			if ((double) result[0] > confidenceValue) {
 				System.out.println("Movement recognized : " + (String) result[1]);
+				points.clear();
 			}
 		}
 		
@@ -133,7 +134,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				//				(char) 176, result.getActualComparisons(),
 				//				result.getTotalComparisons());
 			}
-			points.clear();
+			
 			resultReturn[0] = result.getScore();
 			resultReturn[1] = result.getName();
 		}
