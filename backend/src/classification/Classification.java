@@ -23,7 +23,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	Vector<PointR> points = new Vector<PointR>();
 	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
 	static NDollarRecognizer _rec = new NDollarRecognizer();
-	int fifoLimit = 50; //size of the fifo
+	int fifoLimit = 20; //size of the fifo
 	float resamplingDistance = (float) 0.1; //size of resampling
 	
 	//Used in resampling :
@@ -80,11 +80,13 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
 		handRightCoordinatestmp = handRightCoordinates;
 		
-		System.out.println("ok");
-		
 		//Gestion de la file
 		if (points.size() > fifoLimit) {
-			
+			points.remove(0);
+			Object[] result = nDollarRecognizer();
+			if ((double) result[0] > 0.8) {
+				System.out.println("Movement recognized : " + (String) result[1]);
+			}
 		}
 		
 	}
@@ -102,7 +104,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	}
 
 	//Renvoie le nom du geste reconnu
-	public String nDollarRecognizer() {
+	public Object[] nDollarRecognizer() {
+		Object[] resultReturn = new Object[2];
 		if (strokes.size() > 0) {
 			Vector<PointR> allPoints = new Vector<PointR>();
 			Enumeration<Vector<PointR>> en = strokes.elements();
@@ -117,7 +120,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 						//"No Match!\n[{0} out of {1} comparisons made]",
 						//result.getActualComparisons(),
 						//result.getTotalComparisons());
-				return "No Match";
+				resultReturn[0] = 0;
+				resultReturn[1] = "No Match";
 			} else {
 				//resultTxt = MessageFormat
 				//		.format("{0}: {1} ({2}px, {3}{4})  [{5,number,integer} out of {6,number,integer} comparisons made]",
@@ -129,11 +133,15 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				//				result.getTotalComparisons());
 			}
 			points.clear();
-			return result.getName();
+			resultReturn[0] = result.getScore();
+			resultReturn[1] = result.getName();
 		}
 		else {
-			return "Error";
+			resultReturn[0] = 0;
+			resultReturn[1] = "Error";
 		}
+		
+		return resultReturn;
 	}
 	
 	public float distance(float[] coordinates1, float[] coordinates2) {
