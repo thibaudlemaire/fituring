@@ -129,10 +129,8 @@ public class Gesture implements Comparable<Gesture> {
 
 		// first, resample (influences calculation of centroid)
 		
-		// Alexandre : resampling elsewhere
-		
-		//Points = Utils.Resample(Points,
-			//	NDollarParameters.getInstance().NumResamplePoints);
+		Points = Utils.Resample(Points,
+			NDollarParameters.getInstance().NumResamplePoints);
 
 		// then, if we are rotation-invariant, rotate to a common reference
 		// angle
