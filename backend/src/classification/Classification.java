@@ -83,6 +83,10 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		//Gestion de la file
 		if (points.size() > fifoLimit) {
 			points.remove(0);
+			strokes.clear();
+			if (points.size() > 1) {
+				strokes.add(new Vector<PointR>(points));
+			}
 			Object[] result = nDollarRecognizer();
 			if ((double) result[0] > 0.8) {
 				System.out.println("Movement recognized : " + (String) result[1]);
@@ -96,10 +100,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	}
 
 	public void stopListening() {
-		strokes.clear();
-		if (points.size() > 1) {
-			strokes.add(new Vector<PointR>(points));
-		}
 		kinectModule.unsetListener(this);		
 	}
 
