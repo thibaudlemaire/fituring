@@ -23,8 +23,9 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	Vector<PointR> points = new Vector<PointR>();
 	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
 	static NDollarRecognizer _rec = new NDollarRecognizer();
-	int fifoLimit = 20; //size of the fifo
-	float resamplingDistance = (float) 0.1; //size of resampling
+	int fifoLimit = 30; //size of the fifo
+	double confidenceValue = 0.85;
+	float resamplingDistance = (float) 0.05; //size of resampling
 	
 	//Used in resampling :
 	float[] handRightCoordinatestmp = new float[3];
@@ -88,7 +89,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				strokes.add(new Vector<PointR>(points));
 			}
 			Object[] result = nDollarRecognizer();
-			if ((double) result[0] > 0.8) {
+			if ((double) result[0] > confidenceValue) {
 				System.out.println("Movement recognized : " + (String) result[1]);
 			}
 		}
