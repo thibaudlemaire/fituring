@@ -116,7 +116,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			}
 			Object[] result = nDollarRecognizer();
 			if ((double) result[0] > confidenceValue) {
-				System.out.println("Movement recognized : " + (String) result[1]);
+				System.out.println("Movement recognized : " + (String) result[1] + " score : " + (double) result[0]);
 				points.clear();
 			}
 		}
