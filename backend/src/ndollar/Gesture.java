@@ -129,7 +129,7 @@ public class Gesture implements Comparable<Gesture> {
 
 		// first, resample (influences calculation of centroid)
 		
-		// Alexandre : resampling elsewhere
+		/////// Robin : no need resample
 		
 		//Points = Utils.Resample(Points,
 			//	NDollarParameters.getInstance().NumResamplePoints);

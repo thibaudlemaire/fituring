@@ -93,7 +93,7 @@ import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.Vector;
 
-public class AddGestureLauncher extends Frame implements MouseMotionListener,
+public class AddGestureGraphicLauncher extends Frame implements MouseMotionListener,
 		MouseListener, ActionListener {
 	private static final long serialVersionUID = 1L;
 
@@ -127,10 +127,10 @@ public class AddGestureLauncher extends Frame implements MouseMotionListener,
 			_rec.LoadGesture(allXMLFiles[i]);
 		}
 
-		new AddGestureLauncher();
+		new AddGestureGraphicLauncher();
 	}
 
-	public AddGestureLauncher() {
+	public AddGestureGraphicLauncher() {
 		setTitle("$N Multistroke Recognizer in Java");
 		setBounds(400, 300, 400, 400);
 		setBackground(new Color(221, 221, 221));
