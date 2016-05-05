@@ -77,7 +77,7 @@ public class NDollarParameters
 	public String GestureSet = "unistrokes";
 	public String SamplesDirectory = "gesture.samples/"; // can be relative or absolute in config.xml
 	public boolean RotationInvariant = true; // when set to false, recognition is sensitive to rotation
-	public boolean ProcessUnistrokes = true; // when set to false, does not reverse order of unistrokes
+	public boolean ProcessUnistrokes = false; // when set to false, does not reverse order of unistrokes
 	public boolean Include1D = true; // when set to false, does not include gestures who pass the 1D test
 	public boolean Include2D = true; // when set to false, does not include gestures who fail the 1D test -- and are therefore 2D
 	public boolean TestFor1D = true; // when set to false, it's like $1 and ignores 1D vs 2D distinction
@@ -85,7 +85,7 @@ public class NDollarParameters
 	public boolean MatchOnlyIfSameNumberOfStrokes = false; // when set to true, only allows matches with templates with the same number of strokes
 	public boolean DoStartAngleComparison = true; // when set to true, will reduce # of comparisons done based on initial angle of start of gesture
 	public int StartAngleIndex = 4; // options: 4, 8
-	public double StartAngleThreshold = Utils.Deg2Rad(30.0); // options: 30, 45, 60
+	public double StartAngleThreshold = Utils.Deg2Rad(5.0); // options: 30, 45, 60
 	public int NumResamplePoints = 64; // options: 16, 64, 96
 	
 	public PossibleSearchMethods SearchMethod = PossibleSearchMethods.GSS;
