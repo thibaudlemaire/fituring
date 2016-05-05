@@ -78,11 +78,11 @@ public class AddGesture implements KinectListenerInterface {
 		if (distance(handRightCoordinates, handRightCoordinatestmp) < resamplingDistance) {
 			return ;
 		}
-		
+		System.out.println("Skeleton recorded");
 		//Si on arrive ici, 10 squelettes n'ont pas été recus depuis le dernier enregistrement dans la file et il n'y a pas eu de déplacement inférieur à resamplingDistance
 		numberOfSkeletonReceived = 0;
 		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
-		handRightCoordinatestmp = handRightCoordinates;
+		currentSkeleton = newSkeleton;
 	}
 	
 	public void startListening() {
