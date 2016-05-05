@@ -84,7 +84,7 @@ public class AddGesture implements KinectListenerInterface {
 		//Si on arrive ici, 10 squelettes n'ont pas été recus depuis le dernier enregistrement dans la file et il n'y a pas eu de déplacement inférieur à resamplingDistance
 		numberOfSkeletonReceived = 0;
 		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
-		handRightCoordinatestmp = handRightCoordinates;
+		currentSkeleton = newSkeleton;
 	}
 	
 	public void startListening() {
@@ -92,6 +92,7 @@ public class AddGesture implements KinectListenerInterface {
 	}
 
 	public void stopListening() {
+		strokes.add(new Vector<PointR>(points));
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Entrer le nom du mouvement : ");
 		String name = sc.nextLine();

@@ -28,7 +28,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	Skeleton currentSkeleton = new Skeleton();
 	///////Options :
 	static int resetSkeletonNumber = 10; //Adds coordinates in the file every resetSkeletonNumber skeleton received
-	int fifoLimit = 30; //size of the fifo
+	int fifoLimit = 50; //size of the fifo
 	double confidenceValue = 0.85;
 	static float resamplingDistance = (float) 0.05; //size of resampling
 	
@@ -125,6 +125,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			if ((double) result[0] > confidenceValue) {
 				System.out.println("Movement recognized : " + (String) result[1] + ", Score : " + (double) result[0]);
 				points.clear();
+				strokes.clear();
 			}
 		}
 		
