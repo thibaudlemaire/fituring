@@ -115,7 +115,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		//Gestion de la file
 		if (points.size() > fifoLimit) {
 			points.remove(0);
-			strokes.clear();
+			strokes.remove(0);
 			if (points.size() > 1) {
 				strokes.add(new Vector<PointR>(points));
 			}
@@ -123,6 +123,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			if ((double) result[0] > confidenceValue) {
 				System.out.println("Movement recognized : " + (String) result[1] + ", Score : " + (double) result[0]);
 				points.clear();
+				strokes.clear();
 			}
 		}
 		

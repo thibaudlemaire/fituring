@@ -90,6 +90,7 @@ public class AddGesture implements KinectListenerInterface {
 	}
 
 	public void stopListening() {
+		strokes.add(new Vector<PointR>(points));
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Entrer le nom du mouvement : ");
 		String name = sc.nextLine();
