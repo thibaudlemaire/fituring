@@ -11,12 +11,12 @@ import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
 import interfaces.LectureAudioSimpleInterface;
-import interfaces.LectureInterface;
+import interfaces.MovementFoundInterface;
 import ndollar.*;
 
 public class Classification implements ClassificationInterface, KinectListenerInterface {
 	
-	Object BDD ;
+	MovementFoundInterface engine ;
 	KinectInterface kinectModule;
 	LectureAudioSimpleInterface audio;
 	
@@ -32,10 +32,10 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	boolean firstSkeletonReceived = true;
 	
 	@Override
-	public void initClassificationModule(Object BDD, KinectInterface kinectModule, LectureInterface audio) {
+	public void initClassificationModule(KinectInterface kinectModule, MovementFoundInterface engine) {
 		// TODO Auto-generated method stub
 		this.kinectModule = kinectModule;
-		this.BDD = BDD ;
+		this.engine = engine ;
 		this.audio = (LectureAudioSimpleInterface) audio;
 		
 		String samplesDir = NDollarParameters.getInstance().SamplesDirectory;
@@ -149,8 +149,20 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	public float distance(float[] coordinates1, float[] coordinates2) {
 		float x = coordinates1[0] - coordinates2[0];
 		float y = coordinates1[1] - coordinates2[1];
-		float z = coordinates1[2] - coordinates2[2];
 		return (float) Math.sqrt(x*x + y*y);
+	}
+
+
+	@Override
+	public int addGesture(String path) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getNumberOfGestures() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
 
