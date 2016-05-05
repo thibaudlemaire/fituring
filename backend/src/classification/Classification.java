@@ -115,7 +115,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		//Gestion de la file
 		if (points.size() > fifoLimit) {
 			points.remove(0);
-			strokes.remove(0);
+			strokes.clear();
 			if (points.size() > 1) {
 				strokes.add(new Vector<PointR>(points));
 			}
