@@ -3,6 +3,7 @@ package detectionRythme;
 import java.util.Date;
 
 import edu.ufl.digitalworlds.j4k.Skeleton;
+import interfaces.BPMupdateInterface;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
@@ -124,6 +125,30 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 		lastPeriod[1] = 500;
 		lastPeriod[1] = 500;
 		lastDate = 0;
+	}
+
+	@Override
+	public void initRythmeModule(KinectInterface kinect, BPMupdateInterface bpmUpdate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getBPM() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getSimpleBPM() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getWealth() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

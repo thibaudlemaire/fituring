@@ -24,7 +24,7 @@ public class Alpha {
 		System.out.println("Initialisation des modules");
 		kinect.initKinectModule();
 		audio.initLectureAudioModule(new Object(), 100);
-		cl.initClassificationModule(new Object(), kinect, (LectureInterface) audio);
+		cl.initClassificationModule(kinect);
 		//dr.initRythmeModule(kinect, audio);
 		
 		while(true)
