@@ -27,14 +27,21 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	int numberOfSkeletonReceived = 0; //Counts how many skeletons have been received
 	Skeleton currentSkeleton = new Skeleton();
 	///////Options :
-	int resetSkeletonNumber = 10; //Adds coordinates in the file every resetSkeletonNumber skeleton received
+	static int resetSkeletonNumber = 10; //Adds coordinates in the file every resetSkeletonNumber skeleton received
 	int fifoLimit = 30; //size of the fifo
 	double confidenceValue = 0.85;
-	float resamplingDistance = (float) 0.05; //size of resampling
+	static float resamplingDistance = (float) 0.05; //size of resampling
 	
 	//Used in resampling :
-	float[] handRightCoordinatestmp = new float[3];
 	boolean firstSkeletonReceived = true;
+	
+	//Renvoie les paramètres ci-dessus (pour la classe AddGesture)
+	public static Object[] getParameters() {
+		Object[] result = new Object[2];
+		result[0] = resetSkeletonNumber;
+		result[1] = resamplingDistance;
+		return result;
+	}
 	
 	@Override
 	public void initClassificationModule(KinectInterface kinectModule) {
@@ -102,7 +109,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			return ;
 		}
 		
-		//Si on arrive ici, 10 squelettes n'ont pas Ã©tÃ© recus depuis le dernier enregistrement dans la file et il n'y a pas eu de dÃ©placement infÃ©rieur Ã  resamplingDistance
+		//Si on arrive ici, 10 squelettes n'ont pas été recus depuis le dernier enregistrement dans la file et il n'y a pas eu de déplacement inférieur à resamplingDistance
 		numberOfSkeletonReceived = 0;
 		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
 		handRightCoordinatestmp = handRightCoordinates;
@@ -116,7 +123,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			}
 			Object[] result = nDollarRecognizer();
 			if ((double) result[0] > confidenceValue) {
-				System.out.println("Movement recognized : " + (String) result[1] + " score : " + (double) result[0]);
+				System.out.println("Movement recognized : " + (String) result[1] + ", Score : " + (double) result[0]);
 				points.clear();
 			}
 		}
