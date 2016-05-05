@@ -23,6 +23,11 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	Vector<PointR> points = new Vector<PointR>();
 	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
 	static NDollarRecognizer _rec = new NDollarRecognizer();
+	
+	int numberOfSkeletonReceived = 0; //Counts how many skeletons have been received
+	Skeleton currentSkeleton = new Skeleton();
+	///////Options :
+	int resetSkeletonNumber = 10; //Adds coordinates in the file every resetSkeletonNumber skeleton received
 	int fifoLimit = 30; //size of the fifo
 	double confidenceValue = 0.85;
 	float resamplingDistance = (float) 0.05; //size of resampling
@@ -56,6 +61,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 
 	public void skeletonReceived(KinectEventInterface e){  //automatically called when a new skeleton is captured by the kinect
 		// TODO Auto-generated method stub
+		numberOfSkeletonReceived++;
 		Skeleton newSkeleton = e.getNewSkeleton();
 		float baseX = newSkeleton.get3DJointX(Skeleton.SPINE_MID);
 		float baseY = newSkeleton.get3DJointY(Skeleton.SPINE_MID);
@@ -65,12 +71,28 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		handRightCoordinates[1] = newSkeleton.get3DJointY(Skeleton.HAND_RIGHT)-baseY;
 		handRightCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT)-baseZ;
 		
+		
 		//Echantillonage spatial
 		
 		if (firstSkeletonReceived) {
 			points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
 			firstSkeletonReceived = false;
-			handRightCoordinatestmp = handRightCoordinates;
+			currentSkeleton = newSkeleton;
+			return ;
+		}
+		
+		//Plus rapide. A supprimer a la version finale quand on aura plein de points du squelette
+		float[] handRightCoordinatestmp = new float[3];
+		handRightCoordinatestmp[0] = currentSkeleton.get3DJointX(Skeleton.HAND_RIGHT)-baseX;
+		handRightCoordinatestmp[1] = currentSkeleton.get3DJointY(Skeleton.HAND_RIGHT)-baseY;
+		handRightCoordinatestmp[2] = currentSkeleton.get3DJointZ(Skeleton.HAND_RIGHT)-baseZ;
+		
+		
+		//Ajout dans la file au moins toutes les 333ms
+		if (numberOfSkeletonReceived >= resetSkeletonNumber) {
+			points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
+			numberOfSkeletonReceived = 0;
+			currentSkeleton = newSkeleton;
 			return ;
 		}
 		
@@ -78,6 +100,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			return ;
 		}
 		
+		//Si on arrive ici, 10 squelettes n'ont pas été recus depuis le dernier enregistrement dans la file et il n'y a pas eu de déplacement inférieur à resamplingDistance
+		numberOfSkeletonReceived = 0;
 		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
 		handRightCoordinatestmp = handRightCoordinates;
 		
