@@ -27,7 +27,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	int numberOfSkeletonReceived = 0; //Counts how many skeletons have been received
 	Skeleton currentSkeleton = new Skeleton();
 	///////Options :
-	static int resetSkeletonNumber = 15; //Adds coordinates in the file every resetSkeletonNumber skeleton received
+	static int resetSkeletonNumber = 10; //Adds coordinates in the file every resetSkeletonNumber skeleton received
 	int fifoLimit1 = 25; //size of the fifo1
 	int fifoLimit2 = 35; //size of the fifo2
 	double confidenceValue = 0.85;
@@ -112,7 +112,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		//Si on arrive ici, 10 squelettes n'ont pas été recus depuis le dernier enregistrement dans la file et il n'y a pas eu de déplacement inférieur à resamplingDistance
 		numberOfSkeletonReceived = 0;
 		points1.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
-		points1.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
+		points2.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
 		currentSkeleton = newSkeleton;
 		
 		//Gestion de la file1
