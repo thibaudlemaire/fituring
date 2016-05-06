@@ -27,8 +27,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	int numberOfSkeletonReceived = 0; //Counts how many skeletons have been received
 	Skeleton currentSkeleton = new Skeleton();
 	///////Options :
-	static int resetSkeletonNumber = 10; //Adds coordinates in the file every resetSkeletonNumber skeleton received
-	int fifoLimit = 30; //size of the fifo
+	static int resetSkeletonNumber = 15; //Adds coordinates in the file every resetSkeletonNumber skeleton received
+	int fifoLimit = 35; //size of the fifo
 	double confidenceValue = 0.85;
 	static float resamplingDistance = (float) 0.05; //size of resampling
 	
@@ -110,7 +110,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		//Si on arrive ici, 10 squelettes n'ont pas été recus depuis le dernier enregistrement dans la file et il n'y a pas eu de déplacement inférieur à resamplingDistance
 		numberOfSkeletonReceived = 0;
 		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
-		handRightCoordinatestmp = handRightCoordinates;
+		currentSkeleton = newSkeleton;
 		
 		//Gestion de la file
 		if (points.size() > fifoLimit) {
@@ -123,7 +123,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			if ((double) result[0] > confidenceValue) {
 				System.out.println("Movement recognized : " + (String) result[1] + ", Score : " + (double) result[0]);
 				points.clear();
-				strokes.clear();
 			}
 		}
 		
