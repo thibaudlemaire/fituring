@@ -158,8 +158,7 @@ public class Gesture implements Comparable<Gesture> {
 		// moved determination of scale method to within the scale() method for
 		// less branching here
 		// Lisa 8/9/2009
-		Points = UtilsAncien.Scale(Points, NDollarRecognizerAncien._1DThreshold,
-				NDollarRecognizerAncien.ResampleScale);
+		Points = Utils.Scale(Points, 0.30, new SizeR(250.0, 250.0));
 
 		// next, if NOT rotation-invariant, rotate back
 		//if (!NDollarParameters.getInstance().RotationInvariant) {
@@ -167,13 +166,12 @@ public class Gesture implements Comparable<Gesture> {
 		//}
 
 		// next, translate to a common origin
-		Points = UtilsAncien.TranslateCentroidTo(Points,
-				NDollarRecognizerAncien.ResampleOrigin);
+		Points = Utils.TranslateCentroidTo(Points, new PointR(0, 0));
 
 		// finally, save the start angle
 		// Lisa 8/8/2009
 		// store the start unit vector after post-processing steps
-		this.StartUnitVector = UtilsAncien.CalcStartUnitVector(Points,
+		this.StartUnitVector = Utils.CalcStartUnitVector(Points,
 				NDollarParameters.getInstance().StartAngleIndex);
 
 		// Lisa 3/7/2011
