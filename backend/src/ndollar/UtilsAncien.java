@@ -1,4 +1,4 @@
-package ndollarV2;
+package ndollar;
 /*
  *  The $N Multistroke Recognizer (Java version)
  *
@@ -65,7 +65,7 @@ package ndollarV2;
 
 import java.util.Vector;
 
-public class Utils {
+public class UtilsAncien {
 
 	public static RectangleR FindBox(Vector<PointR> points) {
 		double minX = Double.MAX_VALUE;
@@ -275,7 +275,7 @@ public class Utils {
 	public static Vector<PointR> TranslateBBoxTo(Vector<PointR> points,
 			PointR toPt) {
 		Vector<PointR> newPoints = new Vector<PointR>(points.size());
-		RectangleR r = Utils.FindBox(points);
+		RectangleR r = UtilsAncien.FindBox(points);
 		for (int i = 0; i < points.size(); i++) {
 			PointR p = (PointR) points.elementAt(i);
 			p.X += (toPt.X - r.getX());
@@ -320,7 +320,7 @@ public class Utils {
 																// circle
 		{
 			// do new thing
-			PointR centroid = Utils.Centroid(pts);
+			PointR centroid = UtilsAncien.Centroid(pts);
 			double radiusSquared = 1.0d;
 			for (PointR point : pts) {
 				double distanceSquared = Math.pow((centroid.X - point.X), 2.0)
@@ -350,7 +350,7 @@ public class Utils {
 			return scaledPts;
 		} else // do old thing
 		{
-			return Utils.ScaleByDimension(pts, oneDRatio, size);
+			return UtilsAncien.ScaleByDimension(pts, oneDRatio, size);
 		}
 	}
 
@@ -560,12 +560,12 @@ public class Utils {
 		Vector<PointR> pts = new Vector<PointR>(rawPts);
 
 		// rotate points to 0 (temporarily!)
-		double radians = Utils.AngleInRadians(Utils.Centroid(pts),
+		double radians = UtilsAncien.AngleInRadians(UtilsAncien.Centroid(pts),
 				(PointR) pts.elementAt(0), false);
-		pts = Utils.RotateByRadians(pts, -radians); // undo angle
+		pts = UtilsAncien.RotateByRadians(pts, -radians); // undo angle
 
 		// determine ratio of height to width to see which side is shorter
-		RectangleR r = Utils.FindBox(pts);
+		RectangleR r = UtilsAncien.FindBox(pts);
 
 		// check for divide by zero
 		if ((r.getWidth() == 0) || (r.getHeight() == 0))
@@ -575,13 +575,13 @@ public class Utils {
 																					// shorter
 																					// side
 		{
-			if ((r.getWidth() / r.getHeight()) < NDollarRecognizer._1DThreshold)
+			if ((r.getWidth() / r.getHeight()) < NDollarRecognizerAncien._1DThreshold)
 				return true;
 			else
 				return false;
 		} else // else height is shorter side
 		{
-			if ((r.getHeight() / r.getWidth()) < NDollarRecognizer._1DThreshold)
+			if ((r.getHeight() / r.getWidth()) < NDollarRecognizerAncien._1DThreshold)
 				return true;
 			else
 				return false;

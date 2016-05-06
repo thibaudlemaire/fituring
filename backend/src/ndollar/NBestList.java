@@ -66,6 +66,10 @@ package ndollar;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+/**
+ * Robin : j'ai pas touché à cette classe
+ *
+ */
 
 /**
  * The $N Multistroke Recognizer (C# version)
@@ -295,7 +299,7 @@ public class NBestList {
 		if (_nBestList.size() > 0) {
 			for (NBestResult r : _nBestList) {
 				s += MessageFormat.format("{0,number},",
-						Utils.round(r.getScore(), 3));
+						UtilsAncien.round(r.getScore(), 3));
 			}
 		}
 		return s.replaceAll("[,]+$", "");
