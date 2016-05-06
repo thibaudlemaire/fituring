@@ -27,8 +27,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	int numberOfSkeletonReceived = 0; //Counts how many skeletons have been received
 	Skeleton currentSkeleton = new Skeleton();
 	///////Options :
-	static int resetSkeletonNumber = 15; //Adds coordinates in the file every resetSkeletonNumber skeleton received
-	int fifoLimit = 30; //size of the fifo
+	static int resetSkeletonNumber = 10; //Adds coordinates in the file every resetSkeletonNumber skeleton received
+	int fifoLimit = 20; //size of the fifo
 	double confidenceValue = 0.85;
 	static float resamplingDistance = (float) 0.05; //size of resampling
 	
