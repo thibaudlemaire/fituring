@@ -1,4 +1,4 @@
-package ndollarV2;
+package ndollar;
 /*
  *  The $N Multistroke Recognizer (Java version)
  *
@@ -81,7 +81,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlpull.v1.XmlSerializer;
 
-public class NDollarRecognizer {
+public class NDollarRecognizerAncien {
 	private final static String NAMESPACE = null;
 	private final static String VERSION = "1.0";
 
@@ -122,7 +122,7 @@ public class NDollarRecognizer {
 		return _gestures;
 	}
 
-	public NDollarRecognizer() {
+	public NDollarRecognizerAncien() {
 		_gestures = new Hashtable<String, Multistroke>(256);
 	}
 
@@ -161,7 +161,7 @@ public class NDollarRecognizer {
 					totalComparisons++;
 					// added as of 8/9/2009
 					if (!NDollarParameters.getInstance().DoStartAngleComparison
-							|| (NDollarParameters.getInstance().DoStartAngleComparison && Utils
+							|| (NDollarParameters.getInstance().DoStartAngleComparison && UtilsAncien
 									.AngleBetweenUnitVectors(
 											candidate.StartUnitVector,
 											p.StartUnitVector) <= NDollarParameters
@@ -175,13 +175,13 @@ public class NDollarRecognizer {
 							best = GoldenSectionSearch(candidate.Points, // to
 																			// rotate
 									p.Points, // to match
-									Utils.Deg2Rad(-_RotationBound), // lbound,
+									UtilsAncien.Deg2Rad(-_RotationBound), // lbound,
 																	// Lisa
 																	// 1/2/2008
-									Utils.Deg2Rad(+_RotationBound), // ubound,
+									UtilsAncien.Deg2Rad(+_RotationBound), // ubound,
 																	// Lisa
 																	// 1/2/2008
-									Utils.Deg2Rad(2.0) // threshold
+									UtilsAncien.Deg2Rad(2.0) // threshold
 							);
 
 							score = 1d - best[0] / HalfDiagonal;
@@ -235,7 +235,7 @@ public class NDollarRecognizer {
 		double angle = Math.atan(b / a);
 		return new double[] {
 				Math.acos(a * Math.cos(angle) + b * Math.sin(angle)),
-				Utils.Rad2Deg(angle), 0d }; // distance, angle, calls to path
+				UtilsAncien.Rad2Deg(angle), 0d }; // distance, angle, calls to path
 											// dist (n/a)
 	}
 
@@ -243,12 +243,12 @@ public class NDollarRecognizer {
 	private double[] GoldenSectionSearch(Vector<PointR> pts1,
 			Vector<PointR> pts2, double a, double b, double threshold) {
 		double x1 = Phi * a + (1 - Phi) * b;
-		Vector<PointR> newPoints = Utils.RotateByRadians(pts1, x1);
-		double fx1 = Utils.PathDistance(newPoints, pts2);
+		Vector<PointR> newPoints = UtilsAncien.RotateByRadians(pts1, x1);
+		double fx1 = UtilsAncien.PathDistance(newPoints, pts2);
 
 		double x2 = (1 - Phi) * a + Phi * b;
-		newPoints = Utils.RotateByRadians(pts1, x2);
-		double fx2 = Utils.PathDistance(newPoints, pts2);
+		newPoints = UtilsAncien.RotateByRadians(pts1, x2);
+		double fx2 = UtilsAncien.PathDistance(newPoints, pts2);
 
 		double i = 2.0; // calls
 		while (Math.abs(b - a) > threshold) {
@@ -257,19 +257,19 @@ public class NDollarRecognizer {
 				x2 = x1;
 				fx2 = fx1;
 				x1 = Phi * a + (1 - Phi) * b;
-				newPoints = Utils.RotateByRadians(pts1, x1);
-				fx1 = Utils.PathDistance(newPoints, pts2);
+				newPoints = UtilsAncien.RotateByRadians(pts1, x1);
+				fx1 = UtilsAncien.PathDistance(newPoints, pts2);
 			} else {
 				a = x1;
 				x1 = x2;
 				fx1 = fx2;
 				x2 = (1 - Phi) * a + Phi * b;
-				newPoints = Utils.RotateByRadians(pts1, x2);
-				fx2 = Utils.PathDistance(newPoints, pts2);
+				newPoints = UtilsAncien.RotateByRadians(pts1, x2);
+				fx2 = UtilsAncien.PathDistance(newPoints, pts2);
 			}
 			i++;
 		}
-		return new double[] { Math.min(fx1, fx2), Utils.Rad2Deg((b + a) / 2.0),
+		return new double[] { Math.min(fx1, fx2), UtilsAncien.Rad2Deg((b + a) / 2.0),
 				i }; // distance, angle, calls to pathdist
 	}
 
@@ -288,8 +288,8 @@ public class NDollarRecognizer {
 		do {
 			D = d; // the last angle tried was better still
 			theta += step;
-			Vector<PointR> newPoints = Utils.RotateByDegrees(pts1, theta);
-			d = Utils.PathDistance(newPoints, pts2);
+			Vector<PointR> newPoints = UtilsAncien.RotateByDegrees(pts1, theta);
+			d = UtilsAncien.PathDistance(newPoints, pts2);
 			i++;
 		} while (d <= D);
 		return new double[] { D, theta - step, i }; // distance, angle, calls to
@@ -299,15 +299,15 @@ public class NDollarRecognizer {
 	private double[] FullSearch(Vector<PointR> pts1, Vector<PointR> pts2,
 			OutputStreamWriter writer) {
 		double bestA = 0d;
-		double bestD = Utils.PathDistance(pts1, pts2);
+		double bestD = UtilsAncien.PathDistance(pts1, pts2);
 
 		try {
 			for (int i = -180; i <= +180; i++) {
-				Vector<PointR> newPoints = Utils.RotateByDegrees(pts1, i);
-				double d = Utils.PathDistance(newPoints, pts2);
+				Vector<PointR> newPoints = UtilsAncien.RotateByDegrees(pts1, i);
+				double d = UtilsAncien.PathDistance(newPoints, pts2);
 				if (writer != null) {
 					writer.write(MessageFormat.format("{0}\t{1,number}", i,
-							Utils.round(d, 3)));
+							UtilsAncien.round(d, 3)));
 				}
 				if (d < bestD) {
 					bestD = d;
@@ -316,8 +316,8 @@ public class NDollarRecognizer {
 			}
 			writer.write(MessageFormat
 					.format("\nFull Search (360 rotations)\n{0,number}{1}\t{2,number} px",
-							Utils.round(bestA, 2), (char) 176,
-							Utils.round(bestD, 3))); // calls,
+							UtilsAncien.round(bestA, 2), (char) 176,
+							UtilsAncien.round(bestD, 3))); // calls,
 														// angle,
 														// distance
 		} catch (IOException e) {
@@ -674,7 +674,7 @@ public class NDollarRecognizer {
 									_1DThreshold,
 									NDollarParameters.getInstance().DoStartAngleComparison,
 									NDollarParameters.getInstance().StartAngleIndex,
-									Utils.Rad2Deg(NDollarParameters
+									UtilsAncien.Rad2Deg(NDollarParameters
 											.getInstance().StartAngleThreshold),
 									NDollarParameters.getInstance().MatchOnlyIfSameNumberOfStrokes,
 									NDollarParameters.getInstance().TestFor1D,
@@ -697,7 +697,7 @@ public class NDollarRecognizer {
 									_1DThreshold,
 									NDollarParameters.getInstance().DoStartAngleComparison,
 									NDollarParameters.getInstance().StartAngleIndex,
-									Utils.Rad2Deg(NDollarParameters
+									UtilsAncien.Rad2Deg(NDollarParameters
 											.getInstance().StartAngleThreshold),
 									NDollarParameters.getInstance().MatchOnlyIfSameNumberOfStrokes,
 									NDollarParameters.getInstance().TestFor1D,
@@ -759,7 +759,7 @@ public class NDollarRecognizer {
 												// examples for
 							// choose over the whole range of examples for this
 							// user/symbol pair, Lisa 1/5/2008
-							int[] chosen = Utils.Random(0,
+							int[] chosen = UtilsAncien.Random(0,
 									c.getNumExamples() - 1, n); // select N
 																// unique
 																// indices
@@ -804,7 +804,7 @@ public class NDollarRecognizer {
 									notLoaded[k++] = j; // jth gesture in c is
 														// not loaded
 							}
-							int chosen = Utils.Random(0, notLoaded.length - 1); // index
+							int chosen = UtilsAncien.Random(0, notLoaded.length - 1); // index
 							Multistroke ms = c.get(notLoaded[chosen]); // gesture
 																		// to
 																		// test
@@ -847,7 +847,7 @@ public class NDollarRecognizer {
 													ms.NumStrokes, // 12 number
 																	// of
 																	// strokes
-													Utils.round(
+													UtilsAncien.round(
 															result.getAngle(),
 															1), (char) 176, // 13/14
 																			// Angle
@@ -901,7 +901,7 @@ public class NDollarRecognizer {
 						mainWriter.write(MessageFormat.format(
 								"ndollar,{0},{1},{2},{3},{4,number}", user,
 								speed, n, cat,
-								Utils.round((double) results.get(cat), 3)));
+								UtilsAncien.round((double) results.get(cat), 3)));
 					}
 				}
 			}
@@ -909,10 +909,10 @@ public class NDollarRecognizer {
 			long end = System.currentTimeMillis();
 			mainWriter.write(MessageFormat.format(
 					"\nEndTime(ms):,{0}, Minutes:,{1,number,integer}", end,
-					Utils.round((end - start) / 60000.0, 2)));
+					UtilsAncien.round((end - start) / 60000.0, 2)));
 			recWriter.write(MessageFormat.format(
 					"\nEndTime(ms):,{0}, Minutes:,{1,number,integer}", end,
-					Utils.round((end - start) / 60000.0, 2)));
+					UtilsAncien.round((end - start) / 60000.0, 2)));
 			System.out.println();
 			System.out.println("Done testing batch.");
 			if (mainWriter != null)
@@ -980,7 +980,7 @@ public class NDollarRecognizer {
 					g2.OriginalGesture.Points, writer); // Lisa 1/2/2008
 
 			// use bidirectional hill climbing to do it again
-			double init = Utils.PathDistance(g1.OriginalGesture.Points,
+			double init = UtilsAncien.PathDistance(g1.OriginalGesture.Points,
 					g2.OriginalGesture.Points); // initial distance // Lisa
 												// 1/2/2008
 			double[] pos = HillClimbSearch(g1.OriginalGesture.Points,
@@ -991,8 +991,8 @@ public class NDollarRecognizer {
 			best = (neg[0] < pos[0]) ? neg : pos; // min distance
 			writer.write(MessageFormat
 					.format("\nHill Climb Search ({0} rotations)\n{1,number}{2}\t{3,number} px",
-							pos[2] + neg[2] + 1, Utils.round(best[1], 2),
-							(char) 176, Utils.round(best[0], 3))); // calls,
+							pos[2] + neg[2] + 1, UtilsAncien.round(best[1], 2),
+							(char) 176, UtilsAncien.round(best[0], 3))); // calls,
 																	// angle,
 																	// distance
 
@@ -1003,36 +1003,36 @@ public class NDollarRecognizer {
 																			// Lisa
 																			// 1/2/2008
 					g2.OriginalGesture.Points, // to match // Lisa 1/2/2008
-					Utils.Deg2Rad(-_RotationBound), // lbound // Lisa 1/2/2008
-					Utils.Deg2Rad(+_RotationBound), // ubound // Lisa 1/2/2008
-					Utils.Deg2Rad(2.0)); // threshold
+					UtilsAncien.Deg2Rad(-_RotationBound), // lbound // Lisa 1/2/2008
+					UtilsAncien.Deg2Rad(+_RotationBound), // ubound // Lisa 1/2/2008
+					UtilsAncien.Deg2Rad(2.0)); // threshold
 			writer.write(MessageFormat
 					.format("\nGolden Section Search ({0} rotations)\n{1,number}{2}\t{3,number} px",
-							gold[2], Utils.round(gold[1], 2), (char) 176,
-							Utils.round(gold[0], 3))); // calls, angle, distance
+							gold[2], UtilsAncien.round(gold[1], 2), (char) 176,
+							UtilsAncien.round(gold[0], 3))); // calls, angle, distance
 
 			// for pasting into Excel
 			writer.write(MessageFormat
 					.format("\n{0} {1} {2,number} {3,number} {4,number} {5,number} {6} {7,number} {8,number} {9,number} {10} {11,number} {12,number} {13,number} {14}",
 							g1.Name, // rotated
 							g2.Name, // into
-							Math.abs(Utils.round(full[1], 2)), // |angle|
-							Utils.round(full[1], 2), // Full Search angle
-							Utils.round(full[0], 3), // Full Search distance
-							Utils.round(init, 3), // Initial distance w/o any
+							Math.abs(UtilsAncien.round(full[1], 2)), // |angle|
+							UtilsAncien.round(full[1], 2), // Full Search angle
+							UtilsAncien.round(full[0], 3), // Full Search distance
+							UtilsAncien.round(init, 3), // Initial distance w/o any
 													// search
 							full[2], // Full Search iterations
-							Math.abs(Utils.round(best[1], 2)), // |angle|
-							Utils.round(best[1], 2), // Bidirectional Hill Climb
+							Math.abs(UtilsAncien.round(best[1], 2)), // |angle|
+							UtilsAncien.round(best[1], 2), // Bidirectional Hill Climb
 														// Search angle
-							Utils.round(best[0], 3), // Bidirectional Hill Climb
+							UtilsAncien.round(best[0], 3), // Bidirectional Hill Climb
 														// Search distance
 							pos[2] + neg[2] + 1, // Bidirectional Hill Climb
 													// Search iterations
-							Math.abs(Utils.round(gold[1], 2)), // |angle|
-							Utils.round(gold[1], 2), // Golden Section Search
+							Math.abs(UtilsAncien.round(gold[1], 2)), // |angle|
+							UtilsAncien.round(gold[1], 2), // Golden Section Search
 														// angle
-							Utils.round(gold[0], 3), // Golden Section Search
+							UtilsAncien.round(gold[0], 3), // Golden Section Search
 														// distance
 							gold[2])); // Golden Section Search iterations
 			if (fos != null)

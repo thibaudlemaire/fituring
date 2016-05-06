@@ -62,6 +62,10 @@ package ndollar;
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
+/**
+ * Robin : j'ai pas touché a cette classe
+ *
+ */
 
 public class PointR {
 	public double X, Y;

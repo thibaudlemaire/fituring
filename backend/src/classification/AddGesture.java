@@ -10,30 +10,36 @@ import edu.ufl.digitalworlds.j4k.Skeleton;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
-import ndollarV2.NDollarParameters;
-import ndollarV2.PointR;
-import ndollarV2.UtilsV2;
-import ndollarV2.NDollarRecognizerV2;
-
+import ndollar.NDollarParameters;
+import ndollar.NDollarRecognizer;
+import ndollar.PointR;
+import ndollar.Utils;
+/**
+ * This class allows to add a gesture using coordinates given by the Kinect
+ * @author robin
+ *
+ */
 public class AddGesture implements KinectListenerInterface {
 	
 	KinectInterface kinectModule;
 
-	Vector<PointR> points = new Vector<PointR>();
-	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
-	static NDollarRecognizerV2 _rec = new NDollarRecognizerV2();
+	Vector<PointR> points = new Vector<PointR>(); //Points where coordinates of the gesture to be recorded will be saved
+	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>(); //Stroke where these previous points will be saved at the end of the record
+	static NDollarRecognizer _rec = new NDollarRecognizer();
 	
-	int numberOfSkeletonReceived = 0; //Counts how many skeletons have been received
-	Skeleton currentSkeleton = new Skeleton();
+	int numberOfSkeletonReceived = 0; //Used to record a skeleton every 333ms
+	Skeleton currentSkeleton = new Skeleton(); //Used to rescale spacially
+	
 	///////Options :
-	int resetSkeletonNumber; //Adds coordinates in the file every resetSkeletonNumber skeleton received
-	float resamplingDistance; //size of resampling
+	int resetSkeletonNumber; //Force to add coordinates in the file every resetSkeletonNumber skeleton received
+	float resamplingDistance; //Distance between two coordinated resampled
 	
-	//Used in resampling :
-	boolean firstSkeletonReceived = true;
+	boolean firstSkeletonReceived = true; //Used in resampling
 	
+	
+	//Constructor
 	public AddGesture(KinectInterface kinect) {
-		Object[] params = Classification.getParameters();
+		Object[] params = ClassificationAncien.getParameters();
 		this.resetSkeletonNumber = (int) params[0];
 		this.resamplingDistance = (float) params[1];
 		this.kinectModule = kinect;
@@ -41,7 +47,6 @@ public class AddGesture implements KinectListenerInterface {
 
 	
 	public void skeletonReceived(KinectEventInterface e){  //automatically called when a new skeleton is captured by the kinect
-		// TODO Auto-generated method stub
 		numberOfSkeletonReceived++;
 		Skeleton newSkeleton = e.getNewSkeleton();
 		float baseX = newSkeleton.get3DJointX(Skeleton.SPINE_MID);
@@ -53,9 +58,9 @@ public class AddGesture implements KinectListenerInterface {
 		handRightCoordinates[2] = newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT)-baseZ;
 		
 		
-		////Echantillonage spatial
+		////Spatial resampling
 		
-		//Premier squelette recu : impossible de calculer la distance
+		//First skeleton received : distance calculation is impossible, so we simply add coordinates and save the first skeleton in currentSkeleton
 		if (firstSkeletonReceived) {
 			points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
 			firstSkeletonReceived = false;
@@ -63,7 +68,7 @@ public class AddGesture implements KinectListenerInterface {
 			return ;
 		}
 		
-		//Plus rapide. A supprimer a la version finale quand on aura plein de points du squelette
+		//Plus rapide. A supprimer a la version finale quand on aura plein de points du squelette (ici on ne s'interesse qu'a la main droite)
 		float[] handRightCoordinatestmp = new float[3];
 		handRightCoordinatestmp[0] = currentSkeleton.get3DJointX(Skeleton.HAND_RIGHT)-baseX;
 		handRightCoordinatestmp[1] = currentSkeleton.get3DJointY(Skeleton.HAND_RIGHT)-baseY;
@@ -92,27 +97,33 @@ public class AddGesture implements KinectListenerInterface {
 	}
 
 	public void stopListening() {
-		points = UtilsV2.treatement(points);
+		
+		points = Utils.treatement(points); //Here, points are translated and rescaled
 		strokes.add(new Vector<PointR>(points));
 		Scanner sc = new Scanner(System.in);
+		
+		//Used to set the name of the gesture recorded
 		System.out.println("Entrer le nom du mouvement : ");
 		String name = sc.nextLine();
 		while (name == null || name.equals("")) {
 			System.out.println("Champ vide ! Entrer le nom du mouvement : ");
 			name = sc.nextLine();
 		}
+		
 		saveGesture(name);
 		strokes.clear();
 		points.clear();
 		kinectModule.unsetListener(this);		
 	}
 	
+	//Distance calculator. Used for resample
 	public float distance(float[] coordinates1, float[] coordinates2) {
 		float x = coordinates1[0] - coordinates2[0];
 		float y = coordinates1[1] - coordinates2[1];
 		return (float) Math.sqrt(x*x + y*y);
 	}
 	
+	//Gesture saving method. Gestures are saved in .xml format
 	public void saveGesture(String name) {
 		if (strokes == null || strokes.size() == 0) {
 			System.out.println("Cannot save - no gesture!");

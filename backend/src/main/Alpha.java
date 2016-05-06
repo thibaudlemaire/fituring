@@ -3,7 +3,6 @@ package main;
 import java.util.Scanner;
 
 import classification.Classification;
-import classification.ClassificationV2;
 import detectionRythme.DetectionRythme;
 import interfaces.LectureInterface;
 import kinect.Kinect;
@@ -19,7 +18,7 @@ public class Alpha {
 		System.out.println("Creation des instances");
 		Kinect kinect = new Kinect();
 		//Classification cl = new Classification();
-		ClassificationV2 cl = new ClassificationV2();
+		Classification cl = new Classification();
 		LectureAudio audio = new LectureAudio();
 		//DetectionRythme dr = new DetectionRythme();
 		

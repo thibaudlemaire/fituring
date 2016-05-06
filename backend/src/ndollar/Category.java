@@ -64,6 +64,9 @@ package ndollar;
  */
 
 import java.util.Vector;
+/**
+ * Robin : j'ai pas touché à cette classe
+ */
 
 public class Category {
 	private String _name;

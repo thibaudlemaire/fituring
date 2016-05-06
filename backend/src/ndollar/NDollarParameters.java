@@ -68,6 +68,10 @@ package ndollar;
 // a file in the NDollar runtime directory (usually called config.xml --
 // that value is set in the constructor).
 
+
+/**
+ * Robin : j'ai pas touché a cette classe
+ */
 public class NDollarParameters
 {
 	static NDollarParameters instance = null; // singleton instance
@@ -85,7 +89,7 @@ public class NDollarParameters
 	public boolean MatchOnlyIfSameNumberOfStrokes = false; // when set to true, only allows matches with templates with the same number of strokes
 	public boolean DoStartAngleComparison = true; // when set to true, will reduce # of comparisons done based on initial angle of start of gesture
 	public int StartAngleIndex = 8; // options: 4, 8
-	public double StartAngleThreshold = Utils.Deg2Rad(60.0); // options: 30, 45, 60
+	public double StartAngleThreshold = 60 * Math.PI / 180d; // options: 30, 45, 60
 	public int NumResamplePoints = 64; // options: 16, 64, 96
 	
 	public PossibleSearchMethods SearchMethod = PossibleSearchMethods.GSS;
