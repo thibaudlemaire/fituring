@@ -64,6 +64,11 @@ package ndollar;
  */
 
 import java.util.Collections;
+/**
+ * Robin : j'ai pas touché à cette classe
+ *
+ */
+
 import java.util.Vector;
 
 // This class was added to extend $1 to $N. It allows a Multistroke
@@ -156,6 +161,10 @@ public class Multistroke implements Comparable<Multistroke> {
 		}
 	}
 
+	
+	public Gesture getOriginalGesture() {
+		return OriginalGesture;
+	}
 	// this algorithm is given by B. Heap
 	// A. Levitin, Introduction to The Design & Analysis of Algorithms, Addison
 	// Wesley, 2003

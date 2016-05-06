@@ -64,6 +64,10 @@ package ndollar;
  */
 
 import java.util.Vector;
+/**
+ * Robin : j'ai commenté certaines parties du code (le resample, vu qu'on fait déjà le rééchantillonage nous meme)
+ *
+ */
 
 public class Gesture implements Comparable<Gesture> {
 	public String Name;
@@ -129,8 +133,10 @@ public class Gesture implements Comparable<Gesture> {
 
 		// first, resample (influences calculation of centroid)
 		
-		Points = Utils.Resample(Points,
-				NDollarParameters.getInstance().NumResamplePoints);
+		
+		/////////Robin : suppression du rééchantillonage
+		//Points = Utils.Resample(Points,
+			//	NDollarParameters.getInstance().NumResamplePoints);
 
 		// then, if we are rotation-invariant, rotate to a common reference
 		// angle
@@ -138,41 +144,45 @@ public class Gesture implements Comparable<Gesture> {
 		// Lisa 8/8/2009: this is now set by a flag in the NDollarRecognizer.cs
 		// file with all the other flags
 		// rotate so that the centroid-to-1st-point is at zero degrees
-		double radians = Utils.AngleInRadians(Utils.Centroid(Points),
-				(PointR) Points.elementAt(0), false);
-		Points = Utils.RotateByRadians(Points, -radians);
+		//double radians = Utils.AngleInRadians(Utils.Centroid(Points),
+			//	(PointR) Points.elementAt(0), false);
+		//Points = Utils.RotateByRadians(Points, -radians);
 
 		// then, resize to a square
 		// check for 1D vs 2D (because we resize differently)
 		// Lisa 1/2/2008
 		// replace with boolean, Lisa 8/9/2009
-		this.Is1D = Utils.Is1DGesture(RawPoints);
+		//this.Is1D = Utils.Is1DGesture(RawPoints);
 
 		// scale to a common (square) dimension
 		// moved determination of scale method to within the scale() method for
 		// less branching here
 		// Lisa 8/9/2009
-		Points = Utils.Scale(Points, NDollarRecognizer._1DThreshold,
-				NDollarRecognizer.ResampleScale);
+		Points = UtilsAncien.Scale(Points, NDollarRecognizerAncien._1DThreshold,
+				NDollarRecognizerAncien.ResampleScale);
 
 		// next, if NOT rotation-invariant, rotate back
-		if (!NDollarParameters.getInstance().RotationInvariant) {
-			Points = Utils.RotateByRadians(Points, +radians); // undo angle
-		}
+		//if (!NDollarParameters.getInstance().RotationInvariant) {
+			//Points = Utils.RotateByRadians(Points, +radians); // undo angle
+		//}
 
 		// next, translate to a common origin
-		Points = Utils.TranslateCentroidTo(Points,
-				NDollarRecognizer.ResampleOrigin);
+		Points = UtilsAncien.TranslateCentroidTo(Points,
+				NDollarRecognizerAncien.ResampleOrigin);
 
 		// finally, save the start angle
 		// Lisa 8/8/2009
 		// store the start unit vector after post-processing steps
-		this.StartUnitVector = Utils.CalcStartUnitVector(Points,
+		this.StartUnitVector = UtilsAncien.CalcStartUnitVector(Points,
 				NDollarParameters.getInstance().StartAngleIndex);
 
 		// Lisa 3/7/2011
 		// make the simple vector-based version for Protractor testing
 		this.VectorVersion = Vectorize(this.Points);
+	}
+	
+	public Vector<PointR> getPoints() {
+		return Points;
 	}
 
 	public int getDuration() {
