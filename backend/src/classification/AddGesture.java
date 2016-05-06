@@ -10,9 +10,10 @@ import edu.ufl.digitalworlds.j4k.Skeleton;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
-import ndollar.NDollarParameters;
-import ndollar.NDollarRecognizer;
-import ndollar.PointR;
+import ndollarV2.NDollarParameters;
+import ndollarV2.PointR;
+import ndollarV2.UtilsV2;
+import ndollarV2.NDollarRecognizerV2;
 
 public class AddGesture implements KinectListenerInterface {
 	
@@ -20,7 +21,7 @@ public class AddGesture implements KinectListenerInterface {
 
 	Vector<PointR> points = new Vector<PointR>();
 	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
-	static NDollarRecognizer _rec = new NDollarRecognizer();
+	static NDollarRecognizerV2 _rec = new NDollarRecognizerV2();
 	
 	int numberOfSkeletonReceived = 0; //Counts how many skeletons have been received
 	Skeleton currentSkeleton = new Skeleton();
@@ -91,6 +92,7 @@ public class AddGesture implements KinectListenerInterface {
 	}
 
 	public void stopListening() {
+		points = UtilsV2.treatement(points);
 		strokes.add(new Vector<PointR>(points));
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Entrer le nom du mouvement : ");
