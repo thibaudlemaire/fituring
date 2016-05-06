@@ -2,13 +2,22 @@ package ndollarV2;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.Vector;
 
 import org.xmlpull.mxp1.MXParser;
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+import org.xmlpull.v1.XmlSerializer;
 
 public class NDollarRecognizerV2 {
+	private final static String NAMESPACE = null;
+	private final static String VERSION = "1.0";
 
 	private Hashtable<String, Multistroke> _gestures;
 	
@@ -241,6 +250,105 @@ public class NDollarRecognizerV2 {
 				i }; // distance, angle, calls to pathdist
 	}
 
+	
+	public boolean SaveGesture(String filename, Vector<Vector<PointR>> strokes,
+			Vector<Integer> numPtsInStroke) {
+		// add the new prototype with the name extracted from the filename.
+		String name = Gesture.ParseName(filename);
+
+		// Lisa 1/2/2008
+		Multistroke newPrototype = new Multistroke(name, "test", "test",
+				strokes); // points, numPtsInStroke);
+
+		// jso 09/30/2011
+		if (_gestures.containsKey(name)){
+			// do not remove but rename the multistroke - we want them all
+			// (Recognizer still returns original name as it uses
+			// the name of the Multistroke's OriginalGesture)
+			//_gestures.remove(newPrototype.name);
+			newPrototype.Name = (newPrototype.Name+"-"+(++cnt));
+		}
+
+		_gestures.put(newPrototype.Name, newPrototype);
+
+		Vector<PointR> points = newPrototype.OriginalGesture.RawPoints;
+		// figure out the duration of the gesture
+		PointR p0 = points.elementAt(0);
+		PointR pn = points.elementAt(points.size() - 1);
+
+		// do the xml writing (of the raw points)
+		boolean success = true;
+		boolean indentation = true;
+		XmlSerializer writer = null;
+		OutputStreamWriter osw = null;
+		try {
+			XmlPullParserFactory factory = XmlPullParserFactory.newInstance(
+					System.getProperty(XmlPullParserFactory.PROPERTY_NAME),
+					null);
+			writer = factory.newSerializer();
+			// save the prototype as an Xml file
+			osw = new OutputStreamWriter(new FileOutputStream(filename));
+			writer.setOutput(osw);
+			writer.startTag(NAMESPACE, "Gesture");
+			writer.attribute(NAMESPACE, "Name", name);
+			writer.attribute(NAMESPACE, "Subject", "test");
+			writer.attribute(NAMESPACE, "Speed", "test");
+			writer.attribute(NAMESPACE, "NumPts",
+					Integer.toString(points.size()));
+			writer.attribute(NAMESPACE, "Milliseconds",
+					Integer.toString(pn.T - p0.T));
+			writer.attribute(NAMESPACE, "AppName", getClass().getName()
+					+ "-java");
+			writer.attribute(NAMESPACE, "AppVer", VERSION);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+			writer.attribute(NAMESPACE, "Date", dateFormat
+					.format(GregorianCalendar.getInstance().getTime()));
+			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+			writer.attribute(NAMESPACE, "TimeOfDay", timeFormat
+					.format(GregorianCalendar.getInstance().getTime()));
+			if (indentation)
+				writer.text("\n");
+			// write out the Stroke tags, Lisa 1/2/2008
+			int numStrokesWritten = 0;
+			// write out the raw individual points
+			// fixed to work with strokes, Lisa 8/8/2009
+			for (Vector<PointR> pts : strokes) {
+				writer.startTag(NAMESPACE, "Stroke");
+				writer.attribute(NAMESPACE, "index",
+						Integer.toString(numStrokesWritten + 1));
+				if (indentation)
+					writer.text("\n");
+				numStrokesWritten++;
+				for (PointR p : pts) {
+					writer.startTag(NAMESPACE, "Point");
+					writer.attribute(NAMESPACE, "X", Double.toString(p.X));
+					writer.attribute(NAMESPACE, "Y", Double.toString(p.Y));
+					writer.attribute(NAMESPACE, "T", Integer.toString(p.T));
+					writer.endTag(NAMESPACE, "Point");
+					if (indentation)
+						writer.text("\n");
+				}
+				// write the Stroke tags, Lisa 1/2/2008
+				writer.endTag(NAMESPACE, "Stroke"); // </Stroke>, I hope
+				if (indentation)
+					writer.text("\n");
+			}
+			writer.endTag(NAMESPACE, "Gesture");
+			if (indentation)
+				writer.text("\n");
+			writer.endDocument();
+			writer.flush();
+			if (osw != null)
+				osw.close();
+		} catch (IOException xex) {
+			xex.printStackTrace();
+			success = false;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			success = false;
+		}
+		return success; // Xml file successfully written (or not)
+	}
 
 
 }
