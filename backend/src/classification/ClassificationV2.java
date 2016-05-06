@@ -146,12 +146,17 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 
 		//Comparaisons
 		if (points.size() > minGesturesPoints) {
+			//Gestion de la file
+			if (points.size() >= fifoLimit) {
+				points.remove(0);
+			}
+			
 			int j = 0;
 			for (Enumeration<String> element = _gestures.keys() ; element.hasMoreElements() ; ) { 
 				String key = element.nextElement();
 				if (_gesturesLength.get(key) <= points.size()) {
 					Vector<PointR> pointsTmp = new Vector<PointR>();
-					for (int i = points.size(); i>points.size() - _gesturesLength.get(key); i--) {
+					for (int i = points.size() - _gesturesLength.get(key); i<points.size(); i--) {
 						pointsTmp.add(points.get(i));
 					}
 					comparedTo.set(j, pointsTmp);
@@ -170,11 +175,6 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 				}
 			}
 			j++;
-		}
-		
-		//Gestion de la file
-		if (points.size() >= fifoLimit) {
-			points.remove(0);
 		}
 	}
 
