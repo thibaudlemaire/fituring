@@ -27,7 +27,7 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 
 	static NDollarRecognizerV2 _rec = new NDollarRecognizerV2();
 	private Hashtable<String, Multistroke> _gestures;
-	private Hashtable<String, Integer> _gesturesLength;
+	private Hashtable<String, Integer> _gesturesLength = new Hashtable<String, Integer>();
 
 	int numberOfSkeletonReceived = 0; //Counts how many skeletons have been received
 	Skeleton currentSkeleton = new Skeleton();
@@ -41,6 +41,8 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 
 	//Used in resampling :
 	boolean firstSkeletonReceived = true;
+	
+	int numberOfGestures;
 
 	//Renvoie les paramètres ci-dessus (pour la classe AddGesture)
 	public static Object[] getParameters() {
@@ -79,7 +81,6 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 			String key = e.nextElement();
 			int value = _gestures.get(key).getOriginalGesture().getPoints().size();
 			_gesturesLength.put(key, value);
-			comparedTo.set(_gesturesLength.get(key), null);
 
 			//Determination de la longueur maximale pour la file
 			if (value > max) {
@@ -89,9 +90,12 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 			if (value < min) {
 				min = value;
 			}
+			
+			numberOfGestures++;
 		}
 		fifoLimit = max;
 		minGesturesPoints = min;
+		comparedTo.setSize(numberOfGestures);
 
 	}
 
@@ -142,6 +146,7 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 
 		//Comparaisons
 		if (points.size() > minGesturesPoints) {
+			int j = 0;
 			for (Enumeration<String> element = _gestures.keys() ; element.hasMoreElements() ; ) { 
 				String key = element.nextElement();
 				if (_gesturesLength.get(key) <= points.size()) {
@@ -149,10 +154,10 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 					for (int i = points.size(); i>points.size() - _gesturesLength.get(key); i--) {
 						pointsTmp.add(points.get(i));
 					}
-					comparedTo.set(_gesturesLength.get(key), pointsTmp);
-					if (comparedTo.get(_gesturesLength.get(key)).size() > 1) {
+					comparedTo.set(j, pointsTmp);
+					if (comparedTo.get(j).size() > 1) {
 						strokes.clear();
-						strokes.add(comparedTo.get(_gesturesLength.get(key)));
+						strokes.add(comparedTo.get(j));
 					}
 					Object[] result = nDollarRecognizer(strokes);
 					if ((double) result[0] > confidenceValue) {
@@ -164,6 +169,7 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 					}
 				}
 			}
+			j++;
 		}
 		
 		//Gestion de la file
