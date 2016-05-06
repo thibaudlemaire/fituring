@@ -299,7 +299,7 @@ public class NBestList {
 		if (_nBestList.size() > 0) {
 			for (NBestResult r : _nBestList) {
 				s += MessageFormat.format("{0,number},",
-						UtilsAncien.round(r.getScore(), 3));
+						Utils.round(r.getScore(), 3));
 			}
 		}
 		return s.replaceAll("[,]+$", "");
