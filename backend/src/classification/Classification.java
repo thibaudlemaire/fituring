@@ -134,7 +134,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		}
 
 		//Gestion de la file2
-		if (points2.size() > fifoLimit1) {
+		if (points2.size() > fifoLimit2) {
 			points2.remove(0);
 			strokes2.clear();
 			if (points2.size() > 1) {
