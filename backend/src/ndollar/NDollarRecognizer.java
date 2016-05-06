@@ -71,7 +71,7 @@ public class NDollarRecognizer {
 					totalComparisons++;
 					// added as of 8/9/2009
 					if (!NDollarParameters.getInstance().DoStartAngleComparison
-							|| (NDollarParameters.getInstance().DoStartAngleComparison && UtilsAncien
+							|| (NDollarParameters.getInstance().DoStartAngleComparison && Utils
 									.AngleBetweenUnitVectors(
 											candidate.StartUnitVector,
 											p.StartUnitVector) <= NDollarParameters
@@ -86,13 +86,13 @@ public class NDollarRecognizer {
 						best = GoldenSectionSearch(candidate.Points, // to
 								// rotate
 								p.Points, // to match
-								UtilsAncien.Deg2Rad(-_RotationBound), // lbound,
+								Utils.Deg2Rad(-_RotationBound), // lbound,
 								// Lisa
 								// 1/2/2008
-								UtilsAncien.Deg2Rad(+_RotationBound), // ubound,
+								Utils.Deg2Rad(+_RotationBound), // ubound,
 								// Lisa
 								// 1/2/2008
-								UtilsAncien.Deg2Rad(2.0) // threshold
+								Utils.Deg2Rad(2.0) // threshold
 								);
 
 						// keep track of what subgesture was best match for this
@@ -228,12 +228,12 @@ public class NDollarRecognizer {
 	private double[] GoldenSectionSearch(Vector<PointR> pts1,
 			Vector<PointR> pts2, double a, double b, double threshold) {
 		double x1 = Phi * a + (1 - Phi) * b;
-		Vector<PointR> newPoints = UtilsAncien.RotateByRadians(pts1, x1);
-		double fx1 = UtilsAncien.PathDistance(newPoints, pts2);
+		Vector<PointR> newPoints = Utils.RotateByRadians(pts1, x1);
+		double fx1 = Utils.PathDistance(newPoints, pts2);
 
 		double x2 = (1 - Phi) * a + Phi * b;
-		newPoints = UtilsAncien.RotateByRadians(pts1, x2);
-		double fx2 = UtilsAncien.PathDistance(newPoints, pts2);
+		newPoints = Utils.RotateByRadians(pts1, x2);
+		double fx2 = Utils.PathDistance(newPoints, pts2);
 
 		double i = 2.0; // calls
 		while (Math.abs(b - a) > threshold) {
@@ -242,19 +242,19 @@ public class NDollarRecognizer {
 				x2 = x1;
 				fx2 = fx1;
 				x1 = Phi * a + (1 - Phi) * b;
-				newPoints = UtilsAncien.RotateByRadians(pts1, x1);
-				fx1 = UtilsAncien.PathDistance(newPoints, pts2);
+				newPoints = Utils.RotateByRadians(pts1, x1);
+				fx1 = Utils.PathDistance(newPoints, pts2);
 			} else {
 				a = x1;
 				x1 = x2;
 				fx1 = fx2;
 				x2 = (1 - Phi) * a + Phi * b;
-				newPoints = UtilsAncien.RotateByRadians(pts1, x2);
-				fx2 = UtilsAncien.PathDistance(newPoints, pts2);
+				newPoints = Utils.RotateByRadians(pts1, x2);
+				fx2 = Utils.PathDistance(newPoints, pts2);
 			}
 			i++;
 		}
-		return new double[] { Math.min(fx1, fx2), UtilsAncien.Rad2Deg((b + a) / 2.0),
+		return new double[] { Math.min(fx1, fx2), Utils.Rad2Deg((b + a) / 2.0),
 				i }; // distance, angle, calls to pathdist
 	}
 
