@@ -19,5 +19,17 @@ public class UtilsV2 {
 			double dy = p2.Y - p1.Y;
 			return Math.sqrt(dx * dx + dy * dy);
 		}
+		
+		//Rescaling and translating
+		public static Vector<PointR> treatement(Vector<PointR> points) {
+
+			//Rescaling
+			Vector<PointR> result = Utils.Scale(new Vector<PointR>(points), NDollarRecognizer._1DThreshold, NDollarRecognizer.ResampleScale);
+
+			//Translating
+			result = Utils.TranslateCentroidTo(result, NDollarRecognizer.ResampleOrigin);
+
+			return result;
+		}
 
 }

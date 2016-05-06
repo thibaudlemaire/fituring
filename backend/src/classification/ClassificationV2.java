@@ -19,9 +19,10 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 	MovementFoundInterface engine ;
 	KinectInterface kinectModule;
 
-	//Right hand
 	Vector<PointR> points = new Vector<PointR>();
 	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
+	
+	Vector<Vector<PointR>> comparedTo = new Vector<Vector<PointR>>();
 
 
 	static NDollarRecognizerV2 _rec = new NDollarRecognizerV2();
@@ -32,7 +33,9 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 	Skeleton currentSkeleton = new Skeleton();
 	///////Options :
 	static int resetSkeletonNumber = 10; //Adds coordinates in the file every resetSkeletonNumber skeleton received
-	int fifoLimit = 89; //size of the fifo
+	int fifoLimit; //size of the fifo
+	int minGesturesPoints; //minimum size of gestures database points
+	
 	double confidenceValue = 0.85;
 	static float resamplingDistance = (float) 0.05; //size of resampling
 
@@ -61,20 +64,34 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 				return name.toLowerCase().endsWith(".xml");
 			}
 		});
-		
+
 		// read them and determine the maximum length of a distance
 		for (int i = 0; i < allXMLFiles.length; ++i) {
 			_rec.LoadGesture(allXMLFiles[i]);
 		}
-		
+
 		_gestures = _rec.get_Gestures();
-		
-		 for (Enumeration<String> e = _gestures.keys() ; e.hasMoreElements() ; ) { 
-		 String key = e.nextElement();
-		 int value = _gestures.get(key).getOriginalGesture().getPoints().size();
-		 _gesturesLength.put(key, value);
-		 }
-		
+
+
+		int max = -1;
+		int min = Integer.MAX_VALUE;
+		for (Enumeration<String> e = _gestures.keys() ; e.hasMoreElements() ; ) { 
+			String key = e.nextElement();
+			int value = _gestures.get(key).getOriginalGesture().getPoints().size();
+			_gesturesLength.put(key, value);
+			comparedTo.set(_gesturesLength.get(key), null);
+
+			//Determination de la longueur maximale pour la file
+			if (value > max) {
+				max = value;
+			}
+			
+			if (value < min) {
+				min = value;
+			}
+		}
+		fifoLimit = max;
+		minGesturesPoints = min;
 
 	}
 
@@ -123,19 +140,35 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
 		currentSkeleton = newSkeleton;
 
+		//Comparaisons
+		if (points.size() > minGesturesPoints) {
+			for (Enumeration<String> element = _gestures.keys() ; element.hasMoreElements() ; ) { 
+				String key = element.nextElement();
+				if (_gesturesLength.get(key) <= points.size()) {
+					Vector<PointR> pointsTmp = new Vector<PointR>();
+					for (int i = points.size(); i>points.size() - _gesturesLength.get(key); i--) {
+						pointsTmp.add(points.get(i));
+					}
+					comparedTo.set(_gesturesLength.get(key), pointsTmp);
+					if (comparedTo.get(_gesturesLength.get(key)).size() > 1) {
+						strokes.clear();
+						strokes.add(comparedTo.get(_gesturesLength.get(key)));
+					}
+					Object[] result = nDollarRecognizer(strokes);
+					if ((double) result[0] > confidenceValue) {
+						System.out.println("Movement recognized : " + (String) result[1] + ", Score : " + (double) result[0]);
+						points.clear();
+						strokes.clear();
+						comparedTo.clear();
+						return ;
+					}
+				}
+			}
+		}
+		
 		//Gestion de la file
-		if (points.size() > fifoLimit) {
+		if (points.size() >= fifoLimit) {
 			points.remove(0);
-			strokes.clear();
-			if (points.size() > 1) {
-				strokes.add(new Vector<PointR>(points));
-			}
-			Object[] result = nDollarRecognizer(strokes);
-			if ((double) result[0] > confidenceValue) {
-				System.out.println("Movement recognized : " + (String) result[1] + ", Score : " + (double) result[0]);
-				points.clear();
-				return ;
-			}
 		}
 	}
 
@@ -186,17 +219,6 @@ public class ClassificationV2 implements ClassificationInterface, KinectListener
 		}
 
 		return resultReturn;
-	}
-	
-	public Vector<PointR> treatement(Vector<PointR> point) {
-		
-		//Rescaling
-		Vector<PointR> result = Utils.Scale(new Vector<PointR>(points), NDollarRecognizer._1DThreshold, NDollarRecognizer.ResampleScale);
-		
-		//Translating
-		result = Utils.TranslateCentroidTo(result, NDollarRecognizer.ResampleOrigin);
-		
-		return result;
 	}
 
 	public float distance(float[] coordinates1, float[] coordinates2) {
