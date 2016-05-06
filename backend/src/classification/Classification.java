@@ -35,7 +35,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	//Used in resampling :
 	boolean firstSkeletonReceived = true;
 	
-	//Renvoie les paramètres ci-dessus (pour la classe AddGesture)
+	//Renvoie les paramï¿½tres ci-dessus (pour la classe AddGesture)
 	public static Object[] getParameters() {
 		Object[] result = new Object[2];
 		result[0] = resetSkeletonNumber;
@@ -48,7 +48,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		// TODO Auto-generated method stub
 		this.kinectModule = kinectModule;
 		
-		/////// A remettre : commenté pour les tests
+		/////// A remettre : commentï¿½ pour les tests
 		//this.engine = engine ;
 		this.audio = (LectureAudioSimpleInterface) audio;
 		
@@ -109,10 +109,10 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			return ;
 		}
 		
-		//Si on arrive ici, 10 squelettes n'ont pas été recus depuis le dernier enregistrement dans la file et il n'y a pas eu de déplacement inférieur à resamplingDistance
+		//Si on arrive ici, 10 squelettes n'ont pas ï¿½tï¿½ recus depuis le dernier enregistrement dans la file et il n'y a pas eu de dï¿½placement infï¿½rieur ï¿½ resamplingDistance
 		numberOfSkeletonReceived = 0;
 		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
-		handRightCoordinatestmp = handRightCoordinates;
+		currentSkeleton = newSkeleton;
 		
 		//Gestion de la file
 		if (points.size() > fifoLimit) {
@@ -125,7 +125,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			if ((double) result[0] > confidenceValue) {
 				System.out.println("Movement recognized : " + (String) result[1] + ", Score : " + (double) result[0]);
 				points.clear();
-				strokes.clear();
 			}
 		}
 		
