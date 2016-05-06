@@ -29,10 +29,10 @@ public class Utils {
 		public static Vector<PointR> treatement(Vector<PointR> points) {
 
 			//Rescaling
-			Vector<PointR> result = UtilsAncien.Scale(new Vector<PointR>(points), NDollarRecognizerAncien._1DThreshold, NDollarRecognizerAncien.ResampleScale);
+			Vector<PointR> result = Utils.Scale(new Vector<PointR>(points), 0.30, new SizeR(250.0, 250.0));
 
 			//Translating
-			result = UtilsAncien.TranslateCentroidTo(result, NDollarRecognizerAncien.ResampleOrigin);
+			result = Utils.TranslateCentroidTo(result, new PointR(0, 0));
 
 			return result;
 		}
@@ -47,7 +47,7 @@ public class Utils {
 																	// circle
 			{
 				// do new thing
-				PointR centroid = UtilsAncien.Centroid(pts);
+				PointR centroid = Utils.Centroid(pts);
 				double radiusSquared = 1.0d;
 				for (PointR point : pts) {
 					double distanceSquared = Math.pow((centroid.X - point.X), 2.0)
@@ -77,8 +77,34 @@ public class Utils {
 				return scaledPts;
 			} else // do old thing
 			{
-				return UtilsAncien.ScaleByDimension(pts, oneDRatio, size);
+				return Utils.ScaleByDimension(pts, oneDRatio, size);
 			}
+		}
+		
+
+		public static Vector<PointR> ScaleByDimension(Vector<PointR> points,
+				double oneDRatio, SizeR size) // scales properly based on 1D or 2D
+		{
+			RectangleR B = FindBox(points);
+			boolean uniformly = false; // Lisa 8/16/2009; if we're not testing for
+										// 1D (i.e., when emulating $1), never scale
+										// uniformly
+			if (NDollarParameters.getInstance().TestFor1D)
+				uniformly = (Math.min(B.getWidth() / B.getHeight(), B.getHeight()
+						/ B.getWidth()) <= oneDRatio); // 1D or 2D gesture test
+			Vector<PointR> newpoints = new Vector<PointR>(points.size());
+			for (int i = 0; i < points.size(); i++) {
+				double qx = uniformly ? ((PointR) points.elementAt(i)).X
+						* (size.getWidth() / Math.max(B.getWidth(), B.getHeight()))
+						: ((PointR) points.elementAt(i)).X
+								* (size.getWidth() / B.getWidth());
+				double qy = uniformly ? ((PointR) points.elementAt(i)).Y
+						* (size.getHeight() / Math.max(B.getWidth(), B.getHeight()))
+						: ((PointR) points.elementAt(i)).Y
+								* (size.getHeight() / B.getHeight());
+				newpoints.add(new PointR(qx, qy));
+			}
+			return newpoints;
 		}
 		
 
@@ -203,5 +229,27 @@ public class Utils {
 			if (test > 1.0)
 				test = 1.0; // truncate rounding errors
 			return Math.acos(test);
+		}
+		
+
+		public static RectangleR FindBox(Vector<PointR> points) {
+			double minX = Double.MAX_VALUE;
+			double maxX = Double.MIN_VALUE;
+			double minY = Double.MAX_VALUE;
+			double maxY = Double.MIN_VALUE;
+
+			for (PointR p : points) {
+				if (p.X < minX)
+					minX = p.X;
+				if (p.X > maxX)
+					maxX = p.X;
+
+				if (p.Y < minY)
+					minY = p.Y;
+				if (p.Y > maxY)
+					maxY = p.Y;
+			}
+
+			return new RectangleR(minX, minY, maxX - minX, maxY - minY);
 		}
 }
