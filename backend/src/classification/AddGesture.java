@@ -1,4 +1,4 @@
-package ndollar;
+package classification;
 
 import java.text.SimpleDateFormat;
 import java.util.Enumeration;
@@ -6,11 +6,13 @@ import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.Vector;
 
-import classification.Classification;
 import edu.ufl.digitalworlds.j4k.Skeleton;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
+import ndollar.NDollarParameters;
+import ndollar.NDollarRecognizer;
+import ndollar.PointR;
 
 public class AddGesture implements KinectListenerInterface {
 	
