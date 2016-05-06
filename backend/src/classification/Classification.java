@@ -10,7 +10,6 @@ import interfaces.ClassificationInterface;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
-import interfaces.LectureAudioSimpleInterface;
 import interfaces.MovementFoundInterface;
 import ndollar.*;
 
@@ -18,17 +17,19 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	
 	MovementFoundInterface engine ;
 	KinectInterface kinectModule;
-	LectureAudioSimpleInterface audio;
 	
-	Vector<PointR> points = new Vector<PointR>();
-	Vector<Vector<PointR>> strokes = new Vector<Vector<PointR>>();
+	Vector<PointR> points1 = new Vector<PointR>();
+	Vector<PointR> points2 = new Vector<PointR>();
+	Vector<Vector<PointR>> strokes1 = new Vector<Vector<PointR>>();
+	Vector<Vector<PointR>> strokes2 = new Vector<Vector<PointR>>();
 	static NDollarRecognizer _rec = new NDollarRecognizer();
 	
 	int numberOfSkeletonReceived = 0; //Counts how many skeletons have been received
 	Skeleton currentSkeleton = new Skeleton();
 	///////Options :
 	static int resetSkeletonNumber = 10; //Adds coordinates in the file every resetSkeletonNumber skeleton received
-	int fifoLimit = 20; //size of the fifo
+	int fifoLimit1 = 25; //size of the fifo1
+	int fifoLimit2 = 35; //size of the fifo2
 	double confidenceValue = 0.85;
 	static float resamplingDistance = (float) 0.05; //size of resampling
 	
@@ -50,7 +51,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		
 		/////// A remettre : comment� pour les tests
 		//this.engine = engine ;
-		this.audio = (LectureAudioSimpleInterface) audio;
 		
 		String samplesDir = NDollarParameters.getInstance().SamplesDirectory;
 		File currentDir = new File(samplesDir);
@@ -84,7 +84,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		//Echantillonage spatial
 		
 		if (firstSkeletonReceived) {
-			points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
+			points1.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
+			points2.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
 			firstSkeletonReceived = false;
 			currentSkeleton = newSkeleton;
 			return ;
@@ -99,7 +100,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		
 		//Ajout dans la file au moins toutes les 333ms
 		if (numberOfSkeletonReceived >= resetSkeletonNumber) {
-			points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
+			points1.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
+			points2.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
 			numberOfSkeletonReceived = 0;
 			currentSkeleton = newSkeleton;
 			return ;
@@ -111,23 +113,41 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		
 		//Si on arrive ici, 10 squelettes n'ont pas �t� recus depuis le dernier enregistrement dans la file et il n'y a pas eu de d�placement inf�rieur � resamplingDistance
 		numberOfSkeletonReceived = 0;
-		points.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
+		points1.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
+		points2.add(new PointR(handRightCoordinates[0], handRightCoordinates[1]));
 		currentSkeleton = newSkeleton;
 		
-		//Gestion de la file
-		if (points.size() > fifoLimit) {
-			points.remove(0);
-			strokes.clear();
-			if (points.size() > 1) {
-				strokes.add(new Vector<PointR>(points));
+		//Gestion de la file1
+		if (points1.size() > fifoLimit1) {
+			points1.remove(0);
+			strokes1.clear();
+			if (points1.size() > 1) {
+				strokes1.add(new Vector<PointR>(points1));
 			}
-			Object[] result = nDollarRecognizer();
+			Object[] result = nDollarRecognizer(strokes1);
 			if ((double) result[0] > confidenceValue) {
 				System.out.println("Movement recognized : " + (String) result[1] + ", Score : " + (double) result[0]);
-				points.clear();
+				points1.clear();
+				points2.clear();
+				return ;
 			}
 		}
-		
+
+		//Gestion de la file2
+		if (points2.size() > fifoLimit1) {
+			points2.remove(0);
+			strokes2.clear();
+			if (points2.size() > 1) {
+				strokes2.add(new Vector<PointR>(points2));
+			}
+			Object[] result = nDollarRecognizer(strokes2);
+			if ((double) result[0] > confidenceValue) {
+				System.out.println("Movement recognized : " + (String) result[1] + ", Score : " + (double) result[0]);
+				points1.clear();
+				points2.clear();
+				return ;
+			}
+		}
 	}
 	
 	public void startListening() {
@@ -139,16 +159,16 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	}
 
 	//Renvoie le nom du geste reconnu
-	public Object[] nDollarRecognizer() {
+	public Object[] nDollarRecognizer(Vector<Vector<PointR>> strokes) {
 		Object[] resultReturn = new Object[2];
-		if (strokes.size() > 0) {
+		if (strokes1.size() > 0) {
 			Vector<PointR> allPoints = new Vector<PointR>();
-			Enumeration<Vector<PointR>> en = strokes.elements();
+			Enumeration<Vector<PointR>> en = strokes1.elements();
 			while (en.hasMoreElements()) {
 				Vector<PointR> pts = en.nextElement();
 				allPoints.addAll(pts);
 			}
-			NBestList result = _rec.Recognize(allPoints, strokes.size());
+			NBestList result = _rec.Recognize(allPoints, strokes1.size());
 			//String resultTxt;
 			if (result.getScore() == -1) {
 				//resultTxt = MessageFormat.format(

@@ -92,7 +92,7 @@ public class NDollarRecognizer {
 	public static final PointR ResampleOrigin = new PointR(0, 0);
 	private static final double Phi = 0.5 * (-1 + Math.sqrt(5)); // Golden Ratio
 
-	private static final double _RotationBound = 45.0; // Lisa 1/2/2008; could
+	private static final double _RotationBound = 15.0; // Lisa 1/2/2008; could
 														// also try 15.0;
 														// changed from 45.0 so
 														// we're no longer fully
