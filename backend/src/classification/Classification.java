@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -34,6 +35,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	private boolean firstSkeletonReceived = true; //Used in resampling
 	private boolean recorder = false;
 	private double previousDistanceMin = Double.MAX_VALUE;
+	private boolean callRecognize = false;
 
 	///////Options :
 	static final int resetSkeletonNumber = 10; //Adds coordinates in the file every resetSkeletonNumber skeleton received
@@ -46,7 +48,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	public static final int RECORD_BOTH_HANDS = 2;
 	
 	@Override
-	public void initClassificationModule(KinectInterface kinectModule, MovementFoundInterface engine) {
+	public void initClassificationModule(KinectInterface kinectModule) {
 
 		this.kinectModule = kinectModule;
 		
@@ -92,15 +94,21 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				|| (rightHandPoint.distanceTo(fifos.get(Skeleton.HAND_RIGHT).getLastPoint()) > resamplingDistance)) {
 			fifos.get(Skeleton.HAND_RIGHT).addCapture(rightHandPoint);
 			numberOfSkeletonReceived = 0;
+			callRecognize = true;
 		}
 		
 		if ((numberOfSkeletonReceived >= resetSkeletonNumber) 
 				|| (leftHandPoint.distanceTo(fifos.get(Skeleton.HAND_LEFT).getLastPoint()) > resamplingDistance)) {
 			fifos.get(Skeleton.HAND_LEFT).addCapture(leftHandPoint);
 			numberOfSkeletonReceived = 0;
+			callRecognize = true;
 		}
-		if(!recorder)
+		
+		if (callRecognize && !recorder)
+		{
 			recognize();
+			callRecognize = false;
+		}
 	}
 
 	public void startListening() {
@@ -159,7 +167,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	}
 	
 	public Movement recognize()
-	{
+	{	
 		double distanceMin = Double.POSITIVE_INFINITY;
 	
 		Movement tmpResult = null;
