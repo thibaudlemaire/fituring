@@ -114,6 +114,7 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 		
 		
 		if(this.getCompteur()==300){
+			tabI = new TableauDonneesInterpolees(tab);
 			tab.interpolationEtDistance(tabI);
 			for(int i=0; i<450;i++){
 				System.out.println("tabI  " + i + " : " + tabI.getData(i,18));
