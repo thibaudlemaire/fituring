@@ -15,7 +15,7 @@ public class Serveur implements ServeurInterface, Runnable {
 	private int info;
 	
 	public void run(){
-		String args = "5872";
+		String args = "5873";
 		int portNumber = Integer.parseInt(args);
 		
 		try ( 
@@ -35,6 +35,7 @@ public class Serveur implements ServeurInterface, Runnable {
 		    	if (inputLine != null){		    		
 		    		//System.out.println(inputLine);
 		    		info = Integer.parseInt(inputLine);
+		    		System.out.println(info);
 		    	}
 		        
 		    }
