@@ -23,7 +23,7 @@ public interface ServeurInterface {
 	 * The server gets the musical style from the android app for the synthese audio module
 	 * @return the musical Style (int to define...)
 	 */
-	public int getMusicalStyle();
+	public int getStyle();
 	
 	/**
 	 * This function return true if a client is connected to the server

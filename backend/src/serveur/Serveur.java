@@ -9,16 +9,40 @@ import java.net.Socket;
 import interfaces.ServeurInterface;
 import interfaces.UpdateParamInterface;
 
-public class Serveur implements ServeurInterface  {
+public class Serveur implements ServeurInterface extends Thread {
 
-	String args = "5869";
-	int portNumber = Integer.parseInt(args);
+	private int info;
+	
+	public void run(){
+		String args = "5869";
+		int portNumber = Integer.parseInt(args);
+		
+		try ( 
+			    ServerSocket serverSocket = new ServerSocket(portNumber);
+			    Socket clientSocket = serverSocket.accept();
+			    PrintWriter out =
+			        new PrintWriter(clientSocket.getOutputStream(), true);
+			    BufferedReader in = new BufferedReader(
+			        new InputStreamReader(clientSocket.getInputStream()));
+			){
+			String inputLine, outputLine;
+		    outputLine = "Hello";
+		    out.println(inputLine);
+		    System.out.println(outputLine);
+		    while (true) {
+		    	if (inputLine != null){
+		    		inputLine = in.readLine()
+		    		System.out.println(inputLine);
+		    		info = inputLine;
+		    	}
+		        
+		    }
+		}
+	}
 	
 	@Override
 	public int getVolume() {
-		if(serveur.isConnected()){
-			
-		}
+		return (int) (info/10);
 	}
 
 	@Override
@@ -28,32 +52,13 @@ public class Serveur implements ServeurInterface  {
 	}
 
 	@Override
-	public int getMusicalStyle() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getStyle() {
+		return info%10;
 	}
 
 	@Override
 	public boolean isConnected() {
-		try ( 
-			    ServerSocket serverSocket = new ServerSocket(portNumber);
-			    Socket clientSocket = serverSocket.accept();
-			    PrintWriter out =
-			        new PrintWriter(clientSocket.getOutputStream(), true);
-			    BufferedReader in = new BufferedReader(
-			        new InputStreamReader(clientSocket.getInputStream()));
-			){
-			    String inputLine, outputLine;
-			    outputLine = "Hello";
-			    out.println(inputLine);
-			    System.out.println(outputLine);
-			    while ((inputLine = in.readLine()) != null) {
-			        out.println(outputLine);
-			        if (outputLine.equals("OK"))
-			            return true;
-			    }
-			    return false;
-		}
+	    return false;
 	
 	}
 
