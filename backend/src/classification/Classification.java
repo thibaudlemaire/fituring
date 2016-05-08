@@ -47,6 +47,9 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	public static final int RECORD_LEFT_HAND = 0;
 	public static final int RECORD_RIGHT_HAND = 1;
 	public static final int RECORD_BOTH_HANDS = 2;
+	public static final int RECORD_LEFT_HAND_ELBOW = 3;
+	public static final int RECORD_RIGHT_HAND_ELBOW = 4;
+	public static final int RECORD_BOTH_HANDS_ELBOWS = 5;
 
 	@Override
 	public void initClassificationModule(KinectInterface kinectModule, MovementFoundInterface engine) {
@@ -60,6 +63,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		// INITIALISATION DE LA HASHTABLE DE FIFOS
 		fifos.put(Skeleton.HAND_RIGHT, new FIFO(100, Skeleton.HAND_RIGHT));
 		fifos.put(Skeleton.HAND_LEFT, new FIFO(100, Skeleton.HAND_LEFT));
+		fifos.put(Skeleton.ELBOW_RIGHT, new FIFO(100, Skeleton.ELBOW_RIGHT));
+		fifos.put(Skeleton.ELBOW_LEFT, new FIFO(100, Skeleton.ELBOW_LEFT));
 
 	}
 
@@ -76,6 +81,15 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				newSkeleton.get3DJointY(Skeleton.HAND_RIGHT) - baseY,
 				newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT) - baseZ);
 
+		Point rightElbowPoint = new Point(newSkeleton.get3DJointX(Skeleton.ELBOW_RIGHT) - baseX, 
+				newSkeleton.get3DJointY(Skeleton.ELBOW_RIGHT) - baseY,
+				newSkeleton.get3DJointZ(Skeleton.ELBOW_RIGHT) - baseZ);
+
+
+		Point leftElbowPoint = new Point(newSkeleton.get3DJointX(Skeleton.ELBOW_LEFT) - baseX, 
+				newSkeleton.get3DJointY(Skeleton.ELBOW_LEFT) - baseY,
+				newSkeleton.get3DJointZ(Skeleton.ELBOW_LEFT) - baseZ);
+
 		Point leftHandPoint = new Point(newSkeleton.get3DJointX(Skeleton.HAND_LEFT) - baseX, 
 				newSkeleton.get3DJointY(Skeleton.HAND_LEFT) - baseY,
 				newSkeleton.get3DJointZ(Skeleton.HAND_LEFT) - baseZ);
@@ -86,6 +100,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		if (firstSkeletonReceived) {
 			fifos.get(Skeleton.HAND_RIGHT).addCapture(rightHandPoint);
 			fifos.get(Skeleton.HAND_LEFT).addCapture(leftHandPoint);
+			fifos.get(Skeleton.ELBOW_RIGHT).addCapture(rightElbowPoint);
+			fifos.get(Skeleton.ELBOW_LEFT).addCapture(leftElbowPoint);
 			firstSkeletonReceived = false;
 			return ;
 		}
@@ -94,6 +110,21 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		if ((numberOfSkeletonReceived >= resetSkeletonNumber) 
 				|| (rightHandPoint.distanceTo(fifos.get(Skeleton.HAND_RIGHT).getLastPoint()) > resamplingDistance)) {
 			fifos.get(Skeleton.HAND_RIGHT).addCapture(rightHandPoint);
+			numberOfSkeletonReceived = 0;
+			callRecognize = true;
+		}
+
+		if ((numberOfSkeletonReceived >= resetSkeletonNumber) 
+				|| (rightElbowPoint.distanceTo(fifos.get(Skeleton.ELBOW_RIGHT).getLastPoint()) > resamplingDistance)) {
+			fifos.get(Skeleton.ELBOW_RIGHT).addCapture(rightElbowPoint);
+			numberOfSkeletonReceived = 0;
+			callRecognize = true;
+		}
+
+
+		if ((numberOfSkeletonReceived >= resetSkeletonNumber) 
+				|| (leftElbowPoint.distanceTo(fifos.get(Skeleton.ELBOW_LEFT).getLastPoint()) > resamplingDistance)) {
+			fifos.get(Skeleton.ELBOW_LEFT).addCapture(leftElbowPoint);
 			numberOfSkeletonReceived = 0;
 			callRecognize = true;
 		}
@@ -126,6 +157,14 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			mvt.addGesture(fifos.get(Skeleton.HAND_LEFT).getAll());
 		if(whichJoint == RECORD_RIGHT_HAND || whichJoint == RECORD_BOTH_HANDS)
 			mvt.addGesture(fifos.get(Skeleton.HAND_RIGHT).getAll());
+		if(whichJoint == RECORD_RIGHT_HAND_ELBOW || whichJoint == RECORD_BOTH_HANDS_ELBOWS) {
+			mvt.addGesture(fifos.get(Skeleton.HAND_RIGHT).getAll());
+			mvt.addGesture(fifos.get(Skeleton.ELBOW_RIGHT).getAll());
+		}
+		if(whichJoint == RECORD_LEFT_HAND_ELBOW || whichJoint == RECORD_BOTH_HANDS_ELBOWS) {
+			mvt.addGesture(fifos.get(Skeleton.HAND_LEFT).getAll());
+			mvt.addGesture(fifos.get(Skeleton.ELBOW_LEFT).getAll());
+		}
 
 		File fichier =  new File("movement.database/" + gestureName + ".mvt") ;
 		try {
@@ -218,12 +257,12 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				tmpResult = movement;
 			}
 		}
-		
+
 		if(distanceMin <= confidenceValue && confidenceValueExceeded == false) {
 			confidenceValueExceeded = true;
 			System.out.println(tmpResult.getPath() + " - " + distanceMin);
 		}
-		
+
 		if (confidenceValueExceeded == true && distanceMin > (confidenceValue + threshold))
 			confidenceValueExceeded = false;
 
