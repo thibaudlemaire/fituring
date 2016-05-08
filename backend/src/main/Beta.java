@@ -4,11 +4,12 @@ import java.util.Scanner;
 
 import classification.distanceHands;
 import detectionRythme.DetectionRythme;
+import engine.MoteurMusical;
 import interfaces.LectureInterface;
 import kinect.Kinect;
 import syntheseAudio.LectureAudio;
 
-public class AlphaV3 {
+public class Beta {
 
 	public static void main(String[] args) 
 	{
@@ -20,12 +21,13 @@ public class AlphaV3 {
 		distanceHands cl = new distanceHands();
 		LectureAudio audio = new LectureAudio();
 		DetectionRythme dr = new DetectionRythme();
+		MoteurMusical engine = new MoteurMusical();
 		
 		System.out.println("Initialisation des modules");
 		kinect.initKinectModule();
 		audio.initLectureAudioModule(new Object(), 100);
 		cl.initClassificationModule(new Object(), kinect, (LectureInterface) audio);
-		dr.initRythmeModule(kinect, audio);
+		dr.initRythmeModule(kinect, engine);
 		
 		while(true)
 		{
