@@ -44,6 +44,7 @@ public class RecorderLauncher {
 					System.out.println("Champ vide ! Entrer le nom du mouvement : ");
 					gestureName = sc.nextLine();
 				}
+				scName.close();
 				rec.setGestureName(gestureName);
 				rec.stopListening();
 				System.out.print("Appuyer sur une Entrer pour commencer, s pour sauvegarder le mouvement, q pour quitter");
