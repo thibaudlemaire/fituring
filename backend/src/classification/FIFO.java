@@ -44,4 +44,9 @@ public class FIFO {
 	{
 		return FIFO;
 	}
+	
+	public int getSize()
+	{
+		return FIFO.size();
+	}
 }

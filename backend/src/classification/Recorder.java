@@ -23,6 +23,8 @@ public class Recorder implements ClassificationInterface, KinectListenerInterfac
 
 	MovementFoundInterface engine ;
 	KinectInterface kinectModule;
+	
+	String gestureName = "test";
 
 	FIFO fifoRightHand = new FIFO(100, Skeleton.HAND_LEFT);
 	Vector<Movement> movements = new Vector<Movement>();
@@ -103,11 +105,11 @@ public class Recorder implements ClassificationInterface, KinectListenerInterfac
 
 	public void stopListening() {
 		kinectModule.unsetListener(this);	
-		Movement mvt = new Movement("Test.mvt");
+		Movement mvt = new Movement(gestureName + ".mvt");
 		Gesture right = fifoRightHand.getAll();
 		mvt.addGesture(right);
 		
-		File fichier =  new File("datas/Test.mvt") ;
+		File fichier =  new File("datas/" + gestureName + ".mvt") ;
 		try {
 			ObjectOutputStream oos =  new ObjectOutputStream(new FileOutputStream(fichier)) ;
 			oos.writeObject(mvt);
@@ -135,6 +137,10 @@ public class Recorder implements ClassificationInterface, KinectListenerInterfac
 	@Override
 	public int getNumberOfGestures() {
 		return movements.size();
+	}
+	
+	public void setGestureName(String gestureName) {
+		this.gestureName = gestureName;
 	}
 	
 	public Movement recognize()
