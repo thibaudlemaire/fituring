@@ -28,13 +28,14 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	KinectInterface kinectModule;
 
 	Hashtable<Integer, FIFO> fifos = new Hashtable<Integer, FIFO>();
-	
+
 	Vector<Movement> movements = new Vector<Movement>();
-	
+
 	private int numberOfSkeletonReceived = 0; //Used to record a skeleton every 333ms
 	private boolean firstSkeletonReceived = true; //Used in resampling
 	private boolean recorder = false;
 	private double previousDistanceMin = Double.MAX_VALUE;
+	private double currentDistanceMin = Double.MAX_VALUE;
 	private boolean callRecognize = false;
 
 	///////Options :
@@ -46,16 +47,16 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	public static final int RECORD_LEFT_HAND = 0;
 	public static final int RECORD_RIGHT_HAND = 1;
 	public static final int RECORD_BOTH_HANDS = 2;
-	
+
 	@Override
-	public void initClassificationModule(KinectInterface kinectModule) {
+	public void initClassificationModule(KinectInterface kinectModule, MovementFoundInterface engine) {
 
 		this.kinectModule = kinectModule;
-		
+
 		/////// A remettre : commenté pour les tests
 		//this.engine = engine ;
-		
-		
+
+
 		// INITIALISATION DE LA HASHTABLE DE FIFOS
 		fifos.put(Skeleton.HAND_RIGHT, new FIFO(100, Skeleton.HAND_RIGHT));
 		fifos.put(Skeleton.HAND_LEFT, new FIFO(100, Skeleton.HAND_LEFT));
@@ -66,7 +67,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		// TODO Auto-generated method stub
 		numberOfSkeletonReceived++;
 		Skeleton newSkeleton = e.getNewSkeleton();
-		
+
 		// Changing base
 		float baseX = newSkeleton.get3DJointX(Skeleton.SPINE_MID);
 		float baseY = newSkeleton.get3DJointY(Skeleton.SPINE_MID);
@@ -74,13 +75,13 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		Point rightHandPoint = new Point(newSkeleton.get3DJointX(Skeleton.HAND_RIGHT) - baseX, 
 				newSkeleton.get3DJointY(Skeleton.HAND_RIGHT) - baseY,
 				newSkeleton.get3DJointZ(Skeleton.HAND_RIGHT) - baseZ);
-		
+
 		Point leftHandPoint = new Point(newSkeleton.get3DJointX(Skeleton.HAND_LEFT) - baseX, 
 				newSkeleton.get3DJointY(Skeleton.HAND_LEFT) - baseY,
 				newSkeleton.get3DJointZ(Skeleton.HAND_LEFT) - baseZ);
-		
+
 		////Spatial resampling
-		
+
 		//First skeleton received : distance calculation is impossible, so we simply add coordinates and save the first skeleton in currentSkeleton
 		if (firstSkeletonReceived) {
 			fifos.get(Skeleton.HAND_RIGHT).addCapture(rightHandPoint);
@@ -96,14 +97,14 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			numberOfSkeletonReceived = 0;
 			callRecognize = true;
 		}
-		
+
 		if ((numberOfSkeletonReceived >= resetSkeletonNumber) 
 				|| (leftHandPoint.distanceTo(fifos.get(Skeleton.HAND_LEFT).getLastPoint()) > resamplingDistance)) {
 			fifos.get(Skeleton.HAND_LEFT).addCapture(leftHandPoint);
 			numberOfSkeletonReceived = 0;
 			callRecognize = true;
 		}
-		
+
 		if (callRecognize && !recorder)
 		{
 			recognize();
@@ -125,7 +126,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			mvt.addGesture(fifos.get(Skeleton.HAND_LEFT).getAll());
 		if(whichJoint == RECORD_RIGHT_HAND || whichJoint == RECORD_BOTH_HANDS)
 			mvt.addGesture(fifos.get(Skeleton.HAND_RIGHT).getAll());
-		
+
 		File fichier =  new File("movement.database/" + gestureName + ".mvt") ;
 		try {
 			ObjectOutputStream oos =  new ObjectOutputStream(new FileOutputStream(fichier)) ;
@@ -138,9 +139,9 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public void clearFifos()
 	{
 		for (Enumeration<Integer> e = fifos.keys() ; e.hasMoreElements() ; ) { 
@@ -149,13 +150,13 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			fifo.clear();
 		}
 	}
-	
+
 	@Override
 	public int addGesture(String path) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	public void addMovement(Movement mvt)
 	{
 		System.out.println(mvt.getPath() + " ajout�");
@@ -165,13 +166,13 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	public int getNumberOfGestures() {
 		return movements.size();
 	}
-	
+
 	public Movement recognize()
 	{	
 		double distanceMin = Double.POSITIVE_INFINITY;
-	
+
 		Movement tmpResult = null;
-		
+
 		for(Movement movement : movements)
 		{
 			double totalMovementDistance = 0;
@@ -185,15 +186,15 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				double totalGestureDistance = 0;
 				double meanGestureDistance = 0;
 				int gestureSize = gesture.size();
-				
+
 				FIFO currentFIFO = fifos.get(gesture.getJointID());
 				if (currentFIFO.getSize() < gestureSize)
 					return tmpResult;
 				Gesture shortedFIFO = currentFIFO.getNlastPoints(gestureSize);
-				
+
 				for(int i = 0; i < gestureSize; i++)
 					totalGestureDistance += (double) gesture.getPoint(i).distanceTo(shortedFIFO.getPoint(i));
-				
+
 				meanGestureDistance = totalGestureDistance / gestureSize;
 				totalMovementDistance += meanGestureDistance;
 			}
@@ -205,16 +206,18 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				distanceMin = meanMovementDistance;
 				tmpResult = movement;
 			}
+			
+			if(distanceMin <= confidenceValue) {
+				if (previousDistanceMin < currentDistanceMin && currentDistanceMin < distanceMin)
+					System.out.println(tmpResult.getPath() + " - " + distanceMin);
+			}
 		}
-		if(distanceMin <= confidenceValue) {
-			if (previousDistanceMin < distanceMin)
-				System.out.println(tmpResult.getPath() + " - " + distanceMin);
-		}
-		previousDistanceMin = distanceMin;
+		previousDistanceMin = currentDistanceMin;
+		currentDistanceMin = distanceMin;
 
 		return tmpResult;
 	}
-	
+
 	public void setRecorder()
 	{
 		recorder = true;
