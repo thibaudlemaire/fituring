@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -36,13 +34,13 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	private int numberOfSkeletonReceived = 0; //Used to record a skeleton every 333ms
 	private boolean firstSkeletonReceived = true; //Used in resampling
 	private boolean recorder = false;
-	private double previousDistanceMin = Double.MAX_VALUE;
-	private double currentDistanceMin = Double.MAX_VALUE;
 	private boolean callRecognize = false;
+	private boolean confidenceValueExceeded = false;
 
 	///////Options :
 	static final int resetSkeletonNumber = 10; //Adds coordinates in the file every resetSkeletonNumber skeleton received
-	double confidenceValue = 0.2; //Movement recognized if the probability of recognition is superior to confidenceValue
+	double confidenceValue = 0.3; //Movement recognized if the probability of recognition is superior to confidenceValue
+	double threshold = 0.05;
 	double minimumValue;
 	static final float resamplingDistance = (float) 0.05; //distance between two points in resampling
 
@@ -50,11 +48,12 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	public static final int RECORD_RIGHT_HAND = 1;
 	public static final int RECORD_BOTH_HANDS = 2;
 
+	@Override
 	public void initClassificationModule(KinectInterface kinectModule, MovementFoundInterface engine) {
 
 		this.kinectModule = kinectModule;
 
-		/////// A remettre : commenté pour les tests
+		/////// A remettre : commentÃ© pour les tests
 		//this.engine = engine ;
 
 
@@ -173,7 +172,8 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		}
 		return movements.size() - 1;
 	}
-	
+
+	@Override
 	public int getNumberOfGestures() {
 		return movements.size();
 	}
@@ -217,14 +217,15 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				distanceMin = meanMovementDistance;
 				tmpResult = movement;
 			}
-			
-			if(distanceMin <= confidenceValue) {
-				if (previousDistanceMin < currentDistanceMin && currentDistanceMin < distanceMin)
-					System.out.println(tmpResult.getPath() + " - " + distanceMin);
-			}
 		}
-		previousDistanceMin = currentDistanceMin;
-		currentDistanceMin = distanceMin;
+		
+		if(distanceMin <= confidenceValue && confidenceValueExceeded == false) {
+			confidenceValueExceeded = true;
+			System.out.println(tmpResult.getPath() + " - " + distanceMin);
+		}
+		
+		if (confidenceValueExceeded == true && distanceMin > (confidenceValue + threshold))
+			confidenceValueExceeded = false;
 
 		return tmpResult;
 	}
