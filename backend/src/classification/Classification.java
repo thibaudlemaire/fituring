@@ -118,7 +118,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	
 	public Movement recognize()
 	{
-		int distanceMin = Integer.MAX_VALUE;
+		double distanceMin = Double.POSITIVE_INFINITY;
 		int movementsCount = 0;
 		
 		Movement tmpResult = null;
@@ -126,17 +126,20 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		for(Movement movement : movements)
 		{
 			movementsCount++;
-			int totalMovementDistance = 0;
-			int meanMovementDistance = 0;
+			double totalMovementDistance = 0;
+			double meanMovementDistance = 0;
 			for(Gesture gesture : movement.getGestures())
 			{
-				int totalGestureDistance = 0;
-				int meanGestureDistance = 0;
+				double totalGestureDistance = 0;
+				double meanGestureDistance = 0;
 				int gestureSize = gesture.size();
+				if(fifoRightHand.getSize() < gestureSize)
+					return tmpResult;
+				
 				Gesture shortedFIFO = fifoRightHand.getNlastPoints(gestureSize);
 				
 				for(int i = 0; i < gestureSize; i++)
-					totalGestureDistance += gesture.getPoint(i).distanceTo(shortedFIFO.getPoint(i));
+					totalGestureDistance += (double) gesture.getPoint(i).distanceTo(shortedFIFO.getPoint(i));
 				
 				meanGestureDistance = totalGestureDistance / gestureSize;
 				totalMovementDistance += meanGestureDistance;
@@ -144,9 +147,13 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			meanMovementDistance = totalMovementDistance / movementsCount;
 			
 			if (meanMovementDistance <= distanceMin)
+			{
+				distanceMin = meanMovementDistance;
 				tmpResult = movement;
+			}
+			System.out.println(movement.getPath() + " - " + meanMovementDistance);
 		}
-		System.out.println(tmpResult.getPath() + " - " + distanceMin);
+		//System.out.println(tmpResult.getPath() + " - " + distanceMin);
 		return tmpResult;
 	}
 }
