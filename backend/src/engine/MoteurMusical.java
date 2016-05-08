@@ -1,0 +1,81 @@
+package engine;
+
+import java.util.ArrayList;
+
+import interfaces.BPMupdateInterface;
+import interfaces.MovementFoundInterface;
+import interfaces.UpdateParamInterface;
+
+public class MoteurMusical implements 	BPMupdateInterface, 
+										MovementFoundInterface, 
+										UpdateParamInterface
+{
+	private ArrayList<Movement> movements = new ArrayList<Movement>();
+	private ArrayList<Sound> sounds = new ArrayList<Sound>();
+	
+	public void initEngine()
+	{
+		movements.add(new MovementNormal("toto.mvt", new int[] {1, 2, 3, 4, 5} ));
+	}
+	
+	@Override
+	public void connected() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void disconnected() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setVolume(int volume) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setStyle(int musicStyle) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getVolume() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getStyle() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void startFituring() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stopFituring() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void MovementDone(int movementNumber) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateBPM(int newBPM) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
