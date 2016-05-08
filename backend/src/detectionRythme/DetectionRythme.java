@@ -1,130 +1,173 @@
 package detectionRythme;
 
 import java.util.Date;
-
 import edu.ufl.digitalworlds.j4k.Skeleton;
+import interfaces.BPMupdateInterface;
 import interfaces.KinectEventInterface;
 import interfaces.KinectInterface;
 import interfaces.KinectListenerInterface;
-import interfaces.LectureAudioSimpleInterface;
 import interfaces.RyhtmeInterface;
 
 public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface {
 
+	private TableauDonneesBrutes tab;
+	private TableauDonneesInterpolees tabI ;
+	private Autocorrelation autoc;
+	private PositionPics pics;
+	private int compteur;
 	KinectInterface kinect;
-	LectureAudioSimpleInterface audio;
+	BPMupdateInterface engine;
+	private long time = 0;
 	
-	static float trigger = (float) 0.1;
-	static float limitUp = (float) 0.5;
-	static float limitDown = (float) 0.1;
+	public DetectionRythme(){
+		this.tab = new TableauDonneesBrutes();
+		this.tabI = new TableauDonneesInterpolees(tab);
+		this.autoc = new Autocorrelation(tabI);
+		this.pics = new PositionPics();
+		this.compteur=0;
+	}
 	
-	//Booleans needed to make an hysteresis when some movements are noticed
-	boolean limitUpExceeded = false;
-	boolean limitDownExceeded = false;
-	boolean leftHandAboveHead = false;
-	boolean rightHandAboveHead = false;
-	
-	long lastDate = 0;
-	long lastPeriod[] = {500,500,500};
-	int lastPeriodPointer = 0;
-	long mean = 500;
-	
-	public void initRythmeModule(KinectInterface kinect, LectureAudioSimpleInterface audio) 
-	{
+	@Override
+	public void initRythmeModule(KinectInterface kinect, BPMupdateInterface bpmUpdate) {
+
 		this.kinect = kinect;
-		this.mean = 500;
-		this.audio = audio;
+		this.engine = bpmUpdate;
 	}
 	
-	public void skeletonReceived(KinectEventInterface e) 
-	{
-		Skeleton newSkeleton = e.getNewSkeleton();
-		
-		float LeftCoordinatesX = newSkeleton.get3DJointX(Skeleton.FOOT_LEFT);
-		float RightCoordinatesX = newSkeleton.get3DJointX(Skeleton.FOOT_RIGHT);
-		float LeftCoordinatesY = newSkeleton.get3DJointY(Skeleton.FOOT_LEFT);
-		float RightCoordinatesY = newSkeleton.get3DJointY(Skeleton.FOOT_RIGHT);
-		float LeftCoordinatesZ = newSkeleton.get3DJointZ(Skeleton.FOOT_LEFT);
-		float RightCoordinatesZ = newSkeleton.get3DJointZ(Skeleton.FOOT_RIGHT);
-		
-		
-		//Determinating the distance between the two hands
-		float distance = (float) Math.sqrt((RightCoordinatesX - LeftCoordinatesX)*(RightCoordinatesX - LeftCoordinatesX) + (RightCoordinatesY - LeftCoordinatesY)*(RightCoordinatesY - LeftCoordinatesY) + (RightCoordinatesZ - LeftCoordinatesZ)*(RightCoordinatesZ - LeftCoordinatesZ));
-		//System.out.println(distance);
-		
-		//Noticing when arms are extended
-		if (distance > limitUp && limitUpExceeded == false) {
-			limitUpExceeded = true;
-			//beat();
-		}
-		
-		if (limitUpExceeded == true && distance < (limitUp - trigger)) {
-			limitUpExceeded = false;
-		}
-		
-		//Noticing when a clap is done
-		if (distance < limitDown && limitDownExceeded == false) {
-			limitDownExceeded = true;
-			beat();
-		}
-		
-		if (limitDownExceeded == true && distance > (limitDown + trigger)) {
-			limitDownExceeded = false;
-		}
+	public void setCompteurTo200(){
+		this.compteur=200;
 	}
 	
-	private void beat()
-	{
-		if (lastDate != 0)
-		{
-			long currentDate = new Date().getTime();
-			long timeElapsed = (long)(currentDate - lastDate)/2;
-			lastDate = currentDate;		
-			if (!(timeElapsed <= mean*1.5 && timeElapsed >= mean*0.5))
-				timeElapsed = mean;
-			lastPeriod[lastPeriodPointer] = timeElapsed;
-			long somme = 0;
-			for(int i=0; i<3; i++)
-				somme += lastPeriod[i];
-			mean = somme / 3;
-			if(lastPeriodPointer < 2)
-				lastPeriodPointer++;
-			else
-				lastPeriodPointer = 0;
-			audio.updateBPM(getCurrentTrueBPM());
-			System.out.println("Mise à jour BPM : " + getCurrentTrueBPM());
-		}
-		else
-			lastDate = new Date().getTime();
-			
-	}
-
-	public int getCurrentTrueBPM() 
-	{
-		return (int) (60000/mean);
-	}
-
-	public int getCurrentUsedBPM() 
-	{
-		return 0;
+	public int getCompteur(){
+		return this.compteur;
 	}
 	
-	public void startListening() 
+	public void skeletonReceived(KinectEventInterface e){
+		
+		if (compteur == 0) {
+			time = new Date().getTime();
+		}
+		
+		for(int i = 0; i<299; i++){
+			for(int j = 0; j<61;j++){
+				tab.setData(i,j,tab.getData(i+1,j));
+			}
+		}
+		tab.setData(299, 0,(double) (e.getSkeletonTime() - time)/1000);
+		tab.setData(299,1,(double) e.getNewSkeleton().get3DJointX(Skeleton.SPINE_BASE));
+		tab.setData(299,2,(double) e.getNewSkeleton().get3DJointY(Skeleton.SPINE_BASE));
+		tab.setData(299,3,(double) e.getNewSkeleton().get3DJointZ(Skeleton.SPINE_BASE));
+		tab.setData(299,4,(double) e.getNewSkeleton().get3DJointX(Skeleton.SPINE_MID));
+		tab.setData(299,5,(double) e.getNewSkeleton().get3DJointY(Skeleton.SPINE_MID));
+		tab.setData(299,6,(double) e.getNewSkeleton().get3DJointZ(Skeleton.SPINE_MID));
+		tab.setData(299,7,(double) e.getNewSkeleton().get3DJointX(Skeleton.NECK));
+		tab.setData(299,8,(double) e.getNewSkeleton().get3DJointY(Skeleton.NECK));
+		tab.setData(299,9,(double) e.getNewSkeleton().get3DJointZ(Skeleton.NECK));
+		tab.setData(299,10,(double) e.getNewSkeleton().get3DJointX(Skeleton.HEAD));
+		tab.setData(299,11,(double) e.getNewSkeleton().get3DJointY(Skeleton.HEAD));
+		tab.setData(299,12,(double) e.getNewSkeleton().get3DJointZ(Skeleton.HEAD));
+		tab.setData(299,13,(double) e.getNewSkeleton().get3DJointX(Skeleton.SHOULDER_LEFT));
+		tab.setData(299,14,(double) e.getNewSkeleton().get3DJointY(Skeleton.SHOULDER_LEFT));
+		tab.setData(299,15,(double) e.getNewSkeleton().get3DJointZ(Skeleton.SHOULDER_LEFT));
+		tab.setData(299,16,(double) e.getNewSkeleton().get3DJointX(Skeleton.ELBOW_LEFT));
+		tab.setData(299,17,(double) e.getNewSkeleton().get3DJointY(Skeleton.ELBOW_LEFT));
+		tab.setData(299,18,(double) e.getNewSkeleton().get3DJointZ(Skeleton.ELBOW_LEFT));
+		tab.setData(299,19,(double) e.getNewSkeleton().get3DJointX(Skeleton.WRIST_LEFT));
+		tab.setData(299,20,(double) e.getNewSkeleton().get3DJointY(Skeleton.WRIST_LEFT));
+		tab.setData(299,21,(double) e.getNewSkeleton().get3DJointZ(Skeleton.WRIST_LEFT));
+		tab.setData(299,22,(double) e.getNewSkeleton().get3DJointX(Skeleton.HAND_LEFT));
+		tab.setData(299,23,(double) e.getNewSkeleton().get3DJointY(Skeleton.HAND_LEFT));
+		tab.setData(299,24,(double) e.getNewSkeleton().get3DJointZ(Skeleton.HAND_LEFT));
+		tab.setData(299,25,(double) e.getNewSkeleton().get3DJointX(Skeleton.SHOULDER_RIGHT));
+		tab.setData(299,26,(double) e.getNewSkeleton().get3DJointY(Skeleton.SHOULDER_RIGHT));
+		tab.setData(299,27,(double) e.getNewSkeleton().get3DJointZ(Skeleton.SHOULDER_RIGHT));
+		tab.setData(299,28,(double) e.getNewSkeleton().get3DJointX(Skeleton.ELBOW_RIGHT));
+		tab.setData(299,29,(double) e.getNewSkeleton().get3DJointY(Skeleton.ELBOW_RIGHT));
+		tab.setData(299,30,(double) e.getNewSkeleton().get3DJointZ(Skeleton.ELBOW_RIGHT));
+		tab.setData(299,31,(double) e.getNewSkeleton().get3DJointX(Skeleton.WRIST_RIGHT));
+		tab.setData(299,32,(double) e.getNewSkeleton().get3DJointY(Skeleton.WRIST_RIGHT));
+		tab.setData(299,33,(double) e.getNewSkeleton().get3DJointZ(Skeleton.WRIST_RIGHT));
+		tab.setData(299,34,(double) e.getNewSkeleton().get3DJointX(Skeleton.HAND_RIGHT));
+		tab.setData(299,35,(double) e.getNewSkeleton().get3DJointY(Skeleton.HAND_RIGHT));
+		tab.setData(299,36,(double) e.getNewSkeleton().get3DJointZ(Skeleton.HAND_RIGHT));
+		tab.setData(299,37,(double) e.getNewSkeleton().get3DJointX(Skeleton.HIP_LEFT));
+		tab.setData(299,38,(double) e.getNewSkeleton().get3DJointY(Skeleton.HIP_LEFT));
+		tab.setData(299,39,(double) e.getNewSkeleton().get3DJointZ(Skeleton.HIP_LEFT));
+		tab.setData(299,40,(double) e.getNewSkeleton().get3DJointX(Skeleton.KNEE_LEFT));
+		tab.setData(299,41,(double) e.getNewSkeleton().get3DJointY(Skeleton.KNEE_LEFT));
+		tab.setData(299,42,(double) e.getNewSkeleton().get3DJointZ(Skeleton.KNEE_LEFT));
+		tab.setData(299,43,(double) e.getNewSkeleton().get3DJointX(Skeleton.ANKLE_LEFT));
+		tab.setData(299,44,(double) e.getNewSkeleton().get3DJointY(Skeleton.ANKLE_LEFT));
+		tab.setData(299,45,(double) e.getNewSkeleton().get3DJointZ(Skeleton.ANKLE_LEFT));
+		tab.setData(299,46,(double) e.getNewSkeleton().get3DJointX(Skeleton.FOOT_LEFT));
+		tab.setData(299,47,(double) e.getNewSkeleton().get3DJointY(Skeleton.FOOT_LEFT));
+		tab.setData(299,48,(double) e.getNewSkeleton().get3DJointZ(Skeleton.FOOT_LEFT));
+		tab.setData(299,49,(double) e.getNewSkeleton().get3DJointX(Skeleton.HIP_RIGHT));
+		tab.setData(299,50,(double) e.getNewSkeleton().get3DJointY(Skeleton.HIP_RIGHT));
+		tab.setData(299,51,(double) e.getNewSkeleton().get3DJointZ(Skeleton.HIP_RIGHT));
+		tab.setData(299,52,(double) e.getNewSkeleton().get3DJointX(Skeleton.KNEE_RIGHT));
+		tab.setData(299,53,(double) e.getNewSkeleton().get3DJointY(Skeleton.KNEE_RIGHT));
+		tab.setData(299,54,(double) e.getNewSkeleton().get3DJointZ(Skeleton.KNEE_RIGHT));
+		tab.setData(299,55,(double) e.getNewSkeleton().get3DJointX(Skeleton.ANKLE_RIGHT));
+		tab.setData(299,56,(double) e.getNewSkeleton().get3DJointY(Skeleton.ANKLE_RIGHT));
+		tab.setData(299,57,(double) e.getNewSkeleton().get3DJointZ(Skeleton.ANKLE_RIGHT));
+		tab.setData(299,58,(double) e.getNewSkeleton().get3DJointX(Skeleton.FOOT_RIGHT));
+		tab.setData(299,59,(double) e.getNewSkeleton().get3DJointY(Skeleton.FOOT_RIGHT));
+		tab.setData(299,60,(double) e.getNewSkeleton().get3DJointZ(Skeleton.FOOT_RIGHT));
+	
+		compteur=compteur+1;
+		
+		
+		if(this.getCompteur()==300){
+			tabI = new TableauDonneesInterpolees(tab);
+			tab.interpolationEtDistance(tabI);
+			tabI.autocorrelation(autoc);
+			autoc.detectionPics(pics);
+			autoc.test1et2(pics);
+			pics.SetSelectionAutocorr();
+			SommeAutocorr sumAuto = new SommeAutocorr();;
+			sumAuto.SumAutocorr(autoc,pics);
+			notifyChange(sumAuto.detectionPics());
+			this.setCompteurTo200();
+		}
+		
+		
+	}
+	
+	private void notifyChange(int newBPM)
 	{
-		audio.startBeating(getCurrentTrueBPM());
+		if(newBPM >= 200)
+			newBPM = (int) newBPM/2;
+		if(newBPM <=60)
+			newBPM = newBPM * 2;
+		
+		engine.updateBPM(newBPM);
+ 	}
+	
+	public void startListening() {
 		kinect.setListener(this);
 	}
-
-	public void stopListening() 
-	{
-		audio.stopBeating();
+	
+	public void stopListening() {
 		kinect.unsetListener(this);
-		mean = 500;
-		lastPeriod[0] = 500;
-		lastPeriod[1] = 500;
-		lastPeriod[1] = 500;
-		lastDate = 0;
 	}
 
+	@Override
+	public int getBPM() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getSimpleBPM() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getWealth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
 
