@@ -1,6 +1,7 @@
 package serveur;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -9,12 +10,12 @@ import java.net.Socket;
 import interfaces.ServeurInterface;
 import interfaces.UpdateParamInterface;
 
-public class Serveur implements ServeurInterface extends Thread {
+public class Serveur implements ServeurInterface, Runnable {
 
 	private int info;
 	
 	public void run(){
-		String args = "5869";
+		String args = "5872";
 		int portNumber = Integer.parseInt(args);
 		
 		try ( 
@@ -27,16 +28,19 @@ public class Serveur implements ServeurInterface extends Thread {
 			){
 			String inputLine, outputLine;
 		    outputLine = "Hello";
-		    out.println(inputLine);
+		    out.println(outputLine);
 		    System.out.println(outputLine);
 		    while (true) {
-		    	if (inputLine != null){
-		    		inputLine = in.readLine()
-		    		System.out.println(inputLine);
-		    		info = inputLine;
+		    	inputLine = in.readLine();
+		    	if (inputLine != null){		    		
+		    		//System.out.println(inputLine);
+		    		info = Integer.parseInt(inputLine);
 		    	}
 		        
 		    }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
