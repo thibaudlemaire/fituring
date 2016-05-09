@@ -1,13 +1,9 @@
 package engine;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.util.ArrayList;
-
 import interfaces.BPMupdateInterface;
 import interfaces.ClassificationInterface;
 import interfaces.LectureAudioInterface;
-import interfaces.LectureInterface;
 import interfaces.MovementFoundInterface;
 import interfaces.UpdateParamInterface;
 
@@ -99,32 +95,32 @@ public class MoteurMusical implements 	BPMupdateInterface,
 		
 		for (int i = 1; i < 4; i++)
 			sounds.add(new Sound("rnb" + i + ".mp3", new int[] {40, 0, 0, 0, 0, 80, 0, 0} ));
-	}
-	
-	public void addMovements(String path, int[] BrutAttributes) {
-		movements.add((Movement)new MovementNormal("batterie", new int[] {40, 0, 0, 0, 30, 0, 0, 60}));
-		classificationModule.addGesture("batterie");
 		
-		movements.add((Movement)new MovementNormal("dabCoude", new int[] {50, 10, 0, 0, 30, 80, 0, 0}));
+
+		addMovement("batterie", new int[] {40, 0, 0, 0, 30, 0, 0, 60});
+		
+		addMovement("dabCoude", new int[] {50, 10, 0, 0, 30, 80, 0, 0});
 		classificationModule.addGesture("dabCoude");
 		
-		movements.add((Movement)new MovementNormal("discoBras", new int[] {100, 0, 0, 100, 0, 0, 0, 0}));
+		addMovement("discoBras", new int[] {100, 0, 0, 100, 0, 0, 0, 0});
 		classificationModule.addGesture("discoBras");
 		
-		movements.add((Movement)new MovementNormal("discoMain", new int[] {20, 0, 0, 100, 0, 0, 0, 0}));
+		addMovement("discoMain", new int[] {20, 0, 0, 100, 0, 0, 0, 0});
 		classificationModule.addGesture("discoMain");
 		
-		movements.add((Movement)new MovementNormal("Envol", new int[] {60, 0, 0, 0, 0, 0, 30, 0}));
+		addMovement("Envol", new int[] {60, 0, 0, 0, 0, 0, 30, 0});
 		classificationModule.addGesture("Envol");
 		
-		movements.add((Movement)new MovementSpecial("gangnamStyle", 99999999999)); //Identifiant a changer !!
-		classificationModule.addGesture("gangnamStyle");
-		
-		movements.add((Movement)new MovementNormal("saxophone", new int[] {40, 50, 0, 0, 0, 0, 0, 0}));
+		addMovement("saxophone", new int[] {40, 50, 0, 0, 0, 0, 0, 0});
 		classificationModule.addGesture("saxophone");
 		
-		movements.add((Movement)new MovementNormal("ventre", new int[] {20, 0, 100, 0, 0, 0, 0, 0}));
+		addMovement("ventre", new int[] {20, 0, 100, 0, 0, 0, 0, 0});
 		classificationModule.addGesture("ventre");
+	}
+	
+	private void addMovement(String path, int[] BrutAttributes) {
+		movements.add((Movement)new MovementNormal(path, BrutAttributes));
+		classificationModule.addGesture(path);
 	}
 	
 	@Override
