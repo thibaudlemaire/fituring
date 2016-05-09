@@ -196,6 +196,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		try {
 			ois = new ObjectInputStream(new FileInputStream(fichier));
 			m = (Movement)ois.readObject() ;
+			m.setMovementID(movements.size());
 			movements.add(m);
 			ois.close();
 
@@ -260,6 +261,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 		if(distanceMin <= confidenceValue && confidenceValueExceeded == false) {
 			confidenceValueExceeded = true;
 			System.out.println(tmpResult.getPath() + " - " + distanceMin);
+			engine.MovementDone(tmpResult.getMovementID());
 		}
 
 		if (confidenceValueExceeded == true && distanceMin > (confidenceValue + threshold))
