@@ -4,24 +4,21 @@ public class Sound
 {
 
 	private String path;
-	private int range;
-	private int robotic;
-	private int sweet; 
-	private int disco;
-	private int explosive;
-	
+	private Attributes attributes;
 
-	public Sound(String path, int range,
-			 int robotic, 
-			 int sweet, 
-			 int disco, 
-			 int explosive)
+	public Sound(String path, int[] brutAttributes)
 	{
 		this.path = path;
-		this.range = range;
-		this.robotic = robotic;
-		this.sweet = sweet;
-		this.disco = disco;
-		this.explosive = explosive;
+		this.attributes = new Attributes(brutAttributes);
+	}
+	
+	public String getPath()
+	{
+		return path;
+	}
+	
+	public Attributes getAttributes()
+	{
+		return attributes;
 	}
 }
