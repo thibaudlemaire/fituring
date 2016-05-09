@@ -57,5 +57,5 @@ public interface LectureAudioInterface extends LectureInterface{
 	 */
 	public void delLoop(int loopNumber);
 	
-	
+	public void playSound(String soundPath, int volume);
 }
