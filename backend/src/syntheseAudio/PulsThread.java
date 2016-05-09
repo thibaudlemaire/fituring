@@ -1,9 +1,13 @@
 package syntheseAudio;
 
+import javax.swing.event.EventListenerList;
+
 public class PulsThread extends Thread{
 	
 	private int period; //period : a BPM 
 	private boolean keepPlayin;
+	
+	private EventListenerList listeners = new EventListenerList();
 		
 	public PulsThread(int period)
 	{
@@ -24,6 +28,16 @@ public class PulsThread extends Thread{
 			} // sleep takes an argument in milliseconds
 		}
 	}
+	
+	public void setListener(Loop l) {
+		listeners.add(Loop.class, l );
+	}
+	
+	public void unsetListener(Loop l)
+	{
+		
+	}
+
 	
 	public void setBPM (int BPM){
 		this.period=BPM;

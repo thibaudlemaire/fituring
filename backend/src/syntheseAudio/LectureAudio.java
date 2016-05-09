@@ -1,9 +1,7 @@
 package syntheseAudio;
 
 import java.io.FileNotFoundException;
-
 import interfaces.LectureAudioInterface;
-import interfaces.LectureAudioSimpleInterface;
 
 public class LectureAudio implements LectureAudioInterface {
 	
