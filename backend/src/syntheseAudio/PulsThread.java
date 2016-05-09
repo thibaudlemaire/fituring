@@ -21,6 +21,8 @@ public class PulsThread extends Thread{
 		while(keepPlayin)
 		{
 			try {
+				for(Loop listener : listeners.getListeners(Loop.class)) 
+		            listener.beat();
 				Thread.sleep(60000/period);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

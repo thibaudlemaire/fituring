@@ -1,11 +1,14 @@
 package syntheseAudio;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+
 import interfaces.LectureAudioInterface;
 
 public class LectureAudio implements LectureAudioInterface {
 	
 	PulsThread pulsThread = null;
+	ArrayList<Loop> loops = new ArrayList<Loop>();
 
 	@Override
 	public void initLectureAudioModule(int initialVolume) {
@@ -80,8 +83,10 @@ public class LectureAudio implements LectureAudioInterface {
 
 	@Override
 	public int addLoop(String soundPath, boolean[] onMeasure, boolean[] onBeat, int volume) {
-		// TODO Auto-generated method stub
-		return 0;
+		Loop newLoop = new Loop(soundPath);
+		pulsThread.setListener(newLoop);
+		loops.add(newLoop);
+		return (loops.size() - 1);
 	}
 
 	@Override
