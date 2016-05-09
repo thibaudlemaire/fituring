@@ -12,7 +12,7 @@ public class MovementNormal extends Movement
 	
 	/**
 	 * Order : 
-	 * { Range , Robotic , Sweet , Disco , Explosive }
+	 * { Range, Robotic, Sweet, Disco, Explosive, Hiphop, Dance, Rock }
 	 * @param path
 	 */
 	public MovementNormal(String path, int[] BrutAttributes)
