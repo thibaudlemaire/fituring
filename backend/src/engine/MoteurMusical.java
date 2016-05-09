@@ -140,14 +140,12 @@ public class MoteurMusical implements 	BPMupdateInterface,
 
 	@Override
 	public void startFituring() {
-		// TODO Auto-generated method stub
-		
+		player.startMusic(120);
 	}
 
 	@Override
 	public void stopFituring() {
-		// TODO Auto-generated method stub
-		
+		player.stopMusic();
 	}
 
 	@Override
@@ -181,8 +179,7 @@ public class MoteurMusical implements 	BPMupdateInterface,
 
 	@Override
 	public void updateBPM(int newBPM) {
-		// TODO Auto-generated method stub
-		
+		player.updateBPM(newBPM);
 	}
 
 }
