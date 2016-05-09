@@ -7,7 +7,7 @@ public class Loop {
 	private int measureCount;
 	private Sound sound;
 	
-	public Loop(Sound sound, boolean[] beats, boolean[] measure, int measureCount)
+	public Loop(Sound sound, boolean[] onMeasure, boolean[] onBeat, int measureCount)
 	{
 		this.beats = beats;
 		this.measure = measure;
