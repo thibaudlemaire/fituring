@@ -3,6 +3,8 @@ package engine;
 import java.util.ArrayList;
 
 import interfaces.BPMupdateInterface;
+import interfaces.LectureAudioInterface;
+import interfaces.LectureInterface;
 import interfaces.MovementFoundInterface;
 import interfaces.UpdateParamInterface;
 
@@ -13,8 +15,12 @@ public class MoteurMusical implements 	BPMupdateInterface,
 	private ArrayList<Movement> movements = new ArrayList<Movement>();
 	private ArrayList<Sound> sounds = new ArrayList<Sound>();
 	
-	public void initEngine()
+	private LectureAudioInterface player;
+	
+	public void initEngine(LectureAudioInterface player)
 	{
+		this.player = player;
+		
 		movements.add(new MovementNormal("toto.mvt", new int[] {1, 2, 3, 4, 5} ));
 		sounds.add(new Sound("monSon.wav", new int[] {5, 4, 3, 2, 1, 0, 10, 9} ));
 		sounds.add(new Sound("bass1.mp3", new int[] {20, 45, 0, 10, 15, 0, 20, 10} ));
@@ -72,7 +78,13 @@ public class MoteurMusical implements 	BPMupdateInterface,
 
 	@Override
 	public void MovementDone(int movementNumber) {
-		// TODO Auto-generated method stub
+		Movement movement = movements.get(movementNumber);
+		if (movement.getClass() == MovementSpecial.class)
+		{
+			MovementSpecial movementSpecial = (MovementSpecial) movement;
+			Sound soundToPlay = sounds.get(movementSpecial.getSoundID());
+			player.playSound(soundToPlay.getPath());
+		}
 		
 	}
 

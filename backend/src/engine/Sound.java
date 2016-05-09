@@ -11,4 +11,9 @@ public class Sound
 		this.path = path;
 		this.attributes = new Attributes(brutAttributes);
 	}
+	
+	public String getPath()
+	{
+		return path;
+	}
 }
