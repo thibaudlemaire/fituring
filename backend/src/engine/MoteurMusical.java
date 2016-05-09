@@ -159,6 +159,24 @@ public class MoteurMusical implements 	BPMupdateInterface,
 			Sound soundToPlay = sounds.get(movementSpecial.getSoundID());
 			player.playSound(soundToPlay.getPath(), 100);
 		}
+		else
+		{
+			MovementNormal movementNormal = (MovementNormal) movement;
+			
+			int distanceMin = Integer.MAX_VALUE;
+			Sound chosenSound = null;
+			for(Sound sound : sounds)
+			{
+				int distance = sound.getAttributes().getDistanceTo(movementNormal.getAttributes());
+				int hazardousDistance = (int) ( 0.8 + (Math.random() * 0.4) ) * distance;
+				if(hazardousDistance < distanceMin)
+				{
+					chosenSound = sound;
+					distanceMin = hazardousDistance;
+				}
+			}
+			System.out.println(chosenSound.getPath());
+		}
 	}
 
 	@Override

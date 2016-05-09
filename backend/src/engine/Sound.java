@@ -16,4 +16,9 @@ public class Sound
 	{
 		return path;
 	}
+	
+	public Attributes getAttributes()
+	{
+		return attributes;
+	}
 }
