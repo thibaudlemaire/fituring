@@ -22,7 +22,7 @@ public class Attributes
 	 */
 	public Attributes(int[] BrutAttributes)
 	{
-		if (BrutAttributes.length == NUMBER_OF_ATTRIBUTES)
+		if (BrutAttributes.length != NUMBER_OF_ATTRIBUTES)
 		{
 			System.err.println("Wrong number of attributes");
 			return;
@@ -41,13 +41,13 @@ public class Attributes
 		return attributes;	
 	}
 	
-	public int getDistanceTo(Attributes otherAttributes)
+	public double getDistanceTo(Attributes otherAttributes)
 	{
 		int result = 0;
 		for(int i = 0; i < NUMBER_OF_ATTRIBUTES ; i++)
 		{
 			result += Math.abs(attributes[i] - otherAttributes.getAttributesTable()[i]);
 		}
-		return (int) (result / NUMBER_OF_ATTRIBUTES);
+		return (result / NUMBER_OF_ATTRIBUTES);
 	}
 }

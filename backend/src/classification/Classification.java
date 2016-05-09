@@ -55,9 +55,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	public void initClassificationModule(KinectInterface kinectModule, MovementFoundInterface engine) {
 
 		this.kinectModule = kinectModule;
-
-		/////// A remettre : commentÃ© pour les tests
-		//this.engine = engine ;
+		this.engine = engine ;
 
 
 		// INITIALISATION DE LA HASHTABLE DE FIFOS

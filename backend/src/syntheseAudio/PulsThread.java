@@ -37,7 +37,7 @@ public class PulsThread extends Thread{
 	
 	public void unsetListener(Loop l)
 	{
-		
+		listeners.remove(Loop.class, l);
 	}
 
 	

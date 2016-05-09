@@ -48,13 +48,13 @@ public class LectureAudio implements LectureAudioInterface {
 	@Override
 	public void startMusic(int bpm) {
 		// TODO Auto-generated method stub
-		
+		startBeating(bpm);
 	}
 
 	@Override
 	public void stopMusic() {
 		// TODO Auto-generated method stub
-		
+		stopBeating();
 	}
 
 	@Override
@@ -92,7 +92,8 @@ public class LectureAudio implements LectureAudioInterface {
 	@Override
 	public void delLoop(int loopNumber) {
 		// TODO Auto-generated method stub
-		
+		pulsThread.unsetListener(loops.get(loopNumber));
+		loops.remove(loopNumber);
 	}
 
 }

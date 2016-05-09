@@ -23,6 +23,7 @@ public class Beta {
 		MoteurMusical engine = new MoteurMusical();
 		
 		System.out.println("Initialisation des modules");
+		engine.initEngine(audio, cl);
 		kinect.initKinectModule();
 		audio.initLectureAudioModule(100);
 		cl.initClassificationModule(kinect, engine);
@@ -38,9 +39,13 @@ public class Beta {
 
 		    cl.startListening();
 		    dr.startListening();
+		    engine.startFituring();
+		    audio.addLoop("sounds/kick.wav", new boolean[] {false}, new boolean[] {false}, 0);
 		    sc.nextLine();
+		    engine.stopFituring();
 		    cl.stopListening();
 		    dr.stopListening();
+		    audio.delLoop(0);
 		}
 	    System.out.println("Stopping Kinect");
 		kinect.stop();	

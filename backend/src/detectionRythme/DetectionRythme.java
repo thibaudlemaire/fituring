@@ -18,6 +18,7 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	KinectInterface kinect;
 	BPMupdateInterface engine;
 	private long time = 0;
+	private int lastBPM = 120;
 	
 	public DetectionRythme(){
 		this.tab = new TableauDonneesBrutes();
@@ -138,10 +139,11 @@ public class DetectionRythme implements RyhtmeInterface, KinectListenerInterface
 	{
 		if(newBPM >= 200)
 			newBPM = (int) newBPM/2;
-		if(newBPM <=60)
+		if(newBPM <=50)
 			newBPM = newBPM * 2;
 		
-		engine.updateBPM(newBPM);
+		if(newBPM > (int) lastBPM * 0.8 && newBPM < (int) lastBPM * 1.2)
+			engine.updateBPM(newBPM);
  	}
 	
 	public void startListening() {

@@ -15,7 +15,6 @@ public class MoteurMusical implements 	BPMupdateInterface,
 	private ArrayList<Sound> sounds = new ArrayList<Sound>();
 	
 	private ClassificationInterface classificationModule;
-	
 	private LectureAudioInterface player;
 	
 	public void initEngine(LectureAudioInterface player, ClassificationInterface classificationModule)
@@ -23,43 +22,41 @@ public class MoteurMusical implements 	BPMupdateInterface,
 		this.player = player;
 		this.classificationModule = classificationModule;
 		
-		movements.add(new MovementNormal("toto.mvt", new int[] {1, 2, 3, 4, 5} ));
-		sounds.add(new Sound("monSon.wav", new int[] {5, 4, 3, 2, 1, 0, 10, 9} ));
-		sounds.add(new Sound("bass1.wav", new int[] {20, 45, 0, 10, 15, 0, 20, 10} ));
-		sounds.add(new Sound("bass2.wav", new int[] {20, 0, 0, 10, 0, 10, 10, 5} ));
-		sounds.add(new Sound("bass3.wav", new int[] {40, 40, 0, 20, 0, 10, 20, 10} ));
-		sounds.add(new Sound("bass4.wav", new int[] {30, 45, 0, 10, 20, 0, 20, 20} ));
-		sounds.add(new Sound("bass5.wav", new int[] {25, 30, 0, 30, 5, 0, 10, 0} ));
-		sounds.add(new Sound("loopamb1.wav", new int[] {25, 10, 0, 5, 0, 10, 10, 0} ));
-		sounds.add(new Sound("loopamb2.wav", new int[] {30, 10, 0, 5, 0, 10, 10, 0} ));
-		sounds.add(new Sound("loopamb3.wav", new int[] {30, 0, 0, 0, 10, 10, 0, 40} ));
-		sounds.add(new Sound("loopamb4.wav", new int[] {30, 0, 0, 0, 10, 50, 0, 40} ));
-		sounds.add(new Sound("loopamb5.wav", new int[] {35, 0, 0, 30, 5, 10, 10, 10} ));
-		sounds.add(new Sound("loopamb6.wav", new int[] {40, 30, 0, 30, 10, 0, 10, 0} ));
-		sounds.add(new Sound("loopamb7.wav", new int[] {25, 30, 0, 30, 5, 10, 10, 10} ));
+		sounds.add(new Sound("sounds/ambiance/bass1.wav", new int[] {20, 45, 0, 10, 15, 0, 20, 10} ));
+		sounds.add(new Sound("sounds/ambiance/bass2.wav", new int[] {20, 0, 0, 10, 0, 10, 10, 5} ));
+		sounds.add(new Sound("sounds/ambiance/bass3.wav", new int[] {40, 40, 0, 20, 0, 10, 20, 10} ));
+		sounds.add(new Sound("sounds/ambiance/bass4.wav", new int[] {30, 45, 0, 10, 20, 0, 20, 20} ));
+		sounds.add(new Sound("sounds/ambiance/bass5.wav", new int[] {25, 30, 0, 30, 5, 0, 10, 0} ));
+		sounds.add(new Sound("sounds/ambiance/loopamb1.wav", new int[] {25, 10, 0, 5, 0, 10, 10, 0} ));
+		sounds.add(new Sound("sounds/ambiance/loopamb2.wav", new int[] {30, 10, 0, 5, 0, 10, 10, 0} ));
+		sounds.add(new Sound("sounds/ambiance/loopamb3.wav", new int[] {30, 0, 0, 0, 10, 10, 0, 40} ));
+		sounds.add(new Sound("sounds/ambiance/loopamb4.wav", new int[] {30, 0, 0, 0, 10, 50, 0, 40} ));
+		sounds.add(new Sound("sounds/ambiance/loopamb5.wav", new int[] {35, 0, 0, 30, 5, 10, 10, 10} ));
+		sounds.add(new Sound("sounds/ambiance/loopamb6.wav", new int[] {40, 30, 0, 30, 10, 0, 10, 0} ));
+		sounds.add(new Sound("sounds/ambiance/loopamb7.wav", new int[] {25, 30, 0, 30, 5, 10, 10, 10} ));
 		
 		for (int i = 1; i < 9; i++)
-			sounds.add(new Sound("arab" + i + ".wav", new int[] {45, 0, 100, 0, 0, 10, 0, 0} ));
+			sounds.add(new Sound("sounds/arabe/arab" + i + ".wav", new int[] {45, 0, 100, 0, 0, 10, 0, 0} ));
 		
-		sounds.add(new Sound("batt1.wav", new int[] {50, 0, 0, 0, 50, 0, 0, 20} ));
-		sounds.add(new Sound("batt2.wav", new int[] {45, 0, 0, 0, 50, 0, 0, 20} ));
-		sounds.add(new Sound("batt3.wav", new int[] {45, 0, 0, 0, 50, 0, 10, 20} ));
-		sounds.add(new Sound("caiss1.wav", new int[] {10, 0, 0, 0, 100, 0, 0, 0} ));
-		sounds.add(new Sound("claps.wav", new int[] {0, 0, 0, 0, 0, 50, 0, 0} ));
-		sounds.add(new Sound("loop1.wav", new int[] {30, 0, 0, 50, 0, 0, 10, 0} ));
-		sounds.add(new Sound("loop2.wav", new int[] {30, 0, 0, 50, 20, 0, 10, 0} ));
-		sounds.add(new Sound("loop3.wav", new int[] {20, 0, 0, 30, 30, 0, 10, 0} ));
-		sounds.add(new Sound("loop4.wav", new int[] {10, 0, 0, 30, 30, 0, 0, 0} ));
-		sounds.add(new Sound("loop5.wav", new int[] {5, 0, 0, 30, 30, 0, 0, 0} ));
-		sounds.add(new Sound("loop6.wav", new int[] {5, 0, 0, 30, 30, 10, 0, 0} ));
-		sounds.add(new Sound("loop7.wav", new int[] {5, 0, 0, 20, 30, 20, 0, 0} ));
-		sounds.add(new Sound("loop8.wav", new int[] {5, 0, 0, 50, 30, 20, 0, 0} ));
-		sounds.add(new Sound("loop9.wav", new int[] {10, 0, 0, 50, 50, 0, 0, 0} ));
-		sounds.add(new Sound("loop10.wav", new int[] {15, 0, 0, 50, 50, 0, 0, 0} ));
-		sounds.add(new Sound("loop11.wav", new int[] {20, 0, 0, 20, 50, 0, 0, 0} ));
-		sounds.add(new Sound("loop12.wav", new int[] {40, 20, 0, 10, 50, 0, 0, 0} ));
-		sounds.add(new Sound("loop13.wav", new int[] {40, 50, 0, 40, 20, 0, 10, 0} ));
-		
+		//sounds.add(new Sound("sounds/batterie/batt1.wav", new int[] {50, 0, 0, 0, 50, 0, 0, 20} ));
+		//sounds.add(new Sound("sounds/batterie/batt2.wav", new int[] {45, 0, 0, 0, 50, 0, 0, 20} ));
+		//sounds.add(new Sound("sounds/batterie/batt3.wav", new int[] {45, 0, 0, 0, 50, 0, 10, 20} ));
+		sounds.add(new Sound("sounds/batterie/caiss1.wav", new int[] {10, 0, 0, 0, 100, 0, 0, 0} ));
+		sounds.add(new Sound("sounds/batterie/claps.wav", new int[] {0, 0, 0, 0, 0, 50, 0, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop1.wav", new int[] {30, 0, 0, 50, 0, 0, 10, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop2.wav", new int[] {30, 0, 0, 50, 20, 0, 10, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop3.wav", new int[] {20, 0, 0, 30, 30, 0, 10, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop4.wav", new int[] {10, 0, 0, 30, 30, 0, 0, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop5.wav", new int[] {5, 0, 0, 30, 30, 0, 0, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop6.wav", new int[] {5, 0, 0, 30, 30, 10, 0, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop7.wav", new int[] {5, 0, 0, 20, 30, 20, 0, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop8.wav", new int[] {5, 0, 0, 50, 30, 20, 0, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop9.wav", new int[] {10, 0, 0, 50, 50, 0, 0, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop10.wav", new int[] {15, 0, 0, 50, 50, 0, 0, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop11.wav", new int[] {20, 0, 0, 20, 50, 0, 0, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop12.wav", new int[] {40, 20, 0, 10, 50, 0, 0, 0} ));
+		sounds.add(new Sound("sounds/batterie/loop13.wav", new int[] {40, 50, 0, 40, 20, 0, 10, 0} ));
+		/*
 		for (int i = 1; i < 3; i++) {
 			sounds.add(new Sound("bass" + i +".mp3", new int[] {30, 20, 0, 0, 0, 0, 60, 20} ));
 			sounds.add(new Sound("danc120" + i +".mp3", new int[] {40, 20, 0, 00, 00, 0, 60, 20} ));
@@ -96,26 +93,14 @@ public class MoteurMusical implements 	BPMupdateInterface,
 		for (int i = 1; i < 4; i++)
 			sounds.add(new Sound("rnb" + i + ".mp3", new int[] {40, 0, 0, 0, 0, 80, 0, 0} ));
 		
-
-		addMovement("batterie", new int[] {40, 0, 0, 0, 30, 0, 0, 60});
-		
-		addMovement("dabCoude", new int[] {50, 10, 0, 0, 30, 80, 0, 0});
-		classificationModule.addGesture("dabCoude");
-		
-		addMovement("discoBras", new int[] {100, 0, 0, 100, 0, 0, 0, 0});
-		classificationModule.addGesture("discoBras");
-		
-		addMovement("discoMain", new int[] {20, 0, 0, 100, 0, 0, 0, 0});
-		classificationModule.addGesture("discoMain");
-		
-		addMovement("Envol", new int[] {60, 0, 0, 0, 0, 0, 30, 0});
-		classificationModule.addGesture("Envol");
-		
-		addMovement("saxophone", new int[] {40, 50, 0, 0, 0, 0, 0, 0});
-		classificationModule.addGesture("saxophone");
-		
-		addMovement("ventre", new int[] {20, 0, 100, 0, 0, 0, 0, 0});
-		classificationModule.addGesture("ventre");
+*/
+		addMovement("batterie.mvt", new int[] {40, 0, 0, 0, 30, 0, 0, 60});
+		addMovement("dabCoude.mvt", new int[] {50, 10, 0, 0, 30, 80, 0, 0});
+		addMovement("discoBras.mvt", new int[] {100, 0, 0, 100, 0, 0, 0, 0});
+		addMovement("discoMain.mvt", new int[] {20, 0, 0, 100, 0, 0, 0, 0});
+		addMovement("Envol.mvt", new int[] {60, 0, 0, 0, 0, 0, 30, 0});
+		addMovement("saxophone.mvt", new int[] {40, 50, 0, 0, 0, 0, 0, 0});
+		addMovement("ventre.mvt", new int[] {20, 0, 100, 0, 0, 0, 0, 0});
 	}
 	
 	private void addMovement(String path, int[] BrutAttributes) {
@@ -180,24 +165,26 @@ public class MoteurMusical implements 	BPMupdateInterface,
 		{
 			MovementNormal movementNormal = (MovementNormal) movement;
 			
-			int distanceMin = Integer.MAX_VALUE;
+			double distanceMin = Float.MAX_VALUE;
 			Sound chosenSound = null;
 			for(Sound sound : sounds)
 			{
-				int distance = sound.getAttributes().getDistanceTo(movementNormal.getAttributes());
-				int hazardousDistance = (int) ( 0.8 + (Math.random() * 0.4) ) * distance;
+				double distance = sound.getAttributes().getDistanceTo(movementNormal.getAttributes());
+				double hazardousDistance =  (0.8 + (Math.random() * 0.4) ) * distance;
 				if(hazardousDistance < distanceMin)
 				{
 					chosenSound = sound;
 					distanceMin = hazardousDistance;
 				}
 			}
-			System.out.println(chosenSound.getPath());
+			System.out.println(chosenSound.getPath() + " - " + distanceMin);
+			player.playSound(chosenSound.getPath(), 100);
 		}
 	}
 
 	@Override
 	public void updateBPM(int newBPM) {
+		System.out.println("New BPM : " + newBPM);
 		player.updateBPM(newBPM);
 	}
 
