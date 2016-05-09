@@ -105,9 +105,6 @@ public class MoteurMusical implements 	BPMupdateInterface,
 		movements.add((Movement)new MovementNormal("batterie", new int[] {40, 0, 0, 0, 30, 0, 0, 60}));
 		classificationModule.addGesture("batterie");
 		
-		movements.add((Movement)new MovementNormal("dab", new int[] {50, 10, 0, 0, 30, 80, 0, 0}));
-		classificationModule.addGesture("dab");
-		
 		movements.add((Movement)new MovementNormal("dabCoude", new int[] {50, 10, 0, 0, 30, 80, 0, 0}));
 		classificationModule.addGesture("dabCoude");
 		
