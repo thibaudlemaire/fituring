@@ -9,7 +9,7 @@ public class LectureAudio implements LectureAudioSimpleInterface {
 	PulsThread pulsThread = null;
 
 	@Override
-	public void initLectureAudioModule(Object player, int initialVolume) {
+	public void initLectureAudioModule(int initialVolume) {
 		// TODO Auto-generated method stub
 		
 	}
