@@ -157,9 +157,8 @@ public class MoteurMusical implements 	BPMupdateInterface,
 		{
 			MovementSpecial movementSpecial = (MovementSpecial) movement;
 			Sound soundToPlay = sounds.get(movementSpecial.getSoundID());
-			player.playSound(soundToPlay.getPath());
+			player.playSound(soundToPlay.getPath(), 100);
 		}
-		
 	}
 
 	@Override
