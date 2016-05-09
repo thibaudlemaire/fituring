@@ -11,6 +11,7 @@ public class Sound
 	private int explosive;
 	private int dance;
 	private int rock;
+	private Attributes attributes;
 	
 
 	public Sound(String path, int range,
@@ -29,5 +30,12 @@ public class Sound
 		this.explosive = explosive;
 		this.dance = dance;
 		this.rock = rock;
+		}
+	
+
+	public Sound(String path, Attributes attributes)
+	{
+		this.path = path;
+		this.attributes = attributes;
 	}
 }
