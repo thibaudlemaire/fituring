@@ -12,7 +12,7 @@ public class Attributes
 	public static final int ROCK = 7;
 	public static final int NUMBER_OF_ATTRIBUTES = 8;
 	
-	private int[] attributes = new int[5];
+	private int[] attributes = new int[NUMBER_OF_ATTRIBUTES];
 	
 	/**
 	 * Attributes constructor
@@ -34,5 +34,20 @@ public class Attributes
 	public void setAtribute(int attributeNumber, int value)
 	{
 		this.attributes[attributeNumber] = value;
+	}
+	
+	public int[] getAttributesTable()
+	{
+		return attributes;	
+	}
+	
+	public int getDistanceTo(Attributes otherAttributes)
+	{
+		int result = 0;
+		for(int i = 0; i < NUMBER_OF_ATTRIBUTES ; i++)
+		{
+			result += Math.abs(attributes[i] - otherAttributes.getAttributesTable()[i]);
+		}
+		return (int) (result / NUMBER_OF_ATTRIBUTES);
 	}
 }
