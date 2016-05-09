@@ -1,8 +1,11 @@
 package engine;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 
 import interfaces.BPMupdateInterface;
+import interfaces.ClassificationInterface;
 import interfaces.LectureAudioInterface;
 import interfaces.LectureInterface;
 import interfaces.MovementFoundInterface;
@@ -15,11 +18,14 @@ public class MoteurMusical implements 	BPMupdateInterface,
 	private ArrayList<Movement> movements = new ArrayList<Movement>();
 	private ArrayList<Sound> sounds = new ArrayList<Sound>();
 	
+	private ClassificationInterface classificationModule;
+	
 	private LectureAudioInterface player;
 	
-	public void initEngine(LectureAudioInterface player)
+	public void initEngine(LectureAudioInterface player, ClassificationInterface classificationModule)
 	{
 		this.player = player;
+		this.classificationModule = classificationModule;
 		
 		movements.add(new MovementNormal("toto.mvt", new int[] {1, 2, 3, 4, 5} ));
 		sounds.add(new Sound("monSon.wav", new int[] {5, 4, 3, 2, 1, 0, 10, 9} ));
@@ -95,14 +101,31 @@ public class MoteurMusical implements 	BPMupdateInterface,
 			sounds.add(new Sound("rnb" + i + ".mp3", new int[] {40, 0, 0, 0, 0, 80, 0, 0} ));
 	}
 	
-	public static final int RANGE = 0;
-	public static final int ELECTRIC = 1;
-	public static final int ARABE = 2;
-	public static final int DISCO = 3;
-	public static final int EXPLOSIVE = 4;
-	public static final int HIPHOP = 5;
-	public static final int DANCE = 6;
-	public static final int ROCK = 7;
+	public void addMovements(String path, int[] BrutAttributes) {
+		movements.add((Movement)new MovementNormal("batterie", new int[] {40, 0, 0, 0, 30, 0, 0, 60}));
+		classificationModule.addGesture("batterie");
+		
+		movements.add((Movement)new MovementNormal("dabCoude", new int[] {50, 10, 0, 0, 30, 80, 0, 0}));
+		classificationModule.addGesture("dabCoude");
+		
+		movements.add((Movement)new MovementNormal("discoBras", new int[] {100, 0, 0, 100, 0, 0, 0, 0}));
+		classificationModule.addGesture("discoBras");
+		
+		movements.add((Movement)new MovementNormal("discoMain", new int[] {20, 0, 0, 100, 0, 0, 0, 0}));
+		classificationModule.addGesture("discoMain");
+		
+		movements.add((Movement)new MovementNormal("Envol", new int[] {60, 0, 0, 0, 0, 0, 30, 0}));
+		classificationModule.addGesture("Envol");
+		
+		movements.add((Movement)new MovementSpecial("gangnamStyle", 99999999999)); //Identifiant a changer !!
+		classificationModule.addGesture("gangnamStyle");
+		
+		movements.add((Movement)new MovementNormal("saxophone", new int[] {40, 50, 0, 0, 0, 0, 0, 0}));
+		classificationModule.addGesture("saxophone");
+		
+		movements.add((Movement)new MovementNormal("ventre", new int[] {20, 0, 100, 0, 0, 0, 0, 0}));
+		classificationModule.addGesture("ventre");
+	}
 	
 	@Override
 	public void connected() {
