@@ -6,6 +6,7 @@ import classification.Classification;
 import detectionRythme.DetectionRythme;
 import engine.MoteurMusical;
 import kinect.Kinect;
+import serveur.Serveur;
 import syntheseAudio.LectureAudio;
 
 public class Beta {
@@ -21,6 +22,7 @@ public class Beta {
 		LectureAudio audio = new LectureAudio();
 		DetectionRythme dr = new DetectionRythme();
 		MoteurMusical engine = new MoteurMusical();
+		Serveur server = new Serveur();
 		
 		System.out.println("Initialisation des modules");
 		engine.initEngine(audio, cl);
@@ -35,6 +37,7 @@ public class Beta {
 			strIn = sc.nextLine();
 		    if(strIn.length() >= 1 && strIn.charAt(0) == 'q')
 		    	break;
+			
 			System.out.println("Ajout des listeners");
 
 		    cl.startListening();
