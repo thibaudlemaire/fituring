@@ -2,10 +2,9 @@ package main;
 
 import java.util.Scanner;
 
-import classification.distanceHands;
+import classification.Classification;
 import detectionRythme.DetectionRythme;
 import engine.MoteurMusical;
-import interfaces.LectureInterface;
 import kinect.Kinect;
 import syntheseAudio.LectureAudio;
 
@@ -18,15 +17,15 @@ public class Beta {
 
 		System.out.println("Creation des instances");
 		Kinect kinect = new Kinect();
-		distanceHands cl = new distanceHands();
+		Classification cl = new Classification();
 		LectureAudio audio = new LectureAudio();
 		DetectionRythme dr = new DetectionRythme();
 		MoteurMusical engine = new MoteurMusical();
 		
 		System.out.println("Initialisation des modules");
 		kinect.initKinectModule();
-		audio.initLectureAudioModule(new Object(), 100);
-		cl.initClassificationModule(new Object(), kinect, (LectureInterface) audio);
+		audio.initLectureAudioModule(100);
+		cl.initClassificationModule(kinect, engine);
 		dr.initRythmeModule(kinect, engine);
 		
 		while(true)
