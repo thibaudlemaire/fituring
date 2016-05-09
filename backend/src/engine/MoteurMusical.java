@@ -39,7 +39,7 @@ public class MoteurMusical implements 	BPMupdateInterface,
 	{
 		this.player = player;
 		this.classificationModule = classificationModule;
-		
+				
 		sounds.add(new Sound("sounds/ambiance/bass1.wav", true, new int[] {20, 45, 0, 10, 15, 0, 20, 10} ));
 		sounds.add(new Sound("sounds/ambiance/bass2.wav", true, new int[] {20, 0, 0, 10, 0, 10, 10, 5} ));
 		sounds.add(new Sound("sounds/ambiance/bass3.wav", true, new int[] {40, 40, 0, 20, 0, 10, 20, 10} ));
@@ -170,12 +170,15 @@ public class MoteurMusical implements 	BPMupdateInterface,
 		needLoopable = true;
 		
 		player.startMusic(120);
-		player.addLoop("sounds/kick.wav", new boolean[] {false}, new boolean[] {false}, 0);
+		player.setMetronomeListener(this);
+		player.addLoop("sounds/kick.wav", new boolean[] {true, true, true, true},
+											new boolean[] {true, true, true, true}, 0);
 		
 	}
 
 	@Override
 	public void stopFituring() {
+		player.unsetMetronomeListener(this);
 		player.stopMusic();
 	}
 
@@ -212,13 +215,14 @@ public class MoteurMusical implements 	BPMupdateInterface,
 		}
 	}
 	
+	
 	private void setNextSound(Sound sound)
 	{
-		measureRequired = currentRelativeMeasure;
-		beatRequired = 0;
+		//measureRequired = currentRelativeMeasure;
+		//beatRequired = 0;
 		soundPending = sound;
 	}
-
+	
 	@Override
 	public void updateBPM(int newBPM) {
 		System.out.println("New BPM : " + newBPM);
@@ -231,9 +235,13 @@ public class MoteurMusical implements 	BPMupdateInterface,
 		currentRelativeMeasure = player.getRelativeMeasure();
 		currentRelativeBeat = player.getRelativeBeat();
 		
-		if(soundPending != null && beatRequired == currentRelativeBeat && measureRequired == currentRelativeMeasure)
-			player.addLoop(soundPending.getPath(), new boolean[] {true, false, true, false},
-													new boolean[] {true, true, true, true}, 100);
+		if(soundPending != null )//&& beatRequired == currentRelativeBeat && measureRequired == currentRelativeMeasure)
+		{
+			//player.addLoop(soundPending.getPath(), new boolean[] {true, false, false, false},
+			//										new boolean[] {true, false, true, false}, 100);
+			player.playSound(soundPending.getPath(), 100);
+			soundPending = null;
+		}
 			
 		
 	}

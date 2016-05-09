@@ -30,11 +30,11 @@ public class PulsThread extends Thread{
 			try {
 				absoluteMeasureCounter++;
 				absoluteBeatCounter++;
-				if (relativeMeasureCounter < 4)
+				if (relativeMeasureCounter < 3)
 					relativeMeasureCounter++;
 				else
 					relativeMeasureCounter = 0;
-				if (relativeBeatCounter <4)
+				if (relativeBeatCounter < 3)
 					relativeBeatCounter++;
 				else
 					relativeBeatCounter = 0;

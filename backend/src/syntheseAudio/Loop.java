@@ -22,7 +22,7 @@ public class Loop implements MetronomeListenerInterface {
 	
 	public void beat()
 	{
-		if(onMeasure[player.getRelativeMeasure()] || onMeasure[player.getRelativeMeasure()])
+		if(!onMeasure[player.getRelativeMeasure()] || !onMeasure[player.getRelativeMeasure()])
 			return;
 		AudioThread audioThread = null;
 		try 
