@@ -152,7 +152,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 	}
 
 	public void saveMovement(String gestureName, int whichJoint) {
-		Movement mvt = new Movement(gestureName + ".mvt", 0);
+		Movement mvt = new Movement(gestureName + ".mvt");
 		if(whichJoint == RECORD_LEFT_HAND || whichJoint == RECORD_BOTH_HANDS)
 			mvt.addGesture(fifos.get(Skeleton.HAND_LEFT).getAll());
 		if(whichJoint == RECORD_RIGHT_HAND || whichJoint == RECORD_BOTH_HANDS)
@@ -229,7 +229,6 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 			double meanMovementDistance = 0;
 			int gestureCount = 0;
 
-			movement.setNormalizationCoefficient(1);
 			for(Gesture gesture : movement.getGestures())
 			{
 				gestureCount++;
@@ -248,7 +247,7 @@ public class Classification implements ClassificationInterface, KinectListenerIn
 				meanGestureDistance = totalGestureDistance / gestureSize;
 				totalMovementDistance += meanGestureDistance;
 			}
-			meanMovementDistance = totalMovementDistance / gestureCount * movement.getNormalizationCoefficient();
+			meanMovementDistance = totalMovementDistance / gestureCount;
 			gestureCount = 0;
 
 			if (meanMovementDistance <= distanceMin)
