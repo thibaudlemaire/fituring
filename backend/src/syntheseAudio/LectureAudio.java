@@ -2,9 +2,10 @@ package syntheseAudio;
 
 import java.io.FileNotFoundException;
 
+import interfaces.LectureAudioInterface;
 import interfaces.LectureAudioSimpleInterface;
 
-public class LectureAudio implements LectureAudioSimpleInterface {
+public class LectureAudio implements LectureAudioSimpleInterface, LectureAudioInterface {
 	
 	PulsThread pulsThread = null;
 
@@ -28,7 +29,6 @@ public class LectureAudio implements LectureAudioSimpleInterface {
 
 	@Override
 	public void updateBPM(int BPM) {
-		// TODO Auto-generated method stub
 		pulsThread.setBPM(BPM);
 	}
 
@@ -49,6 +49,54 @@ public class LectureAudio implements LectureAudioSimpleInterface {
 			e.printStackTrace();
 		}
 		audioThread.start();
+		
+	}
+
+	@Override
+	public void startMusic(int bpm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stopMusic() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getAbsoluteMeasure() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getRelativeMeasure() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getRelativeBeat() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getAbsoluteBeat() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int addLoop(String soundPath, boolean[] onMeasure, boolean[] onBeat, int volume) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void delLoop(int loopNumber) {
+		// TODO Auto-generated method stub
 		
 	}
 
