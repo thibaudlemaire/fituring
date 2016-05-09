@@ -20,14 +20,12 @@ public class MoteurMusical implements 	BPMupdateInterface,
 	
 	@Override
 	public void connected() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Client connecte");
 	}
 
 	@Override
 	public void disconnected() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Client deconnecte");
 	}
 
 	@Override
