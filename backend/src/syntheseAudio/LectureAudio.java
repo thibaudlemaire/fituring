@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import interfaces.LectureAudioInterface;
+import interfaces.MetronomeListenerInterface;
 
 public class LectureAudio implements LectureAudioInterface {
 	
@@ -47,43 +48,37 @@ public class LectureAudio implements LectureAudioInterface {
 
 	@Override
 	public void startMusic(int bpm) {
-		// TODO Auto-generated method stub
 		startBeating(bpm);
 	}
 
 	@Override
 	public void stopMusic() {
-		// TODO Auto-generated method stub
 		stopBeating();
 	}
 
 	@Override
 	public int getAbsoluteMeasure() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pulsThread.getAbsoluteMeasure();
 	}
 
 	@Override
 	public int getRelativeMeasure() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pulsThread.getRelativeMeasure();
 	}
 
 	@Override
 	public int getRelativeBeat() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pulsThread.getRelativeBeat();
 	}
 
 	@Override
 	public int getAbsoluteBeat() {
-		// TODO Auto-generated method stub
-		return 0;
+		return pulsThread.getAbsoluteBeat();
 	}
 
 	@Override
 	public int addLoop(String soundPath, boolean[] onMeasure, boolean[] onBeat, int volume) {
-		Loop newLoop = new Loop(soundPath);
+		Loop newLoop = new Loop(soundPath, onMeasure, onBeat, this);
 		pulsThread.setListener(newLoop);
 		loops.add(newLoop);
 		return (loops.size() - 1);
@@ -94,6 +89,16 @@ public class LectureAudio implements LectureAudioInterface {
 		// TODO Auto-generated method stub
 		pulsThread.unsetListener(loops.get(loopNumber));
 		loops.remove(loopNumber);
+	}
+	
+	public void setMetronomeListener(MetronomeListenerInterface l)
+	{
+		pulsThread.setListener(l);
+	}
+	
+	public void unsetMetronomeListener(MetronomeListenerInterface l)
+	{
+		pulsThread.unsetListener(l);
 	}
 
 }

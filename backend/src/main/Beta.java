@@ -40,7 +40,6 @@ public class Beta {
 		    cl.startListening();
 		    dr.startListening();
 		    engine.startFituring();
-		    audio.addLoop("sounds/kick.wav", new boolean[] {false}, new boolean[] {false}, 0);
 		    sc.nextLine();
 		    engine.stopFituring();
 		    cl.stopListening();
