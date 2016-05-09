@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import interfaces.LectureAudioInterface;
 import interfaces.LectureAudioSimpleInterface;
 
-public class LectureAudio implements LectureAudioSimpleInterface, LectureAudioInterface {
+public class LectureAudio implements LectureAudioInterface {
 	
 	PulsThread pulsThread = null;
 
@@ -15,7 +15,6 @@ public class LectureAudio implements LectureAudioSimpleInterface, LectureAudioIn
 		
 	}
 
-	@Override
 	public void startBeating(int BPM) {
 		// TODO Auto-generated method stub
 		try 
@@ -32,14 +31,12 @@ public class LectureAudio implements LectureAudioSimpleInterface, LectureAudioIn
 		pulsThread.setBPM(BPM);
 	}
 
-	@Override
 	public void stopBeating() {
 		// TODO Auto-generated method stub
 		pulsThread.stopPulsThread();
 	}
 
-	@Override
-	public void playSound(String path) {
+	public void playSound(String path, int volume) {
 		// TODO Auto-generated method stub
 		AudioThread audioThread = null;
 		try 
@@ -99,6 +96,5 @@ public class LectureAudio implements LectureAudioSimpleInterface, LectureAudioIn
 		// TODO Auto-generated method stub
 		
 	}
-
 
 }
