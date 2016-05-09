@@ -17,12 +17,7 @@ public class LectureAudio implements LectureAudioInterface {
 
 	public void startBeating(int BPM) {
 		// TODO Auto-generated method stub
-		try 
-		{
-			pulsThread = new PulsThread("sounds/kick.wav", BPM);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		pulsThread = new PulsThread(BPM);
 		pulsThread.start();
 	}
 
