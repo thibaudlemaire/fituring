@@ -16,6 +16,7 @@ public class MoteurMusical implements 	BPMupdateInterface,
 	public void initEngine()
 	{
 		movements.add(new MovementNormal("toto.mvt", new int[] {1, 2, 3, 4, 5} ));
+		sounds.add(new Sound("monSon.wav", new int[] {5, 4, 3, 2, 1, 0, 10, 9} ));
 	}
 	
 	@Override

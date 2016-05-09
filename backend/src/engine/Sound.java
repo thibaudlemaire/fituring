@@ -4,38 +4,11 @@ public class Sound
 {
 
 	private String path;
-	private int range;
-	private int electric;
-	private int sweet; 
-	private int disco;
-	private int explosive;
-	private int dance;
-	private int rock;
 	private Attributes attributes;
-	
 
-	public Sound(String path, int range,
-			 int electric, 
-			 int sweet, 
-			 int disco, 
-			 int explosive,
-			 int dance,
-			 int rock)
+	public Sound(String path, int[] brutAttributes)
 	{
 		this.path = path;
-		this.range = range;
-		this.electric = electric;
-		this.sweet = sweet;
-		this.disco = disco;
-		this.explosive = explosive;
-		this.dance = dance;
-		this.rock = rock;
-		}
-	
-
-	public Sound(String path, Attributes attributes)
-	{
-		this.path = path;
-		this.attributes = attributes;
+		this.attributes = new Attributes(brutAttributes);
 	}
 }
