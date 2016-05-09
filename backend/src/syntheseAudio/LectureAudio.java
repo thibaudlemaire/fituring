@@ -1,12 +1,14 @@
 package syntheseAudio;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
-import interfaces.LectureAudioSimpleInterface;
+import interfaces.LectureAudioInterface;
 
-public class LectureAudio implements LectureAudioSimpleInterface {
+public class LectureAudio implements LectureAudioInterface {
 	
 	PulsThread pulsThread = null;
+	ArrayList<Loop> loops = new ArrayList<Loop>();
 
 	@Override
 	public void initLectureAudioModule(int initialVolume) {
@@ -14,32 +16,23 @@ public class LectureAudio implements LectureAudioSimpleInterface {
 		
 	}
 
-	@Override
 	public void startBeating(int BPM) {
 		// TODO Auto-generated method stub
-		try 
-		{
-			pulsThread = new PulsThread("sounds/kick.wav", BPM);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		pulsThread = new PulsThread(BPM);
 		pulsThread.start();
 	}
 
 	@Override
 	public void updateBPM(int BPM) {
-		// TODO Auto-generated method stub
 		pulsThread.setBPM(BPM);
 	}
 
-	@Override
 	public void stopBeating() {
 		// TODO Auto-generated method stub
 		pulsThread.stopPulsThread();
 	}
 
-	@Override
-	public void playSound(String path) {
+	public void playSound(String path, int volume) {
 		// TODO Auto-generated method stub
 		AudioThread audioThread = null;
 		try 
@@ -49,6 +42,56 @@ public class LectureAudio implements LectureAudioSimpleInterface {
 			e.printStackTrace();
 		}
 		audioThread.start();
+		
+	}
+
+	@Override
+	public void startMusic(int bpm) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void stopMusic() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getAbsoluteMeasure() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getRelativeMeasure() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getRelativeBeat() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getAbsoluteBeat() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int addLoop(String soundPath, boolean[] onMeasure, boolean[] onBeat, int volume) {
+		Loop newLoop = new Loop(soundPath);
+		pulsThread.setListener(newLoop);
+		loops.add(newLoop);
+		return (loops.size() - 1);
+	}
+
+	@Override
+	public void delLoop(int loopNumber) {
+		// TODO Auto-generated method stub
 		
 	}
 
