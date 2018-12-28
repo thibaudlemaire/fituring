@@ -32,7 +32,7 @@ public class Loop implements MetronomeListenerInterface {
 			e.printStackTrace();
 		}
 		audioThread.start();
-	}
+	 }
 
 	public boolean isOnBeatN(int N)
 	{
